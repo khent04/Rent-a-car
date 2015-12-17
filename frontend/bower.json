@@ -1,0 +1,16 @@
+{
+  "name": "rent-a-car",
+  "version": "0.0.1",
+  "authors": [
+    "Ken Estrella <ken.aque@gmail.com>"
+  ],
+  "main": "index.html",
+  "license": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
