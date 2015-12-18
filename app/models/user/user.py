@@ -3,19 +3,18 @@ from ferris import BasicModel, ndb
 from ferris.behaviors import searchable
 from google.appengine.ext.ndb import polymodel
 
+
 class User(BasicModel, polymodel.PolyModel):
     class Meta:
         behaviors = (Unique, searchable.Searchable, )
         uniqueness_identifier = 'email'
         search_index = ('global',)
 
-
     email = ndb.StringProperty(required=True, indexed=True)
     first_name = ndb.StringProperty(required=True, indexed=False)
     last_name = ndb.StringProperty(required=True, indexed=False)
     contact_number = ndb.StringProperty(required=True, indexed=False)
     postal_code  = ndb.IntegerProperty(required=False)
-
 
     @classmethod
     def create(cls, **params):
