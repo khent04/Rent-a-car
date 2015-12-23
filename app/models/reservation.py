@@ -1,6 +1,4 @@
-from app.models.user.vendor import Vendor
-from app.models.user.renter import Renter
-from app.models.car import Car
+from app.behaviors.unique import format_key_name
 from ferris import BasicModel, ndb
 from ferris.behaviors import searchable
 
@@ -10,18 +8,19 @@ class Reservation(BasicModel):
         behaviors = (searchable.Searchable, )
         search_index = ('global', )
 
-
     car = ndb.KeyProperty(kind='Car', required=True, indexed=True)
     pickup_date = ndb.DateTimeProperty(required=True, indexed=False)
     pickup_place = ndb.StringProperty(required=True, indexed=False)
     dropoff_date = ndb.DateTimeProperty(required=True, indexed=False)
     dropoff_place = ndb.StringProperty(required=True, indexed=False)
     renter = ndb.KeyProperty(kind='Renter', required=True, indexed=False)
-    request_code = ndb.StringProperty(required=True, indexed=False) #to be sent via email/sms?
-    approved = ndb.BooleanProperty(required=True, indexed=False) #to be approved by vendor
-    amount = ndb.FloatProperty(required=True, indexed=False) #compute per day price accdg to pickupdate and droppoff date
+    request_code = ndb.StringProperty(required=True, indexed=False)
+    # to be sent via email/sms?
+    approved = ndb.BooleanProperty(required=True, indexed=False)
+    # to be approved by vendor
+    amount = ndb.FloatProperty(required=True, indexed=False)
+    # compute per day price accdg to pickupdate and droppoff date
     cancelled = ndb.BooleanProperty(required=False, indexed=False)
-
 
     @classmethod
     def create(cls, **params):
