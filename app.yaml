@@ -13,6 +13,7 @@ builtins:
 
 includes:
 - ferris/include.yaml
+- plugins/angular/include.yaml
 # If plugins require includes, put them here.
 
 libraries:
