@@ -8,11 +8,12 @@ angular.module('cs.modal', ['ng']).
   directive('modal', ['pubsub', function(pubsub){
     return {
       scope: true,
-      restrict: 'EA',
+      restrict: 'A',
       link: function(scope, elm, attrs){
         var $elm = $(elm),
           modal_name = attrs.modal || attrs.id,
           hide_callback;
+
 
         pubsub.subscribe('modal:' + modal_name + ':show', function(model, callback, _hide_callback){
           hide_callback = _hide_callback;
@@ -47,17 +48,22 @@ angular.module('cs.modal', ['ng']).
 
         scope.modal = {
           show: function(){
-            $elm.modal('show');
+
+            $elm.openModal();
+
+          },
+          close: function(){
+            $elm.closeModal();
           },
           hide: function(){
-            if(scope.on_hide) scope.on_hide();
-            $elm.modal('hide');
+            //if(scope.on_hide) scope.on_hide();
+            $elm.closeModal();
           },
           temporary_hide: function(){
-            $elm.modal('hide');
+            $elm.closeModal();
           },
           temporary_show: function(){
-            $elm.modal('show');
+            $elm.openModal();
           },
           name: modal_name
         };

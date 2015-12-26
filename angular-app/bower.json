@@ -1,11 +1,12 @@
 {
-    "name": "Ferris Angular App",
-    "dependencies": {
-        "jquery": "2.0.x",
-        "angular": "1.3.x",
-        "angular-sanitize": "1.3.x",
-        "angular-route": "1.3.x",
-        "angular-mocks": "1.3.x",
-        "cs-angular-utilities": "git@bitbucket.org:cloudsherpas/angular-utilities.git#master"
-    }
+  "name": "Ferris Angular App",
+  "dependencies": {
+    "jquery": "2.0.x",
+    "angular": "1.4.x",
+    "angular-route": "1.4.x",
+    "cs-angular-utilities": "git@bitbucket.org:yowmamasita_cs/angular-utilities.git#master",
+    "angular-ui-select": "~0.12.0",
+    "angular-sanitize": "~1.4.1",
+    "moment": "~2.10.6"
+  }
 }

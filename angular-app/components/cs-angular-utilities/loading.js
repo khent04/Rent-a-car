@@ -7,20 +7,18 @@ directive('loading', ['$compile', function ($compile) {
       'instance': '=loading'
     },
     link: function($scope, elem, attrs){
-      var $elem = $(elem),
-        src = attrs.src || '/img/loading.gif';
+      var $elem = $(elem);
 
-      $elem.html(
-        '<img src="'+src+'">'
-      );
-      $elem.addClass('loading');
-      $elem.addClass('hidden');
+      // $elem.addClass('hidden');
+      $elem.fadeOut();
 
       $scope.$watch('instance.is_loading', function(v){
         if(v){
-          $elem.removeClass('hidden');
+          // $elem.removeClass('hidden');
+          $elem.fadeIn();
         } else {
-          $elem.addClass('hidden');
+          $elem.fadeOut();
+          // $elem.addClass('hidden');
         }
       });
     }
@@ -51,4 +49,3 @@ service('loading', function(){
     };
   }};
 });
-
