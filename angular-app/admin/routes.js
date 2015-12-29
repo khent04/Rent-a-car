@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('admin')
+        .module('admin2')
         .config(routes);
 
     routes.$inject = ['$routeProvider', '$locationProvider'];

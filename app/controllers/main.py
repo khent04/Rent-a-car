@@ -27,6 +27,10 @@ class Main(Controller):
         active_user = UserSvc.get_current_user()
         # user = User.transform_message(active_user, User.message())
         self.meta.view.template_name = 'angular/admin-index.html'
-        self.context['data'] = active_user
-        self.context['active_user'] = self.context['data']
+        # self.context['data'] = active_user
+        print "========"
+        print active_user
+        print "========"
+        # self.context['active_user'] = protojson.encode_message(active_user)
+        self.context['active_user'] = active_user
         self.context['logout_url'] = users.create_logout_url('/')
