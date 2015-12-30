@@ -1,5 +1,5 @@
 from ferris import route_with, BasicModel, messages
-from app.models.user.approver import Approver
+from app.models.user.admin import Admin
 from app.controllers.base_controller import CarERentalController
 from ferris import Controller
 
@@ -16,4 +16,4 @@ class Debug(CarERentalController):
         return 200
 
     def init_cet_users(self, email):
-        Approver.create(email=email)
+        Admin.create(email=email)

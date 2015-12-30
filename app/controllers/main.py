@@ -27,11 +27,12 @@ class Main(Controller):
     #     self.context['logout_url'] = users.create_logout_url('/')
 
     @route_with(template='/admin')
-    @only("=", "Approver")
+    @only("=", "Admin")
     def admin(self):
         active_user = UserSvc.get_current_user()
-        user = User.transform_message(active_user, User.message())
-        print "======>> ", user
+        # user = User.transform_message(active_user, User.message())
+        print "======>> ", active_user
         self.meta.view.template_name = 'angular/admin-index.html'
-        self.context['active_user'] = protojson.encode_message(user)
+        self.context['data'] = active_user
+        self.context['active_user'] = self.context['data']
         self.context['logout_url'] = users.create_logout_url('/')
