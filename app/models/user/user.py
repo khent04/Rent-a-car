@@ -11,10 +11,10 @@ class User(BasicModel, polymodel.PolyModel):
         search_index = ('global',)
 
     email = ndb.StringProperty(required=True, indexed=True)
-    first_name = ndb.StringProperty(required=True, indexed=False)
-    last_name = ndb.StringProperty(required=True, indexed=False)
-    contact_number = ndb.StringProperty(required=True, indexed=False)
-    postal_code = ndb.IntegerProperty(required=False)
+    first_name = ndb.StringProperty(indexed=False)
+    last_name = ndb.StringProperty(indexed=False)
+    contact_number = ndb.StringProperty(indexed=False)
+    postal_code = ndb.IntegerProperty(indexed=False)
 
     @classmethod
     def create(cls, **params):
