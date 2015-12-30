@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('admin2')
+    .module('admin')
     .config(config);
 
   config.$inject = [

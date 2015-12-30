@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('admin2')
+        .module('admin')
         .config(routes);
 
     routes.$inject = ['$routeProvider', '$locationProvider'];
@@ -36,9 +36,9 @@
         //         controller: 'Factories',
         //         controllerAs: 'fct',
         //     })
-        //     .otherwise({
-        //         redirectTo: '/application-settings'
-        //     });
+            // .otherwise({
+            //     redirectTo: '/application-settings'
+            // });
 
         $locationProvider.html5Mode(false);
     }

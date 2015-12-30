@@ -1,65 +1,70 @@
 <!doctype html>
-<html xmlns:ng="http://angularjs.org" ng-app="app">
+<html>
 <head>
-  <title>CarE Rental</title>
-  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
-  <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+  <title>Love to Sell</title>
+  <!--Import materialize.css-->
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.blue_grey-blue.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
-  <!-- jQuery / Bootstrap scripts -->
+  <link rel="stylesheet" href="/ng/components/cs-angular-utilities/passive-messenger.css" type="text/css">
+  <link rel="stylesheet" href="/ng/components/angular-ui-select/dist/select.css" type="text/css">
   <script src="/ng/components/jquery/jquery.min.js"></script>
 </head>
-<body>
+<body ng-app="admin">
+  <div x-passive-messenger></div>
 
-<!-- Markup -->
-<!-- <div x-passive-messenger></div> -->
-
-<!-- Simple header with fixed tabs. -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
-            mdl-layout--fixed-tabs">
-  <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row">
-      <!-- Title -->
+  <!-- Main Content -->
+  <!-- Simple header with fixed tabs. -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+              mdl-layout--fixed-tabs">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title">Title</span>
+      </div>
+      <!-- Tabs -->
+      <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Tab 1</a>
+        <a href="#fixed-tab-2" class="mdl-layout__tab">Tab 2</a>
+        <a href="#fixed-tab-3" class="mdl-layout__tab">Tab 3</a>
+      </div>
+    </header>
+    <div class="mdl-layout__drawer">
       <span class="mdl-layout-title">Title</span>
     </div>
-    <!-- Tabs -->
-    <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-      <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Tab 1</a>
-      <a href="#fixed-tab-2" class="mdl-layout__tab">Tab 2</a>
-      <a href="#fixed-tab-3" class="mdl-layout__tab">Tab 3</a>
-    </div>
-  </header>
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">Title</span>
+    <main class="mdl-layout__content">
+      <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+        <div class="page-content"><!-- Your content goes here --></div>
+      </section>
+      <section class="mdl-layout__tab-panel" id="fixed-tab-2">
+        <div class="page-content"><!-- Your content goes here --></div>
+      </section>
+      <section class="mdl-layout__tab-panel" id="fixed-tab-3">
+        <div class="page-content"><!-- Your content goes here --></div>
+      </section>
+    </main>
   </div>
-  <main class="mdl-layout__content">
-    <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
-      <div class="page-content"><!-- Your content goes here --></div>
-    </section>
-    <section class="mdl-layout__tab-panel" id="fixed-tab-2">
-      <div class="page-content"><!-- Your content goes here --></div>
-    </section>
-    <section class="mdl-layout__tab-panel" id="fixed-tab-3">
-      <div class="page-content"><!-- Your content goes here --></div>
-    </section>
-  </main>
-</div>
+
+  <div ng-view></div>
 
 
+    <!--Import jQuery before materialize.js-->
+     <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
 
-<!-- Scripts -->
     <!-- Angular -->
     <script src="/ng/components/angular/angular.min.js"></script>
+    <script src="/ng/components/angular-route/angular-route.min.js"></script>
     <script src="/ng/components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/ng/components/moment/min/moment.min.js"></script>
     <!-- CS Utilities -->
     <script src="/ng/components/cs-angular-utilities/loading.js"></script>
     <script src="/ng/components/cs-angular-utilities/pubsub.js"></script>
     <script src="/ng/components/cs-angular-utilities/modal.js"></script>
     <script src="/ng/components/cs-angular-utilities/passive-messenger.js"></script>
-    <link rel="stylesheet" href="/ng/components/cs-angular-utilities/passive-messenger.css" type="text/css">
+    <script src="/ng/components/angular-ui-select/dist/select.js"></script>
+    <script src="/ng/components/materialize/angular-materialize.js"></script>
     <!-- Application Code -->
-    <script src="/ng/app.js"></script>
-
+    <script src="/ng/admin/module.js"></script>
+    <script src="/ng/admin/routes.js"></script>
 
 </body>
 </html>
