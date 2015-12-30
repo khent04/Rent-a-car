@@ -41,7 +41,7 @@ angular.module('cs.passive-messenger', ['ng', 'cs.pubsub']).
             restrict: 'EA',
             scope: {},
             replace: false,
-            template: 
+            template:
                 '<button type="button" class="close">&times;</button>' +
                 '<span ng-bind="message"></span>' +
                 '<a ng-show="action" ng-click="action_callback()">{{action}}</a>',
