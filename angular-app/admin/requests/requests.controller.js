@@ -12,10 +12,13 @@
   ];
 
   function requestCtrl(Request, pubsub, $scope) {
+
     var request = this;
-    request.data = Request;
     request.loading = Request.loading;
-    request.isBusy = Request.isBusy;
+    request.list = Request.list;
+    request.isBusy = isBusy;
+
+    request.model = Request;
 
     function activate() {
       Request.requestListing();
@@ -29,3 +32,5 @@
 
   }
 })(window.angular);
+
+

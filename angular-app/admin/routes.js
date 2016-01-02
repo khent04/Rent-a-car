@@ -10,12 +10,12 @@
     function routes($routeProvider, $locationProvider) {
 
         // Your routes here!
-        // $routeProvider
-        //     .when('/application-settings', {
-        //         templateUrl: '/ng/admin/application-settings/settings.partial.html',
-        //         controller: 'Settings',
-        //         controllerAs: 'set',
-        //     })
+        $routeProvider
+            .when('/requests', {
+                templateUrl: '/ng/templates/admin-requests.html',
+                controller: 'Requests',
+                controllerAs: 'rq',
+            })
         //     .when('/users', {
         //         templateUrl: '/ng/admin/users/user.partial.html',
         //         controller: 'Users',
@@ -36,9 +36,9 @@
         //         controller: 'Factories',
         //         controllerAs: 'fct',
         //     })
-            // .otherwise({
-            //     redirectTo: '/application-settings'
-            // });
+            .otherwise({
+                redirectTo: '/requests'
+            });
 
         $locationProvider.html5Mode(false);
     }

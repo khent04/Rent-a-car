@@ -1,4 +1,4 @@
-(function(angular, active_user) {
+(function(angular) {
   'use strict';
 
   angular
@@ -18,14 +18,21 @@
     this.isBusy = isBusy;
     this.requestListing = Requests;
 
+
+    this.wow = function(){
+      var self = this;
+      console.log(self);
+    }
+
+    function Requests(){
+      var self = this;
+
+    }
+
+
     function isBusy() {
       return !!this.loading._futures.length;
     }
 
-    function Requests(){
-      passive_messenger.success("Controller is now working!");
-    };
-
   }
-
-})(window.angular, window.active_user);
+})(window.angular);

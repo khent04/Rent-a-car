@@ -32,7 +32,8 @@
       'ngSanitize',
       'ngRoute',
       'ui.select',
-      'ui.materialize',
+      // 'ui.materialize',
+      'lumx',
     ])
     .run(admin);
 
