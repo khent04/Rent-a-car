@@ -36,9 +36,11 @@
     </div>
 </lx-dialog>
  -->
-
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="387750085819-5eid7rok0df3bct6nbskjlout21o1gdq.apps.googleusercontent.com">
 
 <div class="g-signin2" data-onsuccess="onSignIn"></div>
+<div>Facebook sign in here</div>
 
 <script type="text/javascript">
 function onSignIn(googleUser) {
@@ -47,9 +49,15 @@ function onSignIn(googleUser) {
   console.log('Name: ' + profile.getName());
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail());
+  var image = document.createElement('IMG');
+  image.src = profile.getImageUrl();
+  var parent = document.getElementById('image');
+  parent.appendChild(image);
 }
 
 </script>
+
+<div id="image"></div>
 
 
 <a href="#" onclick="signOut();">Sign out</a>
@@ -61,3 +69,10 @@ function onSignIn(googleUser) {
     });
   }
 </script>
+
+<!--
+
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+<div class="g-recaptcha" data-sitekey="6LdKYRQTAAAAANT1G2wcvssO-S_F-GOf35uqKLRC"></div>
+ -->

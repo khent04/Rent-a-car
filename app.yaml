@@ -1,4 +1,4 @@
-application: k-rent-a-car   #.appspot.com
+application: care-rental   #.appspot.com
 version: baseline
 
 runtime: python27

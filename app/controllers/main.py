@@ -1,15 +1,20 @@
 from google.appengine.api import users
-from ferris import Controller, route_with, messages
+from ferris import Controller, route_with, messages, add_authorizations
 from app.misc.auth import only
 from app.models.user.user import User
 from app.services.user_svc import UserSvc
 from protorpc import protojson
 import logging
+from plugins.recaptcha.components import recaptcha
+
 
 
 class Main(Controller):
+    class Meta:
+        components = (recaptcha.Recaptcha, )
 
     @route_with(template='/')
+    @add_authorizations(recaptcha.require_captcha_for_post)
     def index(self):
         # active_user = UserSvc.get_current_user()
         # if active_user and active_user._class_name() == 'Vendor':
@@ -21,7 +26,8 @@ class Main(Controller):
         self.context['active_user'] = 'null'
         self.meta.view.template_name = 'angular/app-index.html'
 
-        # return 200
+    # @route_with(template='/register')
+    # def register(self):
 
 
     #     if not active_user:

@@ -31,6 +31,10 @@ settings['app_config'] = {
         # WebApp2 encrypted cookie key
         # You can use a UUID generator like http://www.famkruithof.net/uuid/uuidgen
         'secret_key': '9a788030-837b-11e1-b0c4-0800200c9a66',
+    },
+    'webapp2_extras.auth': {
+        'user_model': 'plugins.custom_auth.models.user.User',
+        'user_attributes': ['email'],
     }
 }
 
@@ -50,7 +54,42 @@ settings['oauth2_service_account'] = {
     'developer_key': None  # Optional
 }
 
-settings['web'] = {"web":{"client_id":"387750085819-5eid7rok0df3bct6nbskjlout21o1gdq.apps.googleusercontent.com","project_id":"care-rental","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"08abKZNvJ8qXkJZUzZ6A4fNS","javascript_origins":["http://localhost:8080"]}}
+
+#Facebook Login
+# get your own consumer key and consumer secret by registering at https://developers.facebook.com/apps
+#Very Important: set the site_url= your domain in the application settings in the facebook app settings page
+# callback url must be: http://[YOUR DOMAIN]/login/facebook/complete
+settings['fb_api_key'] = '1752596521627997'
+settings['fb_secret'] = 'cf9236540880c94364c188f1c43f0f8e'
+
+# Enable Federated login (OpenID and OAuth)
+# Google App Engine Settings must be set to Authentication Options: Federated Login
+settings['enable_federated_login'] = True
+
+settings['social_providers'] = {
+        'facebook': {'name': 'facebook', 'label': 'Facebook', 'uri': ''},
+        #'myopenid': {'name': 'myopenid', 'label': 'MyOpenid', 'uri': 'myopenid.com'},
+    }
+
+
+# If true, it will write in datastore a log of every email sent
+settings['log_email'] = False
+
+# If true, it will write in datastore a log of every visit
+settings['log_visit'] = False
+
+# local
+# settings['web'] = {"web":{"client_id":"387750085819-5eid7rok0df3bct6nbskjlout21o1gdq.apps.googleusercontent.com","project_id":"care-rental","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"08abKZNvJ8qXkJZUzZ6A4fNS","javascript_origins":["http://localhost:8080"]}}
+
+# staging
+settings['web'] = {"web":{"client_id":"387750085819-5eid7rok0df3bct6nbskjlout21o1gdq.apps.googleusercontent.com","project_id":"care-rental","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"08abKZNvJ8qXkJZUzZ6A4fNS","javascript_origins":["care-rental.appspot.com"]}}
+
+
+settings['provider.facebook'] = {
+    'client_id': '1752596521627997',
+    'client_secret': 'cf9236540880c94364c188f1c43f0f8e',
+    'scope': 'email',
+}
 
 
 
@@ -82,3 +121,8 @@ settings['appstats'] = {
 
 # Un-comment to enable dynamic settings
 #plugins.settings.activate(settings)
+
+
+# get your own recaptcha keys by registering at http://www.google.com/recaptcha/
+settings['captcha_public_key'] = "6LdKYRQTAAAAANT1G2wcvssO-S_F-GOf35uqKLRC"
+settings['captcha_private_key'] = "6LdKYRQTAAAAADMRlYxoUN6eGn11SywlqT01WrrE"
