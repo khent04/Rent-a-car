@@ -9,9 +9,21 @@ import logging
 
 class Main(Controller):
 
-    # @route_with(template='/')
-    # def index(self):
-    #     active_user = UserSvc.get_current_user()
+    @route_with(template='/')
+    def index(self):
+        # active_user = UserSvc.get_current_user()
+        # if active_user and active_user._class_name() == 'Vendor':
+        #     logging.info('user is Vendor')
+        # elif active_user and active_user._class_name() == 'Renter':
+        #     logging.info('User is Renter')
+        # else:
+        #     logging.info('Visitor')
+        self.context['active_user'] = 'null'
+        self.meta.view.template_name = 'angular/app-index.html'
+
+        # return 200
+
+
     #     if not active_user:
     #         active_user = UserSvc.create_selling_partner()
 
