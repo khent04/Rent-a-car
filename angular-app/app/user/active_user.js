@@ -3,31 +3,51 @@
 
   angular
     .module('app.services')
-    .service('ActiveUseraa', activeUser);
+    .service('ActiveUser', activeUser);
 
   activeUser.$inject = [
     '$location',
     'loading',
     'passive_messenger',
     'pubsub',
+    'LxDialogService',
+    'LxNotificationService'
   ];
 
-  function activeUser(location, loading, passive_messenger, pubsub) {
+  function activeUser(location, loading, passive_messenger, pubsub, LxDialogService, LxNotificationService) {
+    angular.extend(this, active_user);
+    LxNotificationService.info('Loaded');
+    // LxNotificationService.success('Loaded');
+    // LxNotificationService.error('Loaded');
+    // LxNotificationService.warning('Loaded');
 
     this.loading = loading.new();
     this.isBusy = isBusy;
-    this.requestListing = Requests;
+    this.activate = activate;
+    this.mod = mod;
+    this.opendDialog = opendDialog;
+    this.closingDialog = closingDialog;
 
-
-    this.wow = function(){
+    function activate(){
       var self = this;
-      console.log(self);
+      console.log(active_user);
+
     }
 
-    function Requests(){
+    function mod(){
+      alert();
       var self = this;
-
     }
+
+    function opendDialog(dialogId)
+    {
+    LxDialogService.open(dialogId);
+    };
+
+    function closingDialog()
+    {
+    LxNotificationService.info('Dialog closed!');
+    };
 
 
     function isBusy() {

@@ -10,12 +10,12 @@
     function routes($routeProvider, $locationProvider) {
 
         // Your routes here!
-        // $routeProvider
-            // .when('/requests', {
-            //     templateUrl: '/ng/templates/admin-requests.html',
-            //     controller: 'Requests',
-            //     controllerAs: 'rq',
-            // })
+        $routeProvider
+            .when('/login', {
+                templateUrl: '/ng/templates/app-user-login.html',
+                controller: 'Users',
+                controllerAs: 'user',
+            })
         //     .when('/users', {
         //         templateUrl: '/ng/admin/users/user.partial.html',
         //         controller: 'Users',
@@ -36,9 +36,9 @@
         //         controller: 'Factories',
         //         controllerAs: 'fct',
         //     })
-            // .otherwise({
-            //     redirectTo: '/requests'
-            // });
+            .otherwise({
+                redirectTo: '/login'
+            });
 
         $locationProvider.html5Mode(false);
     }

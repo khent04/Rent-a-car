@@ -50,6 +50,11 @@ settings['oauth2_service_account'] = {
     'developer_key': None  # Optional
 }
 
+settings['web'] = {"web":{"client_id":"387750085819-5eid7rok0df3bct6nbskjlout21o1gdq.apps.googleusercontent.com","project_id":"care-rental","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"08abKZNvJ8qXkJZUzZ6A4fNS","javascript_origins":["http://localhost:8080"]}}
+
+
+
+
 settings['upload'] = {
     # Whether to use Cloud Storage (default) or the blobstore to store uploaded files.
     'use_cloud_storage': True,
