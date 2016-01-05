@@ -6,6 +6,7 @@
     .service('ActiveUser', activeUser)
 
   activeUser.$inject = [
+    'UsersREST',
     '$location',
     'loading',
     'passive_messenger',
@@ -13,10 +14,12 @@
     'LxDialogService',
     'LxNotificationService',
     'auth',
-    'store'
+    'store',
+    'jwtHelper',
+
   ];
 
-  function activeUser(location, loading, passive_messenger, pubsub, LxDialogService, LxNotificationService, auth, store) {
+  function activeUser(UsersREST, location, loading, passive_messenger, pubsub, LxDialogService, LxNotificationService, auth, store, jwtHelper) {
     angular.extend(this, active_user);
     LxNotificationService.info('Loaded');
     // LxNotificationService.success('Loaded');
@@ -28,44 +31,73 @@
     this.activate = activate;
     this.opendDialog = opendDialog;
     this.closingDialog = closingDialog;
-    this.social_log = social_log;
+    this.social_login = social_login;
+    this.social_logout = social_logout;
+    this.oauth = oauth;
 
     function activate(){
       var self = this;
+      if(active_user===null){
+        self.oauth();
+      }
+
+    }
+
+    function oauth(){
       auth.hookEvents();
-};
+      var self = this;
+      self.auth = auth;
+      var token = store.get('token');
+      if (token) {
+        if (!jwtHelper.isTokenExpired(token)) {
+          if (!auth.isAuthenticated) {
+            auth.authenticate(store.get('profile'), token);
+          }
+        }
+      } else {
+        self.social_login();
+      }
+
+    }
 
 
+    function social_login() {
+      var self = this;
+      auth.signin({}, function (profile, token) {
+        store.set('profile', profile);
+        store.set('token', token);
+        var data = {'email': self.auth.profile.email,
+                    'first_name': self.auth.profile.given_name,
+                    'last_name': self.auth.profile.family_name,
+        };
 
+        self.loading.watch(UsersREST.create(data))
+        .success(function(d){
+          console.info(d);
+        });
 
-function social_log() {
-    auth.signin({}, function (profile, token) {
-      // Success callback
-      store.set('profile', profile);
-      store.set('token', token);
-      console.log(profile);
-      // $location.path('/');
-    }, function (error) {
-      // Error callback
-      console.log(Object.keys(error));
-      console.log(error.details);
-    });
+      }, function (error) {
+        console.warn(Object.keys(error));
+        console.warn(error.details);
+      });
 
+    }
 
-}
+    function social_logout() {
+      auth.signout();
+      store.remove('profile');
+      store.remove('token');
 
+    }
 
+    function opendDialog(dialogId) {
+      LxDialogService.open(dialogId);
 
-
-
-    function opendDialog(dialogId)
-    {
-    LxDialogService.open(dialogId);
     };
 
-    function closingDialog()
-    {
-    LxNotificationService.info('Dialog closed!');
+    function closingDialog() {
+      LxNotificationService.info('Dialog closed!');
+
     };
 
 

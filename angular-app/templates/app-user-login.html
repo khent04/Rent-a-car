@@ -1,2 +1,7 @@
-ansha
-<input type="submit" ng-click="user.model.social_log()" />
+
+<!-- <input type="submit" value="Log In" ng-click="user.model.social_login()" /> -->
+<input type="submit" value="Log Out" ng-click="user.model.social_logout()" ng-show="user.model.auth.profile.name"/>
+<input type="submit" value="Log In" ng-click="user.model.social_login()" ng-hide="user.model.auth.profile.name"/>
+
+
+<span ng-bind="user.model.auth.profile.name"></span>
