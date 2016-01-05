@@ -16,10 +16,11 @@
     'auth',
     'store',
     'jwtHelper',
+    'FileUploader',
 
   ];
 
-  function activeUser(UsersREST, location, loading, passive_messenger, pubsub, LxDialogService, LxNotificationService, auth, store, jwtHelper) {
+  function activeUser(UsersREST, location, loading, passive_messenger, pubsub, LxDialogService, LxNotificationService, auth, store, jwtHelper, FileUploader) {
     angular.extend(this, active_user);
     LxNotificationService.info('Loaded');
     // LxNotificationService.success('Loaded');
@@ -60,6 +61,74 @@
     ];
 
     this.vendor_request = vendor_request;
+
+    this.uploader = new FileUploader();
+
+    this.uploader.filters.push({
+            name: 'customFilter',
+            fn: function(item /*{File|FileLikeObject}*/, options) {
+                return this.queue.length < 10;
+            }
+        });
+
+        this.uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+            console.warn('onWhenAddingFileFailed', item, filter, options);
+        };
+        this.uploader.onAfterAddingFile = function(fileItem) {
+            console.info('onAfterAddingFile', fileItem);
+            var importfile = fileItem;
+            UploaderREST.getUploadURL()
+            .success(function(data, status, headers, config){
+                importfile.url = data.upload_url;
+                // importfile.upload();
+                console.log('success', importfile);
+
+            }).error(function(data, status, headers, config){
+                console.log('fail');
+            });
+
+        };
+        this.uploader.onAfterAddingAll = function(addedFileItems) {
+            console.info('onAfterAddingAll', addedFileItems);
+        };
+        this.uploader.onBeforeUploadItem = function(item) {
+            console.info('onBeforeUploadItem', item);
+        };
+        this.uploader.onProgressItem = function(fileItem, progress) {
+            console.info('onProgressItem', fileItem, progress);
+        };
+        this.uploader.onProgressAll = function(progress) {
+            console.info('onProgressAll', progress);
+        };
+        this.uploader.onSuccessItem = function(fileItem, response, status, headers) {
+            console.info('onSuccessItem', fileItem, response, status, headers);
+        };
+        this.uploader.onErrorItem = function(fileItem, response, status, headers) {
+            console.info('onErrorItem', fileItem, response, status, headers);
+        };
+        this.uploader.onCancelItem = function(fileItem, response, status, headers) {
+            console.info('onCancelItem', fileItem, response, status, headers);
+        };
+        this.uploader.onCompleteItem = function(fileItem, response, status, headers) {
+            console.info('onCompleteItem', fileItem, response, status, headers);
+        };
+        this.uploader.onCompleteAll = function() {
+            console.info('onCompleteAll');
+            passive_messenger.success("upload successful");
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function activate(){
       var self = this;

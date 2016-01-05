@@ -34,6 +34,7 @@
       'ui.select',
       'lumx',
       'fb',
+      'angularFileUpload',
     ])
     .run(app);
 
