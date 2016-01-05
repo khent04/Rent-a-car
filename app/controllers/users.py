@@ -1,5 +1,6 @@
 from app.models.user.user import User
 from app.models.user.renter import Renter
+from app.models.user.vendor import Vendor
 from ferris import Controller, route_with, messages
 from google.appengine.api import users
 import json
@@ -22,10 +23,19 @@ class Users(Controller):
             }
         self.context["data"] = User.create(**params)
 
-    @route_with('/api/users', methods=['POST'])
-    def api_add(self):
+    @route_with('/api/users/<role>', methods=['POST'])
+    def api_add(self, role):
         params = json.loads(self.request.body)
-        self.context["data"] = Renter.create(**params)
+        if_exist = params['email']
+        if User.get(if_exist):
+            self.context["data"] = User.get(if_exist)
+        else:
+            if role == "Renter":
+                self.context["data"] = Renter.create(**params)
+            if role == "Vendor":
+                self.context["data"] = Vendor.create(**params)
+
+
 
     @route_with('/api/users/<email>', methods=['PUT', 'POST'])
     def api_update(self, email):
@@ -36,6 +46,10 @@ class Users(Controller):
         params = json.loads(self.request.body)
         user.update(**params)
         return 200
+
+    @route_with('/api/users/<email>', methods=['GET'])
+    def api_get(self, email):
+        self.context['data'] = User.get(email)
 
     @route_with('/api/users', methods=['GET'])
     def api_list(self):

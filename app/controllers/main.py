@@ -43,7 +43,7 @@ class Main(Controller):
     @route_with(template='/admin')
     @only("=", "Admin")
     def admin(self):
-
+        active_user = UserSvc.get_current_user()
         self.meta.view.template_name = 'angular/admin-index.html'
         self.context['data'] = active_user
         self.context['active_user'] = self.context['data']

@@ -16,6 +16,11 @@
                 controller: 'Users',
                 controllerAs: 'user',
             })
+            .when('/account', {
+                templateUrl: '/ng/templates/app-user-account.html',
+                controller: 'Account',
+                controllerAs: 'ac',
+            })
         //     .when('/users', {
         //         templateUrl: '/ng/admin/users/user.partial.html',
         //         controller: 'Users',
