@@ -3,7 +3,7 @@
 
   angular
     .module('app.services')
-    .service('ActiveUser', activeUser);
+    .service('ActiveUser', activeUser)
 
   activeUser.$inject = [
     '$location',
@@ -11,10 +11,12 @@
     'passive_messenger',
     'pubsub',
     'LxDialogService',
-    'LxNotificationService'
+    'LxNotificationService',
+    'auth',
+    'store'
   ];
 
-  function activeUser(location, loading, passive_messenger, pubsub, LxDialogService, LxNotificationService) {
+  function activeUser(location, loading, passive_messenger, pubsub, LxDialogService, LxNotificationService, auth, store) {
     angular.extend(this, active_user);
     LxNotificationService.info('Loaded');
     // LxNotificationService.success('Loaded');
@@ -24,20 +26,37 @@
     this.loading = loading.new();
     this.isBusy = isBusy;
     this.activate = activate;
-    this.mod = mod;
     this.opendDialog = opendDialog;
     this.closingDialog = closingDialog;
+    this.social_log = social_log;
 
     function activate(){
       var self = this;
-      console.log(active_user);
+      auth.hookEvents();
+};
 
-    }
 
-    function mod(){
-      alert();
-      var self = this;
-    }
+
+
+function social_log() {
+    auth.signin({}, function (profile, token) {
+      // Success callback
+      store.set('profile', profile);
+      store.set('token', token);
+      console.log(profile);
+      // $location.path('/');
+    }, function (error) {
+      // Error callback
+      console.log(Object.keys(error));
+      console.log(error.details);
+    });
+
+
+}
+
+
+
+
 
     function opendDialog(dialogId)
     {

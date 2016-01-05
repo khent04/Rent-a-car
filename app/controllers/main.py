@@ -5,16 +5,12 @@ from app.models.user.user import User
 from app.services.user_svc import UserSvc
 from protorpc import protojson
 import logging
-from plugins.recaptcha.components import recaptcha
 
 
 
 class Main(Controller):
-    class Meta:
-        components = (recaptcha.Recaptcha, )
 
     @route_with(template='/')
-    @add_authorizations(recaptcha.require_captcha_for_post)
     def index(self):
         # active_user = UserSvc.get_current_user()
         # if active_user and active_user._class_name() == 'Vendor':

@@ -36,9 +36,9 @@
         //         controller: 'Factories',
         //         controllerAs: 'fct',
         //     })
-            .otherwise({
-                redirectTo: '/login'
-            });
+            // .otherwise({
+            //     redirectTo: '/login'
+            // });
 
         $locationProvider.html5Mode(false);
     }

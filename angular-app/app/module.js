@@ -33,6 +33,7 @@
       'ngRoute',
       'ui.select',
       'lumx',
+      'fb',
     ])
     .run(app);
 

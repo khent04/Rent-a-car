@@ -370,7 +370,7 @@ class User(Controller):
         elif provider_name == 'facebook':
             self.session['linkedin'] = None
             # perms = ['email', 'publish_stream']  -- deprecated
-            perms = ['email']
+            perms = ['email', 'email']
             return self.redirect(facebook.auth_url(settings.get('fb_api_key'), callback_url, perms))
 
         elif provider_name == 'linkedin':
@@ -542,7 +542,7 @@ class User(Controller):
             access_token = token['access_token']
             fb = facebook.GraphAPI(access_token)
             user_data = fb.get_object('me')
-            logging.info('facebook user_data: ' + str(user_data))
+            logging.info('---------facebook user_data: ' + str(user_data))
             if self.user():
                 # new association with facebook
                 user_info = models.User.get_by_id(long(self.user_id()))
