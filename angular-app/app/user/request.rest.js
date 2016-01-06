@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('admin.services')
+    .module('app.services')
     .service('RequestsREST', requestsRest);
 
   requestsRest.$inject = [
@@ -11,11 +11,15 @@
 
   function requestsRest($http) {
 
-    var base = '/api/vendors';
+    var base = '/api/requests';
 
     this.list = function() {
       return $http.get(base);
     };
+
+    this.submit = function(params) {
+      return $http.post(base, params);
+    }
 
   }
 

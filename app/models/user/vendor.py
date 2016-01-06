@@ -21,4 +21,10 @@ class Vendor(User):
     # a total of 25 points = 100% credibility
     company_rules = ndb.TextProperty(indexed=False)
     abouts = ndb.TextProperty(indexed=False)
-    activated = ndb.BooleanProperty(default=False, indexed=False)
+    activated = ndb.BooleanProperty(default=False, indexed=True)
+    submitted = ndb.BooleanProperty(default=False, indexed=True)
+
+
+    @classmethod
+    def vendor_request(cls):
+        return cls.query(cls.submitted == True).fetch()

@@ -1,0 +1,94 @@
+
+
+<div class="data-table-container">
+    <header class="data-table-header">
+        <div class="data-table-header__label">
+            <span class="fs-title">Vendor Account Creation Requests</span>
+        </div>
+
+        <div class="data-table-header__actions">
+            <button class="btn btn--l btn--black btn--icon" lx-ripple>
+                <i class="mdi mdi-filter-variant"></i>
+            </button>
+
+            <lx-dropdown position="right" over-toggle="true">
+                <button class="btn btn--l btn--black btn--icon" lx-ripple lx-dropdown-toggle>
+                    <i class="mdi mdi-dots-vertical"></i>
+                </button>
+
+                <lx-dropdown-menu>
+                    <ul>
+                        <li><a class="dropdown-link">Action</a></li>
+                        <li><a class="dropdown-link">Another action</a></li>
+                        <li><a class="dropdown-link">Something else here</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li><a class="dropdown-link dropdown-link--is-header">Header</a></li>
+                        <li><a class="dropdown-link">Separated link</a></li>
+                    </ul>
+                </lx-dropdown-menu>
+            </lx-dropdown>
+        </div>
+    </header>
+
+    <table class="data-table">
+        <thead>
+            <tr class="data-table__selectable-row">
+                <th></th>
+                <th>Vendor</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Street Address</th>
+                <!-- <th class="data-table__sortable-cell data-table__sortable-cell--desc">Carbs (g)</th> -->
+                <th>Country</th>
+                <th>
+                    <i class="mdi mdi-format-list-bulleted"></i>
+                    <span>Credentials</span>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody ng-repeat="v in rq.model.vendors">
+            <tr class="data-table__selectable-row">
+                <td></td>
+                <td ng-bind="v.company"></td>
+                <td ng-bind="v.email"></td>
+                <td ng-bind="v.contact_number"></td>
+                <td ng-bind="v.street_address"></td>
+                <td ng-bind="v.country"></td>
+                <td ng-click="rq.model.view(v.credentials)"><i class="mdi mdi-file-multiple"></i>
+                <span>View Files</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<lx-dialog class="dialog dialog--l" id="test" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">
+    <div class="dialog__header">
+        <div class="toolbar bgc-light-blue-500 pl++">
+            <span class="toolbar__label tc-white fs-title">
+                Certificates
+            </span>
+
+
+            <div class="toolbar__right">
+                <button class="btn btn--l btn--white btn--icon" lx-ripple lx-dialog-close>
+                    <i class="mdi mdi-close"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <lx heading="Lorem Ipsum 3">
+      <p class="p++">All Fields are required!</p>
+    </lx>
+<!-- {{rq.model.files.__key__}} -->
+<img src="" id="show_here">
+
+            <div ng-repeat="item in rq.model.files">
+                    <div ng-bind="item.__key__" ng-click="rq.model.show_file(item.__key__)"></div>
+
+            </div>
+
+</lx-dialog>

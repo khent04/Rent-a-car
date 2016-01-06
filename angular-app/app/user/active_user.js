@@ -231,7 +231,7 @@
 
       if(Object.keys(data).length==12){
         angular.forEach(data, function(val, key){
-          if(val==="")
+          if(val==="" || val === null)
             incomplete = true;
          });
 
@@ -239,6 +239,7 @@
           // alert('kulang!');
         self.opendDialog('test');
         else{
+          data['submitted'] = true;
           self.loading.watch(UsersREST.update(self.account_data.email, data))
           .success(function(d){
           console.log(d);

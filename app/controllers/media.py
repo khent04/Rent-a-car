@@ -1,4 +1,4 @@
-from ferris import Controller, route, route_with
+from ferris import Controller, route, route_with, messages
 from ferris.components.upload import Upload
 from app.models.certificate import Certificate
 import logging
@@ -7,7 +7,7 @@ import logging
 class Media(Controller):
     class Meta:
         prefixes = ('api', 'admin')
-        components = (Upload,)
+        components = (Upload, messages.Messaging, )
         Model = Certificate
 
     @route_with('/api/media/get_upload_url')
@@ -31,3 +31,8 @@ class Media(Controller):
                 'tags': data.key.urlsafe()
                 })
         self.context['serving_urls'] = serving_urls
+
+    @route_with('/api/certificates/<key>', methods=['GET', 'POST'])
+    def api_get_certificate(self, key):
+        data = self.util.decode_key(key).get()
+        self.context['data'] = data

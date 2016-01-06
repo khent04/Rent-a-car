@@ -35,3 +35,7 @@ class User(BasicModel, polymodel.PolyModel):
         if key_only:
             return key if ret else None
         return ret
+
+    # @classmethod
+    # def vendor_request(cls):
+    #     return cls.query(cls.class_ == "Vendor", cls.submitted == True).fetch()

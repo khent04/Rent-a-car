@@ -46,10 +46,6 @@ class Users(Controller):
         params = json.loads(self.request.body)
         params['credentials'] = map(lambda x: self.util.decode_key(str(x).strip()), params['credentials'])
         user.update(**params)
-
-
-
-
         return 200
 
     @route_with('/api/users/<email>', methods=['GET'])
@@ -64,3 +60,7 @@ class Users(Controller):
     @route_with('/api/users/ken', methods=['GET'])
     def ken(self):
         return 200
+
+    @route_with('/api/vendors', methods=['GET'])
+    def api_vendor_request(self):
+        return self.util.stringify_json(Vendor.vendor_request())
