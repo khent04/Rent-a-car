@@ -21,4 +21,4 @@ class Vendor(User):
     # a total of 25 points = 100% credibility
     company_rules = ndb.TextProperty(indexed=False)
     abouts = ndb.TextProperty(indexed=False)
-    activated = ndb.BooleanProperty(indexed=False)
+    activated = ndb.BooleanProperty(default=False, indexed=False)

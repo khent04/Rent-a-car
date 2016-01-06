@@ -139,3 +139,12 @@
 </div>
 <br/><br/><br/><br/>
 </div>
+
+
+
+ <input type="file" nv-file-select="" uploader="ac.model.uploader" multiple="">
+
+<br/>
+<button type="button" ng-click="ac.model.uploader.uploadAll()" ng-disabled="!ac.model.uploader.getNotUploadedItems().length">
+        <span class="glyphicon glyphicon-upload"></span> Upload all
+        </button>

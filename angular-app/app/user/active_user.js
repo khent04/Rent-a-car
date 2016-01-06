@@ -17,10 +17,11 @@
     'store',
     'jwtHelper',
     'FileUploader',
+    'UploaderREST',
 
   ];
 
-  function activeUser(UsersREST, location, loading, passive_messenger, pubsub, LxDialogService, LxNotificationService, auth, store, jwtHelper, FileUploader) {
+  function activeUser(UsersREST, location, loading, passive_messenger, pubsub, LxDialogService, LxNotificationService, auth, store, jwtHelper, FileUploader, UploaderREST) {
     angular.extend(this, active_user);
     LxNotificationService.info('Loaded');
     // LxNotificationService.success('Loaded');
