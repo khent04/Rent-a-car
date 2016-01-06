@@ -55,8 +55,8 @@
                 <input type="text" ng-model="ac.model.account_data.contact_number">
             </lx-text-field>
 
-            <lx-text-field label="Email address" fixed-label="true" icon="email">
-                <input type="email" ng-model="ac.model.account_data.email">
+            <lx-text-field label="Email address" fixed-label="true" icon="email" disabled="true">
+                <input type="email" ng-model="ac.model.account_data.email" ng-disabled="true">
             </lx-text-field>
 
             <lx-text-field label="Postal Code" fixed-label="true" icon="bank">
@@ -78,20 +78,20 @@
             <lx-select ng-model="ac.model.account_data.country" placeholder="Country" choices="ac.model.country" fixed-label="true" icon="account"
                 style="border-left: white 70px solid;">
                 <lx-select-selected>
-                    {{ $selected.country }}
+                    {{ $selected }}
                 </lx-select-selected>
                 <lx-select-choices>
-                    {{ $choice.country }}
+                    {{ $choice }}
                 </lx-select-choices>
             </lx-select>
 
-             <lx-select ng-model="ac.model.account_data.fleet" placeholder="Fleet Size" choices="ac.model.fleet" fixed-label="true" icon="account"
+             <lx-select ng-model="ac.model.account_data.fleet_size" placeholder="Fleet Size" choices="ac.model.fleet" fixed-label="true" icon="account"
                 style="border-left: white 70px solid;">
                 <lx-select-selected>
-                    {{ $selected.range }}
+                    {{ $selected }}
                 </lx-select-selected>
                 <lx-select-choices>
-                    {{ $choice.range }}
+                    {{ $choice }}
                 </lx-select-choices>
             </lx-select>
 
@@ -147,3 +147,25 @@
 <br/><br/>
 </div>
 
+
+
+<lx-dialog class="dialog dialog--l" id="test" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">
+    <div class="dialog__header">
+        <div class="toolbar bgc-red-500 pl++">
+            <span class="toolbar__label tc-white fs-title">
+                Warning
+            </span>
+
+            <div class="toolbar__right">
+                <button class="btn btn--l btn--white btn--icon" lx-ripple lx-dialog-close>
+                    <i class="mdi mdi-close"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <lx heading="Lorem Ipsum 3">
+      <p class="p++">All Fields are required!</p>
+    </lx>
+
+</lx-dialog>

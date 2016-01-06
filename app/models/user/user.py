@@ -14,7 +14,7 @@ class User(BasicModel, polymodel.PolyModel):
     first_name = ndb.StringProperty(indexed=False)
     last_name = ndb.StringProperty(indexed=False)
     contact_number = ndb.StringProperty(indexed=True)
-    postal_code = ndb.IntegerProperty(indexed=False)
+    postal_code = ndb.StringProperty(indexed=False)
 
     @classmethod
     def create(cls, **params):

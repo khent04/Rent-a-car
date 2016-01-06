@@ -8,7 +8,7 @@ class Vendor(User):
     unit_number = ndb.StringProperty(indexed=False)
     street_address = ndb.StringProperty(indexed=False)
     country = ndb.StringProperty(indexed=False)
-    fleet_size = ndb.IntegerProperty(indexed=False)
+    fleet_size = ndb.StringProperty(indexed=False)
     # logo = blob TBA
     credentials = ndb.KeyProperty(kind='Certificate', repeated=True, indexed=False)
     # the vendor may upload file for aproval

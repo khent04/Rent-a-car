@@ -41,26 +41,8 @@
     this.account = account;
     this.auth = auth;
     this.account_data;
-    this.country = [
-      { country: 'China'},
-      { country: 'India'},
-      { country: 'Japan'},
-      { country: 'Malaysia'},
-      { country: 'Myanmar'},
-      { country: 'Philippines'},
-      { country: 'Singapore'},
-      { country: 'South Korea'},
-      { country: 'Thailand'},
-      { country: 'Vietnam'},
-    ];
-
-    this.fleet = [
-      { range: '0-50'},
-      { range: '50-100'},
-      { range: '100-200'},
-      { range: '200-500'},
-      { range: '500+'}
-    ];
+    this.country = ["China", "India", "Japan", "Malaysia", "Myanmar", "Philippines", "Singapore", "South", "Thailand", "Vietnam"];
+    this.fleet = ['0-50','50-100', '100-200', '200-500', '500+'];
 
     this.vendor_request = vendor_request;
     var certificates = [];
@@ -229,7 +211,6 @@
       var self = this;
       // alert();
       console.log(self.account_data);
-      console.warn(certificates);
       var data = {
         'first_name': self.account_data.first_name,
         'last_name': self.account_data.last_name,
@@ -237,17 +218,35 @@
         'company': self.account_data.company,
         'unit_number': self.account_data.unit_number,
         'street_address': self.account_data.street_address,
-        'country': self.account_data.country.country,
-        'fleet': self.account_data.fleet.fleet,
+        'country': self.account_data.country,
+        'fleet_size': self.account_data.fleet_size,
         'abouts': self.account_data.abouts,
         'company_rules': self.account_data.company_rules,
         'credentials': certificates,
+        'postal_code': self.account_data.postal_code
       };
 
-      self.loading.watch(UsersREST.update(self.account_data.email, data))
-      .success(function(d){
-        console.log(d);
-      });
+      console.log(Object.keys(data));
+      var incomplete = false;
+
+      if(Object.keys(data).length==12){
+        angular.forEach(data, function(val, key){
+          if(val==="")
+            incomplete = true;
+         });
+
+        if(incomplete)
+          // alert('kulang!');
+        self.opendDialog('test');
+        else{
+          self.loading.watch(UsersREST.update(self.account_data.email, data))
+          .success(function(d){
+          console.log(d);
+          LxNotificationService.success('Information Saved');
+          });
+        }
+      }
+
     }
 
     function opendDialog(dialogId) {
@@ -256,7 +255,7 @@
     };
 
     function closingDialog() {
-      LxNotificationService.info('Dialog closed!');
+      // LxNotificationService.info('Dialog closed!');
 
     };
 

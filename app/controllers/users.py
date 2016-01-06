@@ -54,7 +54,8 @@ class Users(Controller):
 
     @route_with('/api/users/<email>', methods=['GET'])
     def api_get(self, email):
-        self.context['data'] = User.get(email)
+        # self.context['data'] = User.get(email)
+        return self.util.stringify_json(User.get(email))
 
     @route_with('/api/users', methods=['GET'])
     def api_list(self):
