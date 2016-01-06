@@ -4,7 +4,7 @@ from app.models.user.vendor import Vendor
 from ferris import Controller, route_with, messages
 from google.appengine.api import users
 import json
-
+from app.models.media_uploader import MediaUploader
 
 class Users(Controller):
     class Meta:
@@ -44,7 +44,12 @@ class Users(Controller):
         if not user:
             return 404
         params = json.loads(self.request.body)
+        params['credentials'] = map(lambda x: self.util.decode_key(str(x).strip()), params['credentials'])
         user.update(**params)
+
+
+
+
         return 200
 
     @route_with('/api/users/<email>', methods=['GET'])

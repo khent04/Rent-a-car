@@ -18,12 +18,13 @@
     'jwtHelper',
     'FileUploader',
     'UploaderREST',
+    'LxProgressService',
 
   ];
 
-  function activeUser(UsersREST, location, loading, passive_messenger, pubsub, LxDialogService, LxNotificationService, auth, store, jwtHelper, FileUploader, UploaderREST) {
+  function activeUser(UsersREST, location, loading, passive_messenger, pubsub, LxDialogService, LxNotificationService, auth, store, jwtHelper, FileUploader, UploaderREST, LxProgressService) {
     angular.extend(this, active_user);
-    LxNotificationService.info('Loaded');
+    // LxNotificationService.info('Loaded');
     // LxNotificationService.success('Loaded');
     // LxNotificationService.error('Loaded');
     // LxNotificationService.warning('Loaded');
@@ -62,6 +63,7 @@
     ];
 
     this.vendor_request = vendor_request;
+    var certificates = [];
 
     this.uploader = new FileUploader();
 
@@ -81,7 +83,7 @@
             UploaderREST.getUploadURL()
             .success(function(data, status, headers, config){
                 importfile.url = data.upload_url;
-                importfile.upload();
+                // importfile.upload();
                 console.log('success', importfile);
 
             }).error(function(data, status, headers, config){
@@ -111,13 +113,20 @@
             console.info('onCancelItem', fileItem, response, status, headers);
         };
         this.uploader.onCompleteItem = function(fileItem, response, status, headers) {
-            console.info('onCompleteItem', fileItem, response, status, headers);
+            console.info('onCompleteItem', response); // --------- urlsafe to be save!!!!!!!!!!!
+            certificates.push(response)
         };
         this.uploader.onCompleteAll = function() {
             console.info('onCompleteAll');
-            passive_messenger.success("upload successful");
+            // LxProgressService.linear.hide();
+            LxProgressService.circular.hide();
+            LxNotificationService.success('File Uploaded');
         };
 
+        this.showCircularProgress = function(){
+          // LxProgressService.linear.show('primary', '#progress');
+          LxProgressService.circular.show('primary', '#progress');
+        };
 
 
 
@@ -220,6 +229,7 @@
       var self = this;
       // alert();
       console.log(self.account_data);
+      console.warn(certificates);
       var data = {
         'first_name': self.account_data.first_name,
         'last_name': self.account_data.last_name,
@@ -231,6 +241,7 @@
         'fleet': self.account_data.fleet.fleet,
         'abouts': self.account_data.abouts,
         'company_rules': self.account_data.company_rules,
+        'credentials': certificates,
       };
 
       self.loading.watch(UsersREST.update(self.account_data.email, data))

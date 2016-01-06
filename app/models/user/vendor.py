@@ -10,7 +10,7 @@ class Vendor(User):
     country = ndb.StringProperty(indexed=False)
     fleet_size = ndb.IntegerProperty(indexed=False)
     # logo = blob TBA
-    credential = ndb.KeyProperty(kind='Certificate', repeated=True, indexed=False)
+    credentials = ndb.KeyProperty(kind='Certificate', repeated=True, indexed=False)
     # the vendor may upload file for aproval
     votes = ndb.KeyProperty(kind='User', repeated=True, indexed=False)
     # came from the renter who already have experience, new users has no

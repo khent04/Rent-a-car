@@ -4,7 +4,6 @@ from google.appengine.api import images
 
 class MediaUploader(BasicModel):
     file = ndb.BlobKeyProperty()
-    file_cloud_storage = ndb.StringProperty()
     tags = ndb.StringProperty()
     image_serving_url = ndb.StringProperty(indexed=False)
 

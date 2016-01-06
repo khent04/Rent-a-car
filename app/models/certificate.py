@@ -1,18 +1,16 @@
-from ferris import BasicModel, ndb
+from ferris import BasicModel, ndb, model_form
 from google.appengine.api import images
 
 
 class Certificate(BasicModel):
-    name = ndb.StringProperty(required=True, indexed=True)
-    image = ndb.BlobKeyProperty(indexed=False)
+    file = ndb.BlobKeyProperty()
+    tags = ndb.StringProperty()
     image_serving_url = ndb.StringProperty(indexed=False)
-    approved = ndb.BooleanProperty(default=False, indexed=False)
-    uploader = ndb.KeyProperty(kind='User', indexed=False)
+
 
     def before_put(self):
-        if self.image:
-            self.image_serving_url = images.get_serving_url(self.image,
-                                                            secure_url=False)
+        if self.file:
+            self.image_serving_url = images.get_serving_url(self.file, secure_url=False)
         else:
             self.image_serving_url = None
 
@@ -21,3 +19,14 @@ class Certificate(BasicModel):
         item = cls(**params)
         item.put()
         return item
+
+    def update(self, **params):
+        self.populate(**params)
+        self.put()
+
+    def delete(self):
+        ndb.delete_multi(ndb.Query(ancestor=self.key).iter(keys_only=True))
+
+
+class CertificateForm(model_form(Certificate, exclude=('image_serving_url',))):
+    pass

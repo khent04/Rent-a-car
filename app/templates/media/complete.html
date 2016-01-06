@@ -1,8 +1,4 @@
-<html>
-    <body>
+
         {% for serving_url in serving_urls %}
-            <img src="{{serving_url.url}}" alt="{{serving_url.tags}}">
-            Filename: {{serving_url.filename}}
+            {{serving_url.tags}}
         {% endfor %}
-    </body>
-</html>
