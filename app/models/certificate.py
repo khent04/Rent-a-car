@@ -6,8 +6,8 @@ class Certificate(BasicModel):
     name = ndb.StringProperty(required=True, indexed=True)
     image = ndb.BlobKeyProperty(indexed=False)
     image_serving_url = ndb.StringProperty(indexed=False)
-    approved = ndb.BooleanProperty(required=False, indexed=False)
-    uploader = ndb.KeyProperty(kind='User', required=False, indexed=False)
+    approved = ndb.BooleanProperty(default=False, indexed=False)
+    uploader = ndb.KeyProperty(kind='User', indexed=False)
 
     def before_put(self):
         if self.image:

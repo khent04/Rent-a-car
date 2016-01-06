@@ -9,21 +9,21 @@ class Car(BasicModel):
         search_index = ('global',)
 
     model = ndb.StringProperty(required=True, indexed=False)
-    transmission = ndb.StringProperty(required=False, indexed=False)
+    transmission = ndb.StringProperty(indexed=False)
     # manual/auto
     price = ndb.FloatProperty(required=True, indexed=False)
     # in dollar and per day
-    category = ndb.StringProperty(required=False, indexed=False)
-    availability = ndb.BooleanProperty(required=False, indexed=False)
-    location = ndb.StringProperty(required=False, indexed=False)
+    category = ndb.StringProperty(indexed=False)
+    availability = ndb.BooleanProperty(default=False, indexed=False)
+    location = ndb.StringProperty(indexed=False)
     # ask the vendor if the car is the same with his address,
     # if not ask for manual input of address
-    seats = ndb.IntegerProperty(required=False, indexed=True)
-    trunk_capacity = ndb.IntegerProperty(required=False, indexed=False)
-    air_conditioned = ndb.BooleanProperty(required=False, indexed=False)
-    mileage = ndb.StringProperty(required=False, indexed=False)
+    seats = ndb.IntegerProperty(indexed=True)
+    trunk_capacity = ndb.IntegerProperty(indexed=False)
+    air_conditioned = ndb.BooleanProperty(default=False, indexed=False)
+    mileage = ndb.StringProperty(indexed=False)
     # ask user if unlimited, if not ask for mileage
-    age = ndb.IntegerProperty(required=False, indexed=True)
+    age = ndb.IntegerProperty(indexed=True)
     # image_serving_url = ndb.StringProperty(indexed=False)
 
     @classmethod

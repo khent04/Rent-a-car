@@ -16,11 +16,11 @@ class Reservation(BasicModel):
     renter = ndb.KeyProperty(kind='Renter', required=True, indexed=False)
     request_code = ndb.StringProperty(required=True, indexed=False)
     # to be sent via email/sms?
-    approved = ndb.BooleanProperty(required=True, indexed=False)
+    approved = ndb.BooleanProperty(default=False,, indexed=False)
     # to be approved by vendor
     amount = ndb.FloatProperty(required=True, indexed=False)
     # compute per day price accdg to pickupdate and droppoff date
-    cancelled = ndb.BooleanProperty(required=False, indexed=False)
+    cancelled = ndb.BooleanProperty(default=False,, indexed=False)
 
     @classmethod
     def create(cls, **params):
