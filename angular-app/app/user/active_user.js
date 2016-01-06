@@ -81,7 +81,7 @@
             UploaderREST.getUploadURL()
             .success(function(data, status, headers, config){
                 importfile.url = data.upload_url;
-                // importfile.upload();
+                importfile.upload();
                 console.log('success', importfile);
 
             }).error(function(data, status, headers, config){

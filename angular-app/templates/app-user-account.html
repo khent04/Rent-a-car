@@ -109,7 +109,14 @@
 
             <div flex-item lx-tooltip="Submit any credentails like business permit so that the admin will surely validate your application"
                 style="border-left: white 70px solid;">
-                <lx-file-input label="Upload Credential"></lx-file-input>
+                <!-- <lx-file-input label="Upload Credential"></lx-file-input> -->
+
+                <div class="btn btn--m btn--blue btn--raised"> Upload Credential <i class="mdi mdi-file-multiple"></i>
+                <input type="file" nv-file-select="" uploader="ac.model.uploader" multiple="" style="opacity: 0.1; cursor: pointer;"></div>
+                <div id="progress"></div>
+                <br/>
+                <button type="button" ng-click="ac.model.uploader.uploadAll(); ac.model.showCircularProgress()" ng-disabled="!ac.model.uploader.getNotUploadedItems().length" class="btn btn--m btn--blue btn--raised">Upload
+                </button>
             </div>
 
         </form>
@@ -137,14 +144,6 @@
     &nbsp;
     <button class="btn btn--m btn--blue btn--raised" lx-ripple ng-click="ac.model.vendor_request()">Submit <i class="mdi mdi-send"></i></button></div></div>
 </div>
-<br/><br/><br/><br/>
+<br/><br/>
 </div>
 
-
-
- <input type="file" nv-file-select="" uploader="ac.model.uploader" multiple="">
-
-<br/>
-<button type="button" ng-click="ac.model.uploader.uploadAll()" ng-disabled="!ac.model.uploader.getNotUploadedItems().length">
-        <span class="glyphicon glyphicon-upload"></span> Upload all
-        </button>
