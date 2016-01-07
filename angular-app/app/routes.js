@@ -21,6 +21,11 @@
                 controller: 'Account',
                 controllerAs: 'ac',
             })
+            .when('/dashboard', {
+                templateUrl: '/ng/templates/app-cars-dashboard.html',
+                controller: 'Dashboard',
+                controllerAs: 'db',
+            })
         //     .when('/users', {
         //         templateUrl: '/ng/admin/users/user.partial.html',
         //         controller: 'Users',

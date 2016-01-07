@@ -43,6 +43,9 @@
     this.account_data;
     this.country = ["China", "India", "Japan", "Malaysia", "Myanmar", "Philippines", "Singapore", "South", "Thailand", "Vietnam"];
     this.fleet = ['0-50','50-100', '100-200', '200-500', '500+'];
+    this.dashboard = function(){
+      location.path('/dashboard');
+    }
 
     this.vendor_request = vendor_request;
     var certificates = [];
