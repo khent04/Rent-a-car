@@ -5,6 +5,11 @@ from ferris import Controller, route_with, messages
 from google.appengine.api import users
 import json
 from app.models.media_uploader import MediaUploader
+from google.appengine.ext import deferred
+# from google.appengine.api import mail
+from ferris.core import mail
+import logging
+
 
 class Users(Controller):
     class Meta:
@@ -70,4 +75,15 @@ class Users(Controller):
         activates = {"activated": True}
         params = json.loads(self.request.body)
         map(lambda x: User.get(x).update(**activates), params)
+        map(lambda x: deferred.defer(send_mail, x), params)
         return 200
+
+
+def send_mail(user):
+    logging.info("Sending email to %s"%user)
+    name = User.get(user).first_name
+    subject = "CarE Rental: Account activated!"
+    body = "Welcome %s to CarE Rental. You can now upload car for rent."
+    mail.send(user, subject, body)
+
+
