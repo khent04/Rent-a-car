@@ -40,15 +40,13 @@
 
     function view(data){  //opening of dialog
       var self = this;
+      self.dropdowns = [];
       self.opendDialog('test');
-      console.info(data);
       self.files = data;
       angular.forEach(data, function(val, key){
         key++;
         self.dropdowns.push({urlsafe: val.__key__, tmp_name: 'file_' + key});
       });
-
-      console.warn(self.dropdowns);
 
     }
 
@@ -56,7 +54,6 @@
       var self = this;
       self.loading.watch(CertificatesREST.get(data.urlsafe))
       .success(function(d){
-        console.log(d);
         document.getElementById("show_here").src = d.image_serving_url;
       });
 
