@@ -64,3 +64,10 @@ class Users(Controller):
     @route_with('/api/vendors', methods=['GET'])
     def api_vendor_request(self):
         return self.util.stringify_json(Vendor.vendor_request())
+
+    @route_with('/api/vendors', methods=['PUT'])
+    def api_vendor_approve(self):
+        activates = {"activated": True}
+        params = json.loads(self.request.body)
+        map(lambda x: User.get(x).update(**activates), params)
+        return 200

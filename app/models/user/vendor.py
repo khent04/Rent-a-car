@@ -27,4 +27,4 @@ class Vendor(User):
 
     @classmethod
     def vendor_request(cls):
-        return cls.query(cls.submitted == True).fetch()
+        return cls.query(cls.submitted == True, cls.activated == False).fetch()

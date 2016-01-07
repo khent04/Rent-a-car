@@ -17,6 +17,10 @@
       return $http.get(base);
     };
 
+    this.approve = function(params){
+      return $http.put(base, params);
+    };
+
   }
 
 })(window.angular);

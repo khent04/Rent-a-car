@@ -32,13 +32,17 @@
 
     <table class="data-table">
         <thead>
-            <tr class="data-table__selectable-row">
-                <th></th>
+            <tr>
+<!--                 <th>
+                    <div class="checkbox" ng-click="rq.model.select_all()">
+                    <input type="checkbox" id="checkbox1" class="checkbox__input">
+                    <label for="checkbox1" class="checkbox__label">Vendor</label>
+                    </div>
+                </th> -->
                 <th>Vendor</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Street Address</th>
-                <!-- <th class="data-table__sortable-cell data-table__sortable-cell--desc">Carbs (g)</th> -->
                 <th>Country</th>
                 <th>
                     <i class="mdi mdi-format-list-bulleted"></i>
@@ -48,22 +52,31 @@
         </thead>
 
         <tbody ng-repeat="v in rq.model.vendors">
-            <tr class="data-table__selectable-row">
-                <td></td>
-                <td ng-bind="v.company"></td>
+            <tr>
+                <td>
+                    <div class="checkbox">
+                    <input type="checkbox" id="{{v.email}}" class="checkbox__input" ng-click="rq.model.choose(v.email)">
+                    <label for="{{v.email}}" class="checkbox__label" ng-bind="v.company"></label>
+                    </div>
+                </td>
                 <td ng-bind="v.email"></td>
                 <td ng-bind="v.contact_number"></td>
                 <td ng-bind="v.street_address"></td>
                 <td ng-bind="v.country"></td>
-                <td ng-click="rq.model.view(v.credentials)"><i class="mdi mdi-file-multiple"></i>
+                <td ng-click="rq.model.view(v.credentials)" style="cursor: pointer"><i class="mdi mdi-file-multiple"></i>
                 <span>View Files</span>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
+<br/>
+<br/>
+<div style="margin-left: 82%;">
+    <button class="btn btn--m btn--blue btn--raised" lx-ripple ng-click="rq.model.approve()" ng-disabled="rq.model.checker()">Approve <i class="mdi mdi-send"></i></button>
+</div>
 
-
+<!-- modal / dialog -->
 <lx-dialog class="dialog dialog--l" id="test" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">
     <div class="dialog__header">
         <div class="toolbar bgc-light-blue-500 pl++">
@@ -95,9 +108,5 @@
     </lx-select>
 
     <img id="show_here">
-
-
 <br/>
-
-
 </lx-dialog>

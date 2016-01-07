@@ -13,9 +13,10 @@
     'RequestsREST',
     'CertificatesREST',
     'LxDialogService',
+    'LxNotificationService',
   ];
 
-  function requestModel(location, loading, passive_messenger, pubsub, RequestsREST, CertificatesREST, LxDialogService) {
+  function requestModel(location, loading, passive_messenger, pubsub, RequestsREST, CertificatesREST, LxDialogService, LxNotificationService) {
 
     this.loading = loading.new();
     this.isBusy = isBusy;
@@ -27,12 +28,24 @@
     this.show_file = show_file;
     this.dropdowns = [];
     this.toModel = toModel;
+    this.choose = choose;
+    this.chosen = {};
+    this.checker = checker;
+    this.approve = approve;
+
+
+    function checker(){
+      var self = this;
+      if(Object.keys(self.chosen).length===0)
+        return true;
+      else
+        return false;
+    }
 
     function Requests(){
       var self = this;
       self.loading.watch(RequestsREST.list())
       .success(function(d){
-        console.log(d[0]);
         self.vendors = d;
       });
 
@@ -67,6 +80,29 @@
       }else{
       callback();
       }
+    }
+
+    function choose(user){
+      var self = this;
+      if(user in self.chosen){
+        delete self.chosen[user];
+      }else{
+          self.chosen[user] = true;
+      }
+      console.info(self.chosen);
+
+    }
+
+    function approve(){
+      var self = this;
+      self.loading.watch(RequestsREST.approve(Object.keys(self.chosen)))
+      .success(function(response){
+        setTimeout(function(){
+          LxNotificationService.success('Vendor request approved!');
+          location.path("/xbjsd");
+        }, 500);
+      })
+
     }
 
     function opendDialog(dialogId) {
