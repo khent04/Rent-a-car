@@ -1,5 +1,5 @@
 from google.appengine.api import users
-from ferris import Controller, route_with, messages, add_authorizations
+from ferris import Controller, route_with, messages, add_authorizations, route
 from app.misc.auth import only
 from app.models.user.user import User
 from app.services.user_svc import UserSvc
@@ -22,6 +22,13 @@ class Main(Controller):
         self.context['active_user'] = 'null'
         self.meta.view.template_name = 'angular/app-index.html'
 
+    @route
+    def login_admin(self):
+        if not users.get_current_user():
+            self.context['data'] = "%s"%users.create_login_url('/admin')
+        else:
+            return 403
+
     # @route_with(template='/register')
     # def register(self):
 
@@ -41,10 +48,11 @@ class Main(Controller):
     #     self.context['logout_url'] = users.create_logout_url('/')
 
     @route_with(template='/admin')
-    @only("=", "Admin")
     def admin(self):
-        active_user = UserSvc.get_current_user()
-        self.meta.view.template_name = 'angular/admin-index.html'
-        self.context['data'] = active_user
-        self.context['active_user'] = self.context['data']
-        self.context['logout_url'] = users.create_logout_url('/')
+        print User.get(users.get_current_user())
+        if users.is_current_user_admin():
+            self.context['data'] = users.get_current_user()
+            self.context['logout_url'] = users.create_logout_url('/')
+            self.meta.view.template_name = 'angular/admin-index.html'
+        else:
+            return self.redirect(self.uri(action="login_admin"))

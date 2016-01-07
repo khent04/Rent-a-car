@@ -83,7 +83,7 @@ def send_mail(user):
     logging.info("Sending email to %s"%user)
     name = User.get(user).first_name
     subject = "CarE Rental: Account activated!"
-    body = "Welcome %s to CarE Rental. You can now upload car for rent."
+    body = "Welcome %s to CarE Rental. You can now upload cars for rent."%name
     mail.send(user, subject, body)
 
 
