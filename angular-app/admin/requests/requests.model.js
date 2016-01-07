@@ -25,6 +25,8 @@
     this.opendDialog = opendDialog;
     this.files;
     this.show_file = show_file;
+    this.dropdowns = [];
+    this.toModel = toModel;
 
     function Requests(){
       var self = this;
@@ -36,21 +38,38 @@
 
     }
 
-    function view(data){
+    function view(data){  //opening of dialog
       var self = this;
       self.opendDialog('test');
-      // console.info(data);
+      console.info(data);
       self.files = data;
+      angular.forEach(data, function(val, key){
+        key++;
+        self.dropdowns.push({urlsafe: val.__key__, tmp_name: 'file_' + key});
+      });
+
+      console.warn(self.dropdowns);
+
     }
 
-    function show_file(key){
+    function show_file(data){
       var self = this;
-      self.loading.watch(CertificatesREST.get(key))
+      self.loading.watch(CertificatesREST.get(data.urlsafe))
       .success(function(d){
         console.log(d);
         document.getElementById("show_here").src = d.image_serving_url;
       });
 
+    }
+
+    function toModel(data, callback){
+      var self = this;
+      self.show_file(data);
+      if (data){
+      callback(data.Title);
+      }else{
+      callback();
+      }
     }
 
     function opendDialog(dialogId) {

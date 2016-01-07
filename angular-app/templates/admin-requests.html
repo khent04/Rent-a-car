@@ -81,14 +81,23 @@
     </div>
 
     <lx heading="Lorem Ipsum 3">
-      <p class="p++">All Fields are required!</p>
+      <!-- <p class="p++">All Fields are required!</p> -->
     </lx>
-<!-- {{rq.model.files.__key__}} -->
-<img src="" id="show_here">
 
-            <div ng-repeat="item in rq.model.files">
-                    <div ng-bind="item.__key__" ng-click="rq.model.show_file(item.__key__)"></div>
+    <lx-select ng-model="rq.model.selected" placeholder="Submitted Files" choices="rq.model.dropdowns" fixed-label="true" icon="account"
+    style="border-left: white 70px solid;"  selection-to-model="rq.model.toModel(data, callback)">
+    <lx-select-selected>
+    {{ $selected.tmp_name }}
+    </lx-select-selected>
+    <lx-select-choices>
+    {{ $choice.tmp_name }}
+    </lx-select-choices>
+    </lx-select>
 
-            </div>
+    <img id="show_here">
+
+
+<br/>
+
 
 </lx-dialog>

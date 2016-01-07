@@ -22,10 +22,9 @@ class Media(Controller):
     def complete(self):
         serving_urls = []
         uploads = self.components.upload.get_uploads()
-        tags = "self.request.params['tags']"
         files = uploads.get('file')
         for blobinfo in files:
-            data = Certificate.create(file=blobinfo.key(), tags=tags)
+            data = Certificate.create(file=blobinfo.key(), file_name=blobinfo.filename)
             serving_urls.append({'filename': blobinfo.filename,
                 'content_type': blobinfo.content_type,
                 'tags': data.key.urlsafe()

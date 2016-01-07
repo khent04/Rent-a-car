@@ -6,6 +6,7 @@ class Certificate(BasicModel):
     file = ndb.BlobKeyProperty()
     tags = ndb.StringProperty()
     image_serving_url = ndb.StringProperty(indexed=False)
+    file_name = ndb.StringProperty(indexed=False)
 
 
     def before_put(self):
