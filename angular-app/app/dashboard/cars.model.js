@@ -18,16 +18,20 @@
     this.loading = loading.new();
     this.isBusy = isBusy;
     this.activate = activate;
-    this.account = function(){
+    this.account = account;
+    this.download_template = download_template;
+
+    function account(){
       location.path('/account');
+    }
+
+    function download_template(){
+      window.location.href = '/users/xlsx';
     }
 
     function activate(){
       LxNotificationService.info('Loaded');
     }
-
-
-
 
     function isBusy() {
       return !!this.loading._futures.length;

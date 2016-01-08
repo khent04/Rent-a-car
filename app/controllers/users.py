@@ -1,7 +1,7 @@
 from app.models.user.user import User
 from app.models.user.renter import Renter
 from app.models.user.vendor import Vendor
-from ferris import Controller, route_with, messages
+from ferris import Controller, route_with, messages, route
 from google.appengine.api import users
 import json
 from app.models.media_uploader import MediaUploader
@@ -9,6 +9,8 @@ from google.appengine.ext import deferred
 # from google.appengine.api import mail
 from ferris.core import mail
 import logging
+import StringIO
+import xlsxwriter
 
 
 class Users(Controller):
@@ -66,6 +68,26 @@ class Users(Controller):
     def ken(self):
         return 200
 
+    @route
+    def xlsx(self):
+        output = StringIO.StringIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        # Write some test data.
+        # worksheet.write(0, 0, 'Hello, world!')
+        worksheet.data_validation('A4', {'validate': 'list',
+                                 'source': ['open', 'high', 'close'],
+                                 })
+        workbook.close()
+        # Rewind the buffer.
+        output.seek(0)
+        self.response.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        self.response.content_disposition = 'attachment; filename=test.xlsx'
+        data = output.getvalue()
+        self.response.write(data)
+        return self.response
+
+
     @route_with('/api/vendors', methods=['GET'])
     def api_vendor_request(self):
         return self.util.stringify_json(Vendor.vendor_request())
@@ -85,5 +107,3 @@ def send_mail(user):
     subject = "CarE Rental: Account activated!"
     body = "Welcome %s to CarE Rental. You can now upload cars for rent."%name
     mail.send(user, subject, body)
-
-

@@ -14,7 +14,7 @@ echo $packages
 echo ' --> Cleaning'
 
 rm -rf "$packages/pytz" 2>/dev/null
-rm $packages/gdata.zip $packages/atom.zip $packages/google-api* $packages/wtforms.zip $packages/utils.zip $packages/protopigeon.zip 2>/dev/null
+rm $packages/gdata.zip $packages/atom.zip $packages/google-api* $packages/wtforms.zip $packages/utils.zip $packages/protopigeon.zip $packages/xlsxwriter.zip>/dev/null
 
 echo ' --> Starting Packaging'
 
