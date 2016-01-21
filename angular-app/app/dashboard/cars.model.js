@@ -38,7 +38,7 @@
 
     function create(){
       var self = this;
-      var data = {'car_model': 'Volkswagen Beetle', 'price': 1.0, 'seats': 5, 'transmission': 'Automatic'};
+      var data = {'car_model': 'Ford Mustang', 'price': 1.0, 'seats': 5, 'transmission': 'Automatic'};
       self.loading.watch(CarRest.create(store.get('profile').email, data))
       .success(function(d){
       });
