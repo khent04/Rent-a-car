@@ -13,9 +13,10 @@
     'LxProgressService',
     'CarRest',
     'store',
+    '$q',
   ];
 
-  function carModel (location, loading, LxDialogService, LxNotificationService, LxProgressService, CarRest, store){
+  function carModel (location, loading, LxDialogService, LxNotificationService, LxProgressService, CarRest, store, $q){
     angular.extend(this, active_user);
 
     this.loading = loading.new();
@@ -27,6 +28,7 @@
     this.list_cars = list_cars;
     this.cars;
     this.view = view;
+    this.upload = upload;
 
     function account(){
       location.path('/account');
@@ -59,6 +61,50 @@
       alert(key);
     }
 
+    var promises = [];
+    function upload(){
+      var self = this;
+      var call =$q(qParsing);
+      self.loading.watch(call);
+    }
+
+    function qParsing(){
+      Papa.LocalChunkSize = 10000;
+      $('#files').parse({
+        config: {
+        header: true,
+        chunk: chunkFn,
+        error: errorFn,
+        skipEmptyLines: true
+        },
+        before: function(file, inputElem)
+        {
+        console.log("Parsing file:", file);
+        }
+      });
+
+      $q.all(promises).then(function(){
+         LxNotificationService.success('Upload success!');
+      })
+
+    }
+
+    function chunkFn(results){
+      promises.push($q);
+      CarRest.upload(results.data);
+      console.log(results);
+    }
+
+    function errorFn(error)
+    {
+      console.log("ERROR:", error);
+    }
+
+
+
+
+
+
     function activate(){
       var self = this;
       self.list_cars();
@@ -68,6 +114,7 @@
     function isBusy() {
       return !!this.loading._futures.length;
     }
+
 
   }
 

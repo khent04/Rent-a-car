@@ -74,15 +74,22 @@ class Users(Controller):
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         worksheet = workbook.add_worksheet()
         # Write some test data.
-        # worksheet.write(0, 0, 'Hello, world!')
-        worksheet.data_validation('A4', {'validate': 'list',
-                                 'source': ['open', 'high', 'close'],
+        worksheet.write('A1', 'Seats')
+        worksheet.write('B1', 'Model')
+        worksheet.write('C1', 'Price')
+        worksheet.write('D1', 'Transmission')
+        worksheet.write('E1', 'Availability')
+        worksheet.data_validation('D2:D500', {'validate': 'list',
+                                 'source': ['Automatic', 'Manual'],
+                                 })
+        worksheet.data_validation('E2:E500', {'validate': 'list',
+                                 'source': ['Available', 'Not Available'],
                                  })
         workbook.close()
         # Rewind the buffer.
         output.seek(0)
         self.response.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        self.response.content_disposition = 'attachment; filename=test.xlsx'
+        self.response.content_disposition = 'attachment; filename=carE_Rentals_template.xlsx'
         data = output.getvalue()
         self.response.write(data)
         return self.response

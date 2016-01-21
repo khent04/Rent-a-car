@@ -2,6 +2,7 @@ from ferris import Controller, route_with, messages
 from app.models.car import Car
 from app.models.user.user import User
 from google.appengine.api import users
+from google.appengine.ext import deferred
 import json
 
 
@@ -12,11 +13,11 @@ class Cars(Controller):
         components = (messages.Messaging,)
         Model = Car
 
-    @route_with('/api/cars/<vendor>', methods=['POST'])
-    def api_add(self, vendor):
-        params = json.loads(self.request.body)
-        params['vendor'] = User.get(vendor, key_only=True)
-        self.context["data"] = Car.create(**params)
+    # @route_with('/api/cars/<vendor>', methods=['POST'])
+    # def api_add(self, vendor):
+    #     params = json.loads(self.request.body)
+    #     params['vendor'] = User.get(vendor, key_only=True)
+    #     self.context["data"] = Car.create(**params)
 
     @route_with('/api/cars/list', methods=['GET'])
     def api_lis(self):
@@ -25,7 +26,23 @@ class Cars(Controller):
     @route_with('/api/vendor_cars/<vendor>', methods=['GET'])
     def api_vendor_cars(self, vendor):
         vendor = User.get(vendor, key_only=True)
-        print "=======>>>>>>", vendor
         self.context['data'] = Car.list_by_vendor(vendor)
         # return 200
 
+    @route_with('/api/cars/upload', methods=['POST'])
+    def api_upload(self):
+        import time
+        time.sleep(2)
+        data = json.loads(self.request.body)
+        for item in data:
+            deferred.defer(async_upload_user, item)
+        return 200
+
+def async_upload_user(item):
+    params = dict()
+    params['seats'] = int(item['Seats'])
+    params['car_model'] = item['Model']
+    params['price'] = float(item['Price'])
+    params['transmission'] = item['Transmission']
+    params['availability'] = bool(item['Availability'])
+    Car.create(**params)

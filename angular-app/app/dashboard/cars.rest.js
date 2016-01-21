@@ -29,6 +29,10 @@
       return $http.get('/api/vendor_cars/' + vendor);
     }
 
+    this.upload = function(params){
+      return $http.post(base + '/upload', params);
+    }
+
   }
 
 })(window.angular);
