@@ -14,11 +14,19 @@
     var base = '/api/cars';
 
     this.list = function() {
-      return $http.get(base);
+      return $http.get(base + '/list');
     };
 
     this.get = function(params) {
       return $http.get(base, params);
+    }
+
+    this.create = function(vendor, params) {
+      return $http.post(base + '/' + vendor , params);
+    }
+
+    this.list_by_vendor = function(vendor){
+      return $http.get('/api/vendor_cars/' + vendor);
     }
 
   }

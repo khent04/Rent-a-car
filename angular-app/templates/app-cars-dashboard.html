@@ -74,21 +74,26 @@
             </tr>
         </thead>
 
-        <tbody ng-repeat="v in rq.model.vendors">
+        <tbody ng-repeat="v in db.model.cars.items">
             <tr>
-                <td>
+         <!--        <td>
                     <div class="checkbox">
                     <input type="checkbox" id="{{v.email}}" class="checkbox__input" ng-click="rq.model.choose(v.email)">
                     <label for="{{v.email}}" class="checkbox__label" ng-bind="v.company"></label>
                     </div>
-                </td>
-                <td ng-bind="v.email"></td>
-                <td ng-bind="v.contact_number"></td>
-                <td ng-bind="v.street_address"></td>
-                <td ng-bind="v.country"></td>
-                <td ng-click="rq.model.view(v.credentials)" style="cursor: pointer"><i class="mdi mdi-file-multiple"></i>
-                <span>View Files</span>
+                </td> -->
+                <td ng-bind="v.seats"></td>
+                <td ng-bind="v.car_model"></td>
+                <td ng-bind="v.price"></td>
+                <td ng-bind="v.transmission"></td>
+                <td ng-if="!v.availability">Not Available</td>
+                <td ng-if="v.availability">Available</td>
+                <td ng-click="db.model.view(v.key.urlsafe)" style="cursor: pointer"><i class="mdi mdi-file-multiple"></i>
+                <span>View</span>
                 </td>
             </tr>
         </tbody>
     </table>
+
+
+<button ng-click="db.model.create()">xxx</button>

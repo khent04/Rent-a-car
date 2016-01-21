@@ -8,7 +8,7 @@ class Car(BasicModel):
         behaviors = (searchable.Searchable, )
         search_index = ('global',)
 
-    model = ndb.StringProperty(required=True, indexed=False)
+    car_model = ndb.StringProperty(required=True, indexed=False)
     transmission = ndb.StringProperty(indexed=False)
     # manual/auto
     price = ndb.FloatProperty(required=True, indexed=False)
@@ -25,6 +25,7 @@ class Car(BasicModel):
     # ask user if unlimited, if not ask for mileage
     age = ndb.IntegerProperty(indexed=True)
     # image_serving_url = ndb.StringProperty(indexed=False)
+    vendor = ndb.KeyProperty(kind="User", indexed=True)
 
     @classmethod
     def create(cls, **params):
@@ -45,3 +46,8 @@ class Car(BasicModel):
         if key_only:
             return key if ret else None
         return ret
+
+    @classmethod
+    def list_by_vendor(cls, vendor):
+        return cls.query(cls.vendor == vendor)
+
