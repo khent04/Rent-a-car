@@ -29,8 +29,8 @@
       return $http.get('/api/vendor_cars/' + vendor);
     }
 
-    this.upload = function(params){
-      return $http.post(base + '/upload', params);
+    this.upload = function(vendor, params){
+      return $http.post(base + '/upload/' + vendor, params);
     }
 
   }

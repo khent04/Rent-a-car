@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en" class="no-js">
 <head>
   <title>CarE Rental</title>
   <link rel="stylesheet" href="/ng/components/lumx/dist/lumx.css">
@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="/ng/components/cs-angular-utilities/passive-messenger.css" type="text/css">
   <link rel="stylesheet" href="/ng/components/angular-ui-select/dist/select.css" type="text/css">
   <script src="/ng/components/jquery/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/ng/components/CustomFileInputs/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/ng/components/CustomFileInputs/css/demo.css">
+  <link rel="stylesheet" type="text/css" href="/ng/components/CustomFileInputs/css/component.css">
+  <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
 
 </head>
 <body ng-app="app">
@@ -14,15 +18,14 @@
 
   <!-- Main Content -->
 
-
   <div ng-view></div>
 
 <!-- users -->
  <script type="text/javascript">
   var active_user = {{active_user}};
   </script>
+    <!-- <script src="/ng/components/jquery/dist/jquery.js"></script> -->
 
-    <script src="/ng/components/jquery/dist/jquery.js"></script>
     <script src="/ng/components/velocity/velocity.js"></script>
     <script src="/ng/components/moment/min/moment-with-locales.js"></script>
     <script src="/ng/components/angular/angular.js"></script>
@@ -68,6 +71,8 @@
     <script src="/ng/app/dashboard/cars.dashboard.controller.js"></script>
 
 
+
+<!-- <script src="/ng/components/CustomFileInputs/js/custom-file-input.js"></script> -->
 
 </body>
 </html>

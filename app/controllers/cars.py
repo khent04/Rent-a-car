@@ -29,20 +29,20 @@ class Cars(Controller):
         self.context['data'] = Car.list_by_vendor(vendor)
         # return 200
 
-    @route_with('/api/cars/upload', methods=['POST'])
-    def api_upload(self):
-        import time
-        time.sleep(2)
+    @route_with('/api/cars/upload/<vendor>', methods=['POST'])
+    def api_upload(self, vendor):
+        vendor = User.get(vendor, key_only=True)
         data = json.loads(self.request.body)
         for item in data:
-            deferred.defer(async_upload_user, item)
+            deferred.defer(async_upload_user, item, vendor)
         return 200
 
-def async_upload_user(item):
+def async_upload_user(item, vendor):
     params = dict()
     params['seats'] = int(item['Seats'])
     params['car_model'] = item['Model']
     params['price'] = float(item['Price'])
     params['transmission'] = item['Transmission']
     params['availability'] = bool(item['Availability'])
+    params['vendor'] = vendor
     Car.create(**params)

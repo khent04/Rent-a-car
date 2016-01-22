@@ -24,11 +24,11 @@
     this.activate = activate;
     this.account = account;
     this.download_template = download_template;
-    this.create = create;
     this.list_cars = list_cars;
     this.cars;
     this.view = view;
     this.upload = upload;
+    this.disable = true;
 
     function account(){
       location.path('/account');
@@ -38,14 +38,6 @@
       window.location.href = '/users/xlsx';
     }
 
-    function create(){
-      var self = this;
-      var data = {'car_model': 'Ford Mustang', 'price': 1.0, 'seats': 5, 'transmission': 'Automatic'};
-      self.loading.watch(CarRest.create(store.get('profile').email, data))
-      .success(function(d){
-      });
-
-    }
 
     function list_cars(){
       var self = this;
@@ -70,7 +62,7 @@
 
     function qParsing(){
       Papa.LocalChunkSize = 10000;
-      $('#files').parse({
+      $('#file-5').parse({
         config: {
         header: true,
         chunk: chunkFn,
@@ -91,7 +83,7 @@
 
     function chunkFn(results){
       promises.push($q);
-      CarRest.upload(results.data);
+      CarRest.upload(store.get('profile').email, results.data);
       console.log(results);
     }
 
