@@ -11,8 +11,9 @@
         };
 
         function link(scope, element, attrs){
-           element.change(function(){
+           element.change(function(event){
                 scope.db.model.disable = false;
+                scope.db.model.csv_filename = event.target.value.split( '\\' ).pop();;
                 scope.$apply();
             })
         }

@@ -18,6 +18,8 @@
 
   function carModel (location, loading, LxDialogService, LxNotificationService, LxProgressService, CarRest, store, $q){
     angular.extend(this, active_user);
+    // LxProgressService.circular.show('primary', '#progress');
+
 
     this.loading = loading.new();
     this.isBusy = isBusy;
@@ -29,6 +31,7 @@
     this.view = view;
     this.upload = upload;
     this.disable = true;
+    this.csv_filename = "Chosose a file";
 
     function account(){
       location.path('/account');
@@ -54,13 +57,9 @@
     }
 
     var promises = [];
+
     function upload(){
       var self = this;
-      var call =$q(qParsing);
-      self.loading.watch(call);
-    }
-
-    function qParsing(){
       Papa.LocalChunkSize = 10000;
       $('#file-5').parse({
         config: {
@@ -75,7 +74,8 @@
         }
       });
 
-      $q.all(promises).then(function(){
+      self.loading.watch($q.all(promises))
+      .then(function(){
          LxNotificationService.success('Upload success!');
       })
 
@@ -91,9 +91,6 @@
     {
       console.log("ERROR:", error);
     }
-
-
-
 
 
 
