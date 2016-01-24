@@ -27,6 +27,16 @@ class Cars(Controller):
     def api_view(self, key):
         self.context['data'] = self.util.decode_key(key).get()
 
+    @route_with('/api/cars/:<key>', methods=['PUT'])
+    def api_update(self, key):
+        params = json.loads(self.request.body)
+        params['seats'] = int(params['seats'])
+        params['trunk_capacity'] = int(params['trunk_capacity'])
+        params['age'] = int(params['age'])
+        car = self.util.decode_key(key).get()
+        car.update(**params)
+        return 200
+
     @route_with('/api/cars/upload/<vendor>', methods=['POST'])
     def api_upload(self, vendor):
         data = json.loads(self.request.body)

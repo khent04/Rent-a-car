@@ -18,7 +18,7 @@
 
   function carModel (location, loading, LxDialogService, LxNotificationService, LxProgressService, CarRest, store, $q){
     angular.extend(this, active_user);
-    // LxProgressService.circular.show('primary', '#progress');
+    LxProgressService.circular.show('primary', '#progress');
 
 
     this.loading = loading.new();
@@ -34,13 +34,16 @@
     this.disable = true;
     this.csv_filename = "Chosose a file";
     this.opendDialog = opendDialog;
+    this.update = update;
 
     function account(){
       location.path('/account');
+
     }
 
     function download_template(){
       window.location.href = '/users/xlsx';
+
     }
 
 
@@ -55,7 +58,6 @@
     }
 
     function view(key){
-      // alert(key);
       var self = this;
       self.loading.watch(CarRest.get(key))
       .success(function(d){
@@ -63,7 +65,31 @@
         self.opendDialog('test');
       });
 
+    }
 
+    function update(){
+      var self = this;
+      var data = {
+        car_model: self.selected_car.car_model,
+        seats: self.selected_car.seats,
+        price: self.selected_car.price,
+        transmission: self.selected_car.transmission,
+        availability: self.selected_car.availability,
+        location: self.selected_car.location,
+        trunk_capacity: self.selected_car.trunk_capacity,
+        air_conditioned: self.selected_car.air_conditioned,
+        mileage: self.selected_car.mileage,
+        age: self.selected_car.age,
+      };
+      angular.forEach(data, function(val, key){
+        if(val===undefined)
+          delete data[key];
+      });
+
+      self.loading.watch(CarRest.update(self.selected_car.key.urlsafe, data))
+      .success(function(d){
+        console.log(d);
+      });
 
     }
 
@@ -96,11 +122,12 @@
       promises.push($q);
       CarRest.upload(store.get('profile').email, results.data);
       console.log(results);
+
     }
 
-    function errorFn(error)
-    {
+    function errorFn(error){
       console.log("ERROR:", error);
+
     }
 
 
@@ -109,15 +136,18 @@
       var self = this;
       self.list_cars();
       LxNotificationService.info('Loaded');
+
     }
 
     function opendDialog(dialogId) {
       LxDialogService.open(dialogId);
+
     };
 
 
     function isBusy() {
       return !!this.loading._futures.length;
+
     }
 
 
