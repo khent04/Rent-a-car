@@ -50,4 +50,3 @@ class Car(BasicModel):
     @classmethod
     def list_by_vendor(cls, vendor):
         return cls.query(cls.vendor == vendor)
-

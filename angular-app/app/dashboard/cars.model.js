@@ -28,10 +28,12 @@
     this.download_template = download_template;
     this.list_cars = list_cars;
     this.cars;
+    this.selected_car;
     this.view = view;
     this.upload = upload;
     this.disable = true;
     this.csv_filename = "Chosose a file";
+    this.opendDialog = opendDialog;
 
     function account(){
       location.path('/account');
@@ -53,7 +55,16 @@
     }
 
     function view(key){
-      alert(key);
+      // alert(key);
+      var self = this;
+      self.loading.watch(CarRest.get(key))
+      .success(function(d){
+        self.selected_car = d;
+        self.opendDialog('test');
+      });
+
+
+
     }
 
     var promises = [];
@@ -99,6 +110,11 @@
       self.list_cars();
       LxNotificationService.info('Loaded');
     }
+
+    function opendDialog(dialogId) {
+      LxDialogService.open(dialogId);
+    };
+
 
     function isBusy() {
       return !!this.loading._futures.length;

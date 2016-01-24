@@ -93,3 +93,14 @@
   }
 }
 
+/* -- my custom flex -- */
+.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    margin-left: 7%;
+}
+
+.flex-item {
+    width: 20%;
+    margin: 1%;
+}

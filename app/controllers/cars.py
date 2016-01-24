@@ -22,7 +22,10 @@ class Cars(Controller):
     def api_vendor_cars(self, vendor):
         vendor = User.get(vendor, key_only=True)
         self.context['data'] = Car.list_by_vendor(vendor)
-        # return 200
+
+    @route_with('/api/cars/:<key>', methods=['GET'])
+    def api_view(self, key):
+        self.context['data'] = self.util.decode_key(key).get()
 
     @route_with('/api/cars/upload/<vendor>', methods=['POST'])
     def api_upload(self, vendor):

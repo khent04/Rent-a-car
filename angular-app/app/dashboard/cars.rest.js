@@ -18,7 +18,7 @@
     };
 
     this.get = function(params) {
-      return $http.get(base, params);
+      return $http.get(base + '/:'+ params);
     }
 
     this.create = function(vendor, params) {
