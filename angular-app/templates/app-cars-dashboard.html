@@ -135,55 +135,85 @@
               <input type="text" ng-model="db.model.selected_car.price">
               </lx-text-field>
 
-              <lx-text-field label="Transmission" fixed-label="true" icon="quadcopter">
-              <input type="text" ng-model="db.model.selected_car.transmission">
-              </lx-text-field>
-
-              <p class="p++">Availability</p>
+              <br/>
+              <div>&nbsp;
+              <i class="mdi mdi-quadcopter"></i>
+              <span>&nbsp;Transmission</span>
+              </div>
               <div class="flex-container">
                 <div class="flex-item radio-button">
-                  <input type="radio" id="radio_available" name="radio_grp1"
+                  <input type="radio" id="radio_auto" name="radio_grp1"
+                  ng-model="db.model.selected_car.transmission"
+                  value="Automatic" class="radio-button__input">
+                  <label for="radio_auto" class="radio-button__label">Automatic</label>
+                </div>
+                <div class="flex-item radio-button">
+                  <input type="radio" id="radio_manual" name="radio_grp1"
+                  ng-model="db.model.selected_car.transmission"
+                  value="Manual" class="radio-button__input">
+                  <label for="radio_manual" class="radio-button__label">Manual</label>
+                </div>
+              </div>
+
+              <br/>
+              <div>&nbsp;
+              <i class="mdi mdi-alert-circle"></i>
+              <span>&nbsp;Availability</span>
+              </div>
+              <div class="flex-container">
+                <div class="flex-item radio-button">
+                  <input type="radio" id="radio_available" name="radio_grp2"
                   ng-model="db.model.selected_car.availability"
                   ng-value="true" class="radio-button__input">
                   <label for="radio_available" class="radio-button__label">Available</label>
                 </div>
                 <div class="flex-item radio-button">
-                  <input type="radio" id="radio_notavail" name="radio_grp1"
+                  <input type="radio" id="radio_notavail" name="radio_grp2"
                   ng-model="db.model.selected_car.availability"
                   ng-value="false" class="radio-button__input">
                   <label for="radio_notavail" class="radio-button__label">Not available</label>
                 </div>
               </div>
 
-              <lx-text-field label="Location" fixed-label="true" icon="account">
+              <lx-text-field label="Location" fixed-label="true" icon="map-marker">
               <input type="text" ng-model="db.model.selected_car.location">
               </lx-text-field>
 
-              <lx-text-field label="Trunk Capacity" fixed-label="true" icon="account">
+              <lx-text-field label="Trunk Capacity" fixed-label="true" icon="weight">
               <input type="text" ng-model="db.model.selected_car.trunk_capacity">
               </lx-text-field>
 
-              <p class="p++">Air Conditioned</p>
+              <!-- <p class="p++">Air Conditioned</p> -->
+              <br/>
+              <div>&nbsp;
+              <i class="mdi mdi-fan"></i>
+              <span>&nbsp;Air Conditioned</span>
+              </div>
               <div class="flex-container">
                 <div class="flex-item radio-button">
-                  <input type="radio" id="radio_yes" name="radio_grp2"
+                  <input type="radio" id="radio_yes" name="radio_grp3"
                   ng-model="db.model.selected_car.air_conditioned"
                   ng-value="true" class="radio-button__input">
                   <label for="radio_yes" class="radio-button__label">Yes</label>
                 </div>
                 <div class="flex-item radio-button">
-                  <input type="radio" id="radio_no" name="radio_grp2"
+                  <input type="radio" id="radio_no" name="radio_grp3"
                   ng-model="db.model.selected_car.air_conditioned"
                   ng-value="false" class="radio-button__input">
                   <label for="radio_no" class="radio-button__label">No</label>
                 </div>
               </div>
 
-              <lx-text-field label="Mileage" fixed-label="true" icon="account">
+              <div class="checkbox">
+    <input type="checkbox" id="checkbox1" class="checkbox__input">
+    <label for="checkbox1" class="checkbox__label">Checkbox</label>
+</div>
+
+              <lx-text-field label="Mileage" fixed-label="true" icon="speedometer">
               <input type="text" ng-model="db.model.selected_car.mileage">
               </lx-text-field>
 
-              <lx-text-field label="Age" fixed-label="true" icon="account">
+              <lx-text-field label="Age" fixed-label="true" icon="calendar-today">
               <input type="number" ng-model="db.model.selected_car.age">
               </lx-text-field>
 
@@ -212,6 +242,6 @@
 <br/>
   <div class="dialog__actions">
     <button class="btn btn--m btn--blue btn--raised" lx-ripple ng-click="db.model.update()">Update <i class="mdi mdi-send"></i></button>
-    </div>
+  </div>
 </lx-dialog>
 
