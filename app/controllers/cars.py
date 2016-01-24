@@ -3,8 +3,9 @@ from app.models.car import Car
 from app.models.user.user import User
 from google.appengine.api import users
 from google.appengine.ext import deferred
+from ferris.core import mail
 import json
-
+import logging
 
 
 class Cars(Controller):
@@ -12,12 +13,6 @@ class Cars(Controller):
         prefixes = ('api',)
         components = (messages.Messaging,)
         Model = Car
-
-    # @route_with('/api/cars/<vendor>', methods=['POST'])
-    # def api_add(self, vendor):
-    #     params = json.loads(self.request.body)
-    #     params['vendor'] = User.get(vendor, key_only=True)
-    #     self.context["data"] = Car.create(**params)
 
     @route_with('/api/cars/list', methods=['GET'])
     def api_lis(self):
@@ -31,18 +26,25 @@ class Cars(Controller):
 
     @route_with('/api/cars/upload/<vendor>', methods=['POST'])
     def api_upload(self, vendor):
-        vendor = User.get(vendor, key_only=True)
         data = json.loads(self.request.body)
         for item in data:
             deferred.defer(async_upload_user, item, vendor)
         return 200
 
+
 def async_upload_user(item, vendor):
-    params = dict()
-    params['seats'] = int(item['Seats'])
-    params['car_model'] = item['Model']
-    params['price'] = float(item['Price'])
-    params['transmission'] = item['Transmission']
-    params['availability'] = bool(item['Availability'])
-    params['vendor'] = vendor
-    Car.create(**params)
+    if vendor:
+        try:
+            params = dict()
+            params['seats'] = int(item['Seats'])
+            params['car_model'] = item['Model']
+            params['price'] = float(item['Price'])
+            params['transmission'] = item['Transmission']
+            params['availability'] = bool(item['Availability'])
+            params['vendor'] = User.get(vendor, key_only=True)
+            Car.create(**params)
+        except Exception as e:
+            subject = 'Error while uploading cars'
+            body = 'item={0}, error={1}:{2}'.format(item, e.__class__.__name__, e.message)
+            mail.send(vendor, subject, body)
+            logging.info("error while uploading cars." + str(e))

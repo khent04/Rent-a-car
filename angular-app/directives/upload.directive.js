@@ -12,10 +12,15 @@
 
         function link(scope, element, attrs){
            element.change(function(event){
+            if(event.target.value){
                 scope.db.model.disable = false;
-                scope.db.model.csv_filename = event.target.value.split( '\\' ).pop();;
-                scope.$apply();
-            })
+                scope.db.model.csv_filename = event.target.value.split( '\\' ).pop();
+            }else{
+                scope.db.model.disable = true;
+                scope.db.model.csv_filename = "Choose a file";
+            }
+            scope.$apply();
+            });
         }
     }
 
