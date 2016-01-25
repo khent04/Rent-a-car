@@ -49,10 +49,22 @@ class Cars(Controller):
             params['age'] = 0
 
         params['price'] = float(params['price'])
+        params['location'] = params['location'].lower()
 
         car = self.util.decode_key(key).get()
         car.update(**params)
         return 200
+
+    @route_with('/api/search/cars', methods=['POST'])
+    def api_search(self):
+        params = json.loads(self.request.body)
+        print "=======>>>>>"
+        print params
+        data = Car.basic_search(params)
+        if data:
+            self.context['data'] = data
+        else:
+            return 200
 
     @route_with('/api/cars/upload/<vendor>', methods=['POST'])
     def api_upload(self, vendor):
@@ -80,6 +92,7 @@ def async_upload_user(item, vendor):
             params['transmission'] = item['Transmission']
             params['availability'] = bool(item['Availability'])
             params['vendor'] = User.get(vendor, key_only=True)
+            params['location'] = item['Location'].lower()
             Car.create(**params)
         except Exception as e:
             subject = 'Error while uploading cars'

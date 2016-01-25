@@ -14,8 +14,8 @@ class Car(BasicModel):
     price = ndb.FloatProperty(required=True, indexed=False)
     # in dollar and per day
     category = ndb.StringProperty(indexed=False)
-    availability = ndb.BooleanProperty(default=False, indexed=False)
-    location = ndb.StringProperty(indexed=False)
+    availability = ndb.BooleanProperty(default=False, indexed=True)
+    location = ndb.StringProperty(indexed=True)
     # ask the vendor if the car is the same with his address,
     # if not ask for manual input of address
     seats = ndb.IntegerProperty(indexed=True)
@@ -50,3 +50,8 @@ class Car(BasicModel):
     @classmethod
     def list_by_vendor(cls, vendor):
         return cls.query(cls.vendor == vendor)
+
+    @classmethod
+    def basic_search(cls, params):
+        query = cls.query(cls.location == params['location'].lower(), cls.availability == True)
+        return query.fetch()

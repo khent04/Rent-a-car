@@ -183,7 +183,7 @@
           self.list_cars();
          self.csv_filename = "Choose a file";
           LxDialogService.close('upload');
-          }, 500)
+          }, 1000)
       })
 
     }

@@ -29,3 +29,108 @@
     </div>
   </div>
 </div>
+
+
+
+
+<center>
+  <div class="card" style="width: 50%;">
+    <div class="p+">
+
+        <div class="paragraph fs-body-1 mt+">
+            <p>
+              <lx-text-field label="Location" fixed-label="true" icon="map-marker">
+              <input type="text" ng-model="home.model.query.location" class="car_model">
+              </lx-text-field>
+
+              <div class="switch">
+              <input type="checkbox" id="switch1" class="switch__input" switcher>
+              <label for="switch1" class="switch__label" style="margin-right:50%;">Drop-off at different location</label>
+              </div>
+
+              <lx-text-field label="Drop-Off Location" fixed-label="true" icon="map-marker" ng-show="home.model.diff_location">
+              <input type="text" ng-model="home.model.query.drop_location" class="car_model">
+              </lx-text-field>
+
+
+              <div class="mt+">
+                <lx-date-picker model="home.model.query.pickdate" label="Pick-Up Date" locale="en" fixed-label="true" icon="calendar"></lx-date-picker>
+
+                <lx-select ng-model="home.model.query.picktime" placeholder="Pick-Up Time" choices="home.model.times" style="border-left: white 70px solid;">
+                <lx-select-selected>
+                {{ $selected }}
+                </lx-select-selected>
+
+                <lx-select-choices>
+                {{ $choice }}
+                </lx-select-choices>
+                </lx-select>
+
+
+                <lx-date-picker model="home.model.query.dropdate" label="Drop-Off Date" locale="en" fixed-label="true" icon="calendar"></lx-date-picker>
+
+                <lx-select ng-model="home.model.query.droptime" placeholder="Drop-Off Time" choices="home.model.times" style="border-left: white 70px solid;">
+                <lx-select-selected>
+                {{ $selected }}
+                </lx-select-selected>
+
+                <lx-select-choices>
+                {{ $choice }}
+                </lx-select-choices>
+                </lx-select>
+
+
+              </div>
+
+
+            </p>
+        </div>
+    </div>
+
+    <br/>
+    <div class="card__actions">
+        <button class="btn btn--m btn--blue btn--raised" lx-ripple ng-click="home.model.search()">Search
+        <i class="mdi mdi-magnify"></i></button>
+    </div>
+  </div>
+</center>
+
+<div class="card" style="width: 50%;">
+
+
+    <div flex-item="6" class="mt++">
+        <span class="fs-title display-block mb">Display Category | Car Model here</span>
+
+        <div class="divider divider--dark"></div>
+
+        <ul class="list mt++">
+            <li class="list-row list-row--multi-line list-row--has-separator">
+                <div class="list-row__primary" style="width:150px;">
+                    <img src="https://static.carrentals.com/avis/compact.gif" width="150" height="80">
+                </div>
+
+                <div class="list-row__content">
+                    <span class="display-block">Specs</span>
+                    <span class="display-block fs-body-1 tc-black-2">Secondary text Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam massa quam. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span>
+                </div>
+
+                 <div class="list-row__content">
+                    <span class="display-block">Vendor</span>
+                    <span class="display-block fs-body-1 tc-black-2">Secondary text Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam massa quam. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span>
+                </div>
+
+                 <div class="list-row__content">
+                    <span class="display-block">Pricing</span>
+                    <span class="display-block fs-body-1 tc-black-2">Secondary text Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam massa quam. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span>
+                </div>
+
+   <!--              <div class="list-row__secondary">
+                    <i class="icon icon--xs icon--grey icon--flat mdi mdi-information"></i>
+                </div> -->
+            </li>
+        </ul>
+    </div>
+</div>
+
+<br/>
+<br/>

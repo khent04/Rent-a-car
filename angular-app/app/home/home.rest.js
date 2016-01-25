@@ -17,6 +17,10 @@
       return $http.get(base);
     };
 
+    this.search = function(params){
+      return $http.post('/api/search/cars', params);
+    };
+
 
 
   }
