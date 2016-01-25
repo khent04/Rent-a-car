@@ -19,7 +19,7 @@ class Car(BasicModel):
     # ask the vendor if the car is the same with his address,
     # if not ask for manual input of address
     seats = ndb.IntegerProperty(indexed=True)
-    trunk_capacity = ndb.IntegerProperty(indexed=False)
+    trunk_capacity = ndb.FloatProperty(indexed=False)
     air_conditioned = ndb.BooleanProperty(default=False, indexed=False)
     mileage = ndb.StringProperty(indexed=False)
     # ask user if unlimited, if not ask for mileage

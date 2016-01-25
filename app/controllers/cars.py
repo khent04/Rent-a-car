@@ -38,9 +38,9 @@ class Cars(Controller):
 
         if 'trunk_capacity' in params:
             if params['trunk_capacity']:
-                params['trunk_capacity'] = int(params['trunk_capacity'])
+                params['trunk_capacity'] = float(params['trunk_capacity'])
         else:
-            params['trunk_capacity'] = 0
+            params['trunk_capacity'] = 0.0
 
         if 'age' in params:
             if params['age']:

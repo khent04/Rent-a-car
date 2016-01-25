@@ -33,7 +33,7 @@
 
 
 
-<center>
+<center ng-show="home.model.searchbox_show">
   <div class="card" style="width: 50%;">
     <div class="p+">
 
@@ -95,33 +95,51 @@
   </div>
 </center>
 
-<div class="card" style="width: 50%;">
 
+
+
+
+<div class="card" style="width: 60%; margin-left: 30%;" ng-hide="home.model.searchbox_show">
+
+<!-- {{home.model.search_results}} -->
 
     <div flex-item="6" class="mt++">
-        <span class="fs-title display-block mb">Display Category | Car Model here</span>
+        <!-- <span class="fs-title display-block mb">&nbsp;&nbsp;Display Category | Car Model here</span> -->
+
+        <ul class="list mt++" ng-repeat="v in home.model.search_results.items">
+        <span class="fs-title display-block mb" ng-bind="'&nbsp;&nbsp;&nbsp;'+ v.car_model"></span>
 
         <div class="divider divider--dark"></div>
-
-        <ul class="list mt++">
             <li class="list-row list-row--multi-line list-row--has-separator">
                 <div class="list-row__primary" style="width:150px;">
-                    <img src="https://static.carrentals.com/avis/compact.gif" width="150" height="80">
+                    <img src="http://image.automobilemag.com/f/135520079+w660+h440+q80+re0+cr1+ar0+st0/furnace-red.png" width="150" height="80">
                 </div>
 
                 <div class="list-row__content">
                     <span class="display-block">Specs</span>
-                    <span class="display-block fs-body-1 tc-black-2">Secondary text Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam massa quam. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span>
+                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-account" ng-bind="v.seats + 'adults'"></i>
+                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-quadcopter" ng-bind="v.transmission"></i>
+                     <!-- <span ng-if="v.air_conditioned"></span> -->
+                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-fan" ng-if="v.air_conditioned">Airconed</i>
+                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-weight" ng-bind="v.trunk_capacity"></i>
+                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-speedometer" ng-bind="v.mileage + ' mileage'"></i>
+                     <br/>
+                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-calendar-today" ng-bind="v.age +'y/o'"></i>
+                    <!-- <span class="display-block fs-body-1 tc-black-2" ng-bind="v.location"></span> -->
                 </div>
 
                  <div class="list-row__content">
                     <span class="display-block">Vendor</span>
-                    <span class="display-block fs-body-1 tc-black-2">Secondary text Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam massa quam. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.vendor.id"></span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.location"></span>
                 </div>
 
                  <div class="list-row__content">
                     <span class="display-block">Pricing</span>
-                    <span class="display-block fs-body-1 tc-black-2">Secondary text Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam massa quam. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.price"></span>
+                    <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Rent this car" ng-click="home.model.rent()">
+                    <i class="mdi mdi-bookmark-check"></i>
+                    </button>
                 </div>
 
    <!--              <div class="list-row__secondary">
