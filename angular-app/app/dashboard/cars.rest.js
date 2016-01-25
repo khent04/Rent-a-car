@@ -29,6 +29,12 @@
       return $http.put(base + '/:'+ key, params);
     };
 
+    this.remove = function(params) {
+      // we cannot pass data in DELETE method, but we need to pass
+      // list of keys, so we'll be using put
+      return $http.put('/api/delete/cars', params);
+    }
+
     this.list_by_vendor = function(vendor){
       return $http.get('/api/vendor_cars/' + vendor);
     };

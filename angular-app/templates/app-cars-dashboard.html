@@ -31,13 +31,13 @@
 <table class="data-table">
   <thead>
     <tr>
+       <th>
+        <i class="mdi mdi-account"></i>
+        <span>Model</span>
+      </th>
       <th>
         <i class="mdi mdi-car"></i>
         <span>Seats</span>
-      </th>
-      <th>
-        <i class="mdi mdi-account"></i>
-        <span>Model</span>
       </th>
       <th>
         <i class="mdi mdi-coin"></i>
@@ -60,8 +60,13 @@
   </thead>
   <tbody ng-repeat="v in db.model.cars.items">
     <tr>
+      <td>
+        <div class="checkbox">
+        <input type="checkbox" id="{{v.car_model}}" class="checkbox__input" ng-click="db.model.choose(v.key.urlsafe)">
+        <label for="{{v.car_model}}" class="checkbox__label" ng-bind="v.car_model"></label>
+        </div>
+      </td>
       <td ng-bind="v.seats"></td>
-      <td ng-bind="v.car_model"></td>
       <td ng-bind="v.price"></td>
       <td ng-bind="v.transmission"></td>
       <td ng-if="!v.availability">Not Available</td>
@@ -72,7 +77,14 @@
     </tr>
   </tbody>
 </table>
+<br/>
+<div style="margin-left: 82%;">
+    <button class="btn btn--m btn--blue btn--raised" lx-ripple ng-click="db.model.remove()" ng-disabled="db.model.checker()">Delete <i class="mdi mdi-send"></i></button>
+</div>
 
+
+<br/>
+<br/>
 <div class="container">
   <div class="content">
     <div class="box">

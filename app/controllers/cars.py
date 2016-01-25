@@ -61,6 +61,14 @@ class Cars(Controller):
             deferred.defer(async_upload_user, item, vendor)
         return 200
 
+    @route_with('/api/delete/cars', methods=['PUT'])
+    # we cannot get data in DELETE method, but we need to get
+    # list of keys, so we'll be using put
+    def api_delete(self):
+        params = json.loads(self.request.body)
+        map(lambda key: self.util.decode_key(key).delete(), params)
+        return 200
+
 
 def async_upload_user(item, vendor):
     if vendor:

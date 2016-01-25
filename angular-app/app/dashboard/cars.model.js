@@ -31,9 +31,13 @@
     this.view = view;
     this.upload = upload;
     this.disable = true;
-    this.csv_filename = "Chosose a file";
+    this.csv_filename = "Choose a file";
     this.opendDialog = opendDialog;
     this.update = update;
+    this.choose = choose;
+    this.chosen = {};
+    this.checker = checker;
+    this.remove = remove;
 
     function account(){
       location.path('/account');
@@ -43,6 +47,38 @@
     function download_template(){
       window.location.href = '/users/xlsx';
 
+    }
+
+    function checker(){
+      var self = this;
+      if(Object.keys(self.chosen).length===0)
+        return true;
+      else
+        return false;
+    }
+
+     function choose(car){
+      var self = this;
+      if(car in self.chosen){
+        delete self.chosen[car];
+      }else{
+          self.chosen[car] = true;
+      }
+      console.info(self.chosen);
+
+    }
+
+    function remove(){
+      var self = this;
+      self.loading.watch(CarRest.remove(self.chosen))
+      .success(function(d){
+        console.info(d);
+        setTimeout(function(){
+          self.list_cars();
+          self.chosen = {};
+          LxNotificationService.info('Selected Cars removed!');
+        }, 500)
+      });
     }
 
 
@@ -97,6 +133,11 @@
         self.loading.watch(CarRest.update(self.selected_car.key.urlsafe, data))
         .success(function(d){
           console.log(d);
+          setTimeout(function(){
+          self.list_cars();
+          self.chosen = {};
+          LxDialogService.close('test');
+          }, 500)
         });
       }
 
@@ -124,6 +165,8 @@
       self.loading.watch($q.all(promises))
       .then(function(){
          LxNotificationService.success('Upload success!');
+         self.disable = true;
+         // self.csv_filename = "Choose a file";
       })
 
     }
@@ -153,6 +196,10 @@
       LxDialogService.open(dialogId);
 
     };
+
+    function closingDialog(){
+
+    }
 
 
     function isBusy() {
