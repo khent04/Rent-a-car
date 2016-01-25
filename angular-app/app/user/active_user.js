@@ -39,12 +39,26 @@
     this.oauth = oauth;
     this.vendor_login = vendor_login;
     this.account = account;
+    this.update = update;
     this.auth = auth;
     this.account_data;
     this.country = ["China", "India", "Japan", "Malaysia", "Myanmar", "Philippines", "Singapore", "South", "Thailand", "Vietnam"];
     this.fleet = ['0-50','50-100', '100-200', '200-500', '500+'];
-    this.dashboard = function(){
+    this.dashboard = dashboard;
+    this.to_account = to_account;
+    this.to_home = to_home;
+
+    function dashboard(){
       location.path('/dashboard');
+    }
+
+    function to_home(){
+      location.path('/home');
+
+    }
+
+    function to_account(){
+      location.path("/account");
     }
 
     this.vendor_request = vendor_request;
@@ -165,6 +179,7 @@
       auth.signout();
       store.remove('profile');
       store.remove('token');
+      location.path('/login');
 
     }
 
@@ -236,6 +251,23 @@
         }
       }
 
+    }
+
+    function update(){
+      var self = this;
+      console.log(self.account_data);
+      var data = {
+        first_name: self.account_data.first_name,
+        last_name: self.account_data.last_name,
+        contact_number: self.account_data.contact_number,
+        postal_code: self.account_data.postal_code,
+        user_type: self.account_data.user_type
+      };
+                self.loading.watch(UsersREST.update(self.account_data.email, data))
+          .success(function(d){
+          console.log(d);
+          LxNotificationService.success('Information Saved');
+          });
     }
 
     function opendDialog(dialogId) {

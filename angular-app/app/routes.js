@@ -25,6 +25,11 @@
                 controller: 'Dashboard',
                 controllerAs: 'db',
             })
+            .when('/home', {
+                templateUrl: '/ng/templates/app-renter-home.html',
+                controller: 'Home',
+                controllerAs: 'home',
+            })
 
         $locationProvider.html5Mode(false);
     }

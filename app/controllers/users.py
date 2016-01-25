@@ -41,7 +41,10 @@ class Users(Controller):
         if not user:
             return 404
         params = json.loads(self.request.body)
-        params['credentials'] = map(lambda x: self.util.decode_key(str(x).strip()), params['credentials'])
+        if 'user_type' in params:
+            if params['user_type'] != "Renter":
+                params['credentials'] = map(lambda x: self.util.decode_key(str(x).strip()), params['credentials'])
+            del params['user_type']
         user.update(**params)
         return 200
 

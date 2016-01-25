@@ -4,7 +4,6 @@ from ferris import messages
 from protopigeon.converters import Converter, KeyConverter, converters as default_converters
 
 
-
 class ReferenceToValueConverter(Converter):
     @staticmethod
     def to_message(Mode, property, field, value):
