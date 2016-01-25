@@ -38,6 +38,14 @@
     this.chosen = {};
     this.checker = checker;
     this.remove = remove;
+    this.upload_modal = upload_modal;
+    this.diag_close = diag_close;
+
+    function diag_close(){
+      var self = this;
+      self.csv_filename = "Choose a file";
+      self.disable = true;
+    }
 
     function account(){
       location.path('/account');
@@ -97,9 +105,14 @@
       self.loading.watch(CarRest.get(key))
       .success(function(d){
         self.selected_car = d;
-        self.opendDialog('test');
+        self.opendDialog('view');
       });
 
+    }
+
+    function upload_modal(){
+      var self = this;
+      self.opendDialog('upload');
     }
 
     function update(){
@@ -136,7 +149,7 @@
           setTimeout(function(){
           self.list_cars();
           self.chosen = {};
-          LxDialogService.close('test');
+          LxDialogService.close('view');
           }, 500)
         });
       }
@@ -164,9 +177,13 @@
 
       self.loading.watch($q.all(promises))
       .then(function(){
-         LxNotificationService.success('Upload success!');
-         self.disable = true;
-         // self.csv_filename = "Choose a file";
+        LxNotificationService.success('Upload success!');
+        self.disable = true;
+        setTimeout(function(){
+          self.list_cars();
+         self.csv_filename = "Choose a file";
+          LxDialogService.close('upload');
+          }, 500)
       })
 
     }

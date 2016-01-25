@@ -165,7 +165,8 @@ a:focus {
 }
 
 .box {
-	background-color: #dfc8ca;
+	/*background-color: #dfc8ca;*/
+	/*background-color: #607D8B;*/
 	padding: 6.25rem 1.25rem;
 }
 
