@@ -3,15 +3,13 @@ from app.models.user.renter import Renter
 from app.models.user.vendor import Vendor
 from ferris import Controller, route_with, messages, route
 from google.appengine.api import users
-import json
 from app.models.media_uploader import MediaUploader
 from google.appengine.ext import deferred
-# from google.appengine.api import mail
 from ferris.core import mail
 import logging
 import StringIO
 import xlsxwriter
-
+import json
 
 class Users(Controller):
     class Meta:
@@ -49,16 +47,17 @@ class Users(Controller):
 
     @route_with('/api/users/<email>', methods=['GET'])
     def api_get(self, email):
-        # self.context['data'] = User.get(email)
-        return self.util.stringify_json(User.get(email))
+        user = User.get(email, key_only=False)
+        if user._class_name() == 'Renter':
+            self.meta.Message = Renter.full_message()
+            self.meta.messaging_transform_function = Renter.transform_message
+        else:
+            return self.util.stringify_json(User.get(email))
+        self.context['data'] = user
 
     @route_with('/api/users', methods=['GET'])
     def api_list(self):
         self.context['data'] = User.query()
-
-    @route_with('/api/users/ken', methods=['GET'])
-    def ken(self):
-        return 200
 
     @route
     def xlsx(self):
