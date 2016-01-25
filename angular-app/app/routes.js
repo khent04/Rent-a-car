@@ -30,6 +30,11 @@
                 controller: 'Home',
                 controllerAs: 'home',
             })
+            .when('/bookings', {
+                templateUrl: '/ng/templates/app-bookings.html',
+                controller: 'Bookings',
+                controllerAs: 'bk',
+            })
 
         $locationProvider.html5Mode(false);
     }

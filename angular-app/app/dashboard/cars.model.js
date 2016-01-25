@@ -40,11 +40,16 @@
     this.remove = remove;
     this.upload_modal = upload_modal;
     this.diag_close = diag_close;
+    this.bookings = bookings;
 
     function diag_close(){
       var self = this;
       self.csv_filename = "Choose a file";
       self.disable = true;
+    }
+
+    function bookings(){
+      location.path('/bookings');
     }
 
     function account(){
