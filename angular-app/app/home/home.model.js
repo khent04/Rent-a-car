@@ -28,6 +28,7 @@
     this.diff_location = false;
     this.searchbox_show = true;
     this.search_results;
+    this.rent = rent;
     this.times = [
       "12:00AM", "12:30AM", "1:00AM","1:30AM","2:00AM","2:30AM","3:00AM","3:30AM","4:00AM","4:30AM","5:00AM","5:30AM","6:00AM",
       "6:30AM","7:00AM","7:30AM","8:00AM","8:30AM","9:00AM","9:30AM","10:00AM","10:30AM","11:00AM","11:30AM","12:00PM",
@@ -37,7 +38,7 @@
 
     function search(){
       var self = this;
-      if(self.query.location===undefined||self.query.location===""){
+      if(self.query.pickup_place===undefined||self.query.pickup_place===""){
         alert("Location required!");
       }else{
         self.loading.watch(HomeREST.search(self.query))
@@ -48,6 +49,24 @@
       })
       }
 
+    }
+
+    function rent(key){
+      var self = this;
+      var data = {
+        renter: store.get('profile').email,
+        pickup_place: self.query.pickup_place,
+        drop_location: self.query.drop_location,
+        pickup_date: self.query.pickup_date,
+        pickup_time: self.query.pickup_time,
+        dropoff_date: self.query.dropoff_date,
+        dropoff_time: self.query.dropoff_time,
+        // amount: self.query.price
+      };
+      self.loading.watch(HomeREST.reserve(key, data))
+      .success(function(d){
+        console.log(d);
+      });
     }
 
 

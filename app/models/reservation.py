@@ -9,18 +9,20 @@ class Reservation(BasicModel):
         search_index = ('global', )
 
     car = ndb.KeyProperty(kind='Car', required=True, indexed=True)
-    pickup_date = ndb.DateTimeProperty(required=True, indexed=False)
+    pickup_date = ndb.DateProperty(required=True, indexed=False)
+    pickup_time = ndb.StringProperty(required=True, indexed=False)
     pickup_place = ndb.StringProperty(required=True, indexed=False)
-    dropoff_date = ndb.DateTimeProperty(required=True, indexed=False)
-    dropoff_place = ndb.StringProperty(required=True, indexed=False)
-    renter = ndb.KeyProperty(kind='Renter', required=True, indexed=False)
+    dropoff_date = ndb.DateProperty(required=True, indexed=False)
+    dropoff_time = ndb.StringProperty(required=True, indexed=False)
+    drop_location = ndb.StringProperty(required=True, indexed=False)
+    renter = ndb.KeyProperty(kind='User', required=True, indexed=False)
     request_code = ndb.StringProperty(required=True, indexed=False)
     # to be sent via email/sms?
-    approved = ndb.BooleanProperty(default=False,, indexed=False)
+    approved = ndb.BooleanProperty(default=False, indexed=False)
     # to be approved by vendor
     amount = ndb.FloatProperty(required=True, indexed=False)
     # compute per day price accdg to pickupdate and droppoff date
-    cancelled = ndb.BooleanProperty(default=False,, indexed=False)
+    cancelled = ndb.BooleanProperty(default=False, indexed=False)
 
     @classmethod
     def create(cls, **params):

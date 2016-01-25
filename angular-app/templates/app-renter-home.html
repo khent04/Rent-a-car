@@ -40,7 +40,7 @@
         <div class="paragraph fs-body-1 mt+">
             <p>
               <lx-text-field label="Location" fixed-label="true" icon="map-marker">
-              <input type="text" ng-model="home.model.query.location" class="car_model">
+              <input type="text" ng-model="home.model.query.pickup_place" class="car_model">
               </lx-text-field>
 
               <div class="switch">
@@ -54,9 +54,9 @@
 
 
               <div class="mt+">
-                <lx-date-picker model="home.model.query.pickdate" label="Pick-Up Date" locale="en" fixed-label="true" icon="calendar"></lx-date-picker>
+                <lx-date-picker model="home.model.query.pickup_date" label="Pick-Up Date" locale="en" fixed-label="true" icon="calendar"></lx-date-picker>
 
-                <lx-select ng-model="home.model.query.picktime" placeholder="Pick-Up Time" choices="home.model.times" style="border-left: white 70px solid;">
+                <lx-select ng-model="home.model.query.pickup_time" placeholder="Pick-Up Time" choices="home.model.times" style="border-left: white 70px solid;">
                 <lx-select-selected>
                 {{ $selected }}
                 </lx-select-selected>
@@ -67,9 +67,9 @@
                 </lx-select>
 
 
-                <lx-date-picker model="home.model.query.dropdate" label="Drop-Off Date" locale="en" fixed-label="true" icon="calendar"></lx-date-picker>
+                <lx-date-picker model="home.model.query.dropoff_date" label="Drop-Off Date" locale="en" fixed-label="true" icon="calendar"></lx-date-picker>
 
-                <lx-select ng-model="home.model.query.droptime" placeholder="Drop-Off Time" choices="home.model.times" style="border-left: white 70px solid;">
+                <lx-select ng-model="home.model.query.dropoff_time" placeholder="Drop-Off Time" choices="home.model.times" style="border-left: white 70px solid;">
                 <lx-select-selected>
                 {{ $selected }}
                 </lx-select-selected>
@@ -137,7 +137,7 @@
                  <div class="list-row__content">
                     <span class="display-block">Pricing</span>
                     <span class="display-block fs-body-1 tc-black-2" ng-bind="v.price"></span>
-                    <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Rent this car" ng-click="home.model.rent()">
+                    <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Rent this car" ng-click="home.model.rent(v.key.urlsafe)">
                     <i class="mdi mdi-bookmark-check"></i>
                     </button>
                 </div>
