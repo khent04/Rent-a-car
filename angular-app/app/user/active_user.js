@@ -109,21 +109,8 @@
         };
 
         this.showCircularProgress = function(){
-          // LxProgressService.linear.show('primary', '#progress');
           LxProgressService.circular.show('primary', '#progress');
         };
-
-
-
-
-
-
-
-
-
-
-
-
 
     function activate(){
       var self = this;
@@ -148,7 +135,6 @@
       }
 
     }
-
 
     function social_login(Role) {
       var self = this;
@@ -181,7 +167,6 @@
       store.remove('token');
 
     }
-
 
     function vendor_login(){
       var self = this;
@@ -262,7 +247,6 @@
       // LxNotificationService.info('Dialog closed!');
 
     };
-
 
     function isBusy() {
       return !!this.loading._futures.length;

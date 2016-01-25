@@ -18,17 +18,11 @@ class Users(Controller):
         prefixes = ('api',)
         components = (messages.Messaging,)
         Model = User
+        Message = User.message()
 
-    # sample only
-    @route_with('/api/users/sample')
-    def api_create_sample(self):
-        params = {
-            "email": users.get_current_user().email(),
-            "contact_number": "9051873584",
-            "first_name": "ken",
-            "last_name": "estrella",
-            }
-        self.context["data"] = User.create(**params)
+    @staticmethod
+    def messaging_transform_function(entity, message, converters=None, only=None, exclude=None):
+        return User.car_message(entity, message)
 
     @route_with('/api/users/<role>', methods=['POST'])
     def api_add(self, role):
