@@ -30,9 +30,26 @@ class Cars(Controller):
     @route_with('/api/cars/:<key>', methods=['PUT'])
     def api_update(self, key):
         params = json.loads(self.request.body)
-        params['seats'] = int(params['seats'])
-        params['trunk_capacity'] = int(params['trunk_capacity'])
-        params['age'] = int(params['age'])
+        if 'seats' in params:
+            if params['seats']:
+                params['seats'] = int(params['seats'])
+        else:
+            params['seats'] = 0
+
+        if 'trunk_capacity' in params:
+            if params['trunk_capacity']:
+                params['trunk_capacity'] = int(params['trunk_capacity'])
+        else:
+            params['trunk_capacity'] = 0
+
+        if 'age' in params:
+            if params['age']:
+                params['age'] = int(params['age'])
+        else:
+            params['age'] = 0
+
+        params['price'] = float(params['price'])
+
         car = self.util.decode_key(key).get()
         car.update(**params)
         return 200

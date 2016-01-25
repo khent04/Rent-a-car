@@ -123,16 +123,18 @@
           <div class="mt++" flex-container="row" flex-gutter="23">
           <div flex-item>
             <form>
+              <span id="car_model" style="margin-left: 10%; font-size: 12px; color: red; visibility: hidden">Required</span>
               <lx-text-field label="Model" fixed-label="true" icon="car">
-              <input type="text" ng-model="db.model.selected_car.car_model">
+              <input type="text" ng-model="db.model.selected_car.car_model" class="car_model">
               </lx-text-field>
 
               <lx-text-field label="Seats" fixed-label="true" icon="account">
               <input type="number" ng-model="db.model.selected_car.seats">
               </lx-text-field>
 
+              <span id="price" style="margin-left: 10%; font-size: 12px; color: red; visibility: hidden">Required</span>
               <lx-text-field label="Price" fixed-label="true" icon="coin">
-              <input type="text" ng-model="db.model.selected_car.price">
+              <input type="text" ng-model="db.model.selected_car.price" class="price">
               </lx-text-field>
 
               <br/>
@@ -204,12 +206,12 @@
                 </div>
               </div>
 
-              <div class="checkbox">
-    <input type="checkbox" id="checkbox1" class="checkbox__input">
-    <label for="checkbox1" class="checkbox__label">Checkbox</label>
-</div>
+              <div class="checkbox" style="margin-left:10px;" ckbox>
+              <input type="checkbox" id="checkbox1" class="checkbox__input" ng-checked="db.model.selected_car.mileage==='Unlimited'">
+              <label for="checkbox1" class="checkbox__label">Unlimited Mileage</label>
+              </div>
 
-              <lx-text-field label="Mileage" fixed-label="true" icon="speedometer">
+              <lx-text-field label="Mileage" fixed-label="true" icon="speedometer" ng-hide="db.model.selected_car.mileage==='Unlimited'">
               <input type="text" ng-model="db.model.selected_car.mileage">
               </lx-text-field>
 
@@ -241,7 +243,7 @@
 
 <br/>
   <div class="dialog__actions">
-    <button class="btn btn--m btn--blue btn--raised" lx-ripple ng-click="db.model.update()">Update <i class="mdi mdi-send"></i></button>
+    <button class="btn btn--m btn--blue btn--raised" lx-ripple ng-click="db.model.update()" checker>Update <i class="mdi mdi-send"></i></button>
   </div>
 </lx-dialog>
 

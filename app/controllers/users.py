@@ -42,8 +42,6 @@ class Users(Controller):
             if role == "Vendor":
                 self.context["data"] = Vendor.create(**params)
 
-
-
     @route_with('/api/users/<email>', methods=['PUT', 'POST'])
     def api_update(self, email):
         user = User.get(email, key_only=False)

@@ -20,7 +20,6 @@
     angular.extend(this, active_user);
     LxProgressService.circular.show('primary', '#progress');
 
-
     this.loading = loading.new();
     this.isBusy = isBusy;
     this.activate = activate;
@@ -69,27 +68,38 @@
 
     function update(){
       var self = this;
-      var data = {
-        car_model: self.selected_car.car_model,
-        seats: self.selected_car.seats,
-        price: self.selected_car.price,
-        transmission: self.selected_car.transmission,
-        availability: self.selected_car.availability,
-        location: self.selected_car.location,
-        trunk_capacity: self.selected_car.trunk_capacity,
-        air_conditioned: self.selected_car.air_conditioned,
-        mileage: self.selected_car.mileage,
-        age: self.selected_car.age,
-      };
-      angular.forEach(data, function(val, key){
-        if(val===undefined)
-          delete data[key];
-      });
+      console.log(self.selected_car);
+      var count = 0;
+      if(self.selected_car.car_model===""||self.selected_car.car_model === undefined|| self.selected_car.car_model === null){
+        count++;
+      }
+      if(self.selected_car.price===""||self.selected_car.price === undefined|| self.selected_car.price === null){
+        count++;
+      }
+      if(count===0){
+        var data = {
+          car_model: self.selected_car.car_model,
+          seats: self.selected_car.seats,
+          price: self.selected_car.price,
+          transmission: self.selected_car.transmission,
+          availability: self.selected_car.availability,
+          location: self.selected_car.location,
+          trunk_capacity: self.selected_car.trunk_capacity,
+          air_conditioned: self.selected_car.air_conditioned,
+          mileage: self.selected_car.mileage,
+          age: self.selected_car.age,
+        };
+        // angular.forEach(data, function(val, key){
+        //   if(val===undefined||val==="")
+        //     data[key] = null;
+        // });
 
-      self.loading.watch(CarRest.update(self.selected_car.key.urlsafe, data))
-      .success(function(d){
-        console.log(d);
-      });
+        self.loading.watch(CarRest.update(self.selected_car.key.urlsafe, data))
+        .success(function(d){
+          console.log(d);
+        });
+      }
+
 
     }
 
