@@ -68,8 +68,9 @@
                 </div> -->
 
                  <div class="list-row__content">
-                    <span class="display-block">Pricing</span>
-                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.price"></span>
+                    <span class="display-block">Vendor</span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="'Company:' + v.company"></span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="'Amount: P' + v.amount"></span>
                     <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Rent this car" ng-click="rent.model.rent(v.key.urlsafe)">
                     <i class="mdi mdi-bookmark-check"></i>
                     </button>

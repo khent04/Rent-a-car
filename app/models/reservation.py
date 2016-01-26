@@ -106,6 +106,7 @@ class Reservation(BasicModel):
         field_dict['car'] = messages.StringField(count + 1, required=True)
         field_dict['renter'] = messages.StringField(count + 2, required=True)
         field_dict['vendor'] = messages.StringField(count + 3, required=True)
+        field_dict['company'] = messages.StringField(count + 4, required=True)
         return type('user_full_message', (messages.Message,), field_dict)
 
     @staticmethod
@@ -126,6 +127,7 @@ class Reservation(BasicModel):
             amount=entity.amount,
             cancelled=entity.cancelled,
             renter=entity.renter.get().email,
-            vendor=entity.car.get().vendor.get().email
+            vendor=entity.car.get().vendor.get().email,
+            company=entity.car.get().vendor.get().company
         )
 
