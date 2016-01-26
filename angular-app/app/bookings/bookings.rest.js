@@ -37,8 +37,8 @@
       return $http.put(base + '/:'+ key, params);
     };
 
-    this.batch_accept = function(params){
-      return $http.post(base + '/batch_accept', params);
+    this.batch_process = function(params, action){
+      return $http.post(base + '/batch_process/' + action, params);
     };
 
 

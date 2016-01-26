@@ -90,7 +90,7 @@
           self.list_cars();
           self.chosen = {};
           LxNotificationService.info('Selected Cars removed!');
-        }, 500)
+        }, 500);
       });
     }
 

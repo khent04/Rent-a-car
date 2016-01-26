@@ -33,7 +33,7 @@
     this.choose = choose;
     this.chosen = {};
     this.checker = checker;
-    this.batch_accept = batch_accept;
+    this.batch_process = batch_process;
 
     function activate(){
       var self = this;
@@ -60,7 +60,12 @@
       var data = {"rejected": true, "approved": false};
       self.loading.watch(BookingRest.update(key, data))
       .success(function(d){
-        console.log(d);
+        setTimeout(function(){
+          self.activate();
+          self.chosen = {};
+          LxDialogService.close('full_details');
+          LxNotificationService.info('Booking request rejected');
+        }, 1000);
       });
 
     }
@@ -70,7 +75,12 @@
       var data = {"approved": true, "rejected": false};
       self.loading.watch(BookingRest.update(key, data))
       .success(function(d){
-        console.log(d);
+        setTimeout(function(){
+          self.activate();
+          self.chosen = {};
+          LxDialogService.close('full_details');
+          LxNotificationService.info('Booking request approved');
+        }, 1000);
       });
 
     }
@@ -94,11 +104,15 @@
         return false;
     }
 
-    function batch_accept(){
+    function batch_process(action){
       var self = this;
-      self.loading.watch(BookingRest.batch_accept(self.chosen))
+      self.loading.watch(BookingRest.batch_process(self.chosen, action))
       .success(function(d){
-        console.log(d);
+        setTimeout(function(){
+          self.activate();
+          self.chosen = {};
+          LxNotificationService.info('Selected booking request ' + action);
+        }, 1000);
       });
     }
 

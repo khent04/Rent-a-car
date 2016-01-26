@@ -52,10 +52,14 @@ class Reservations(Controller):
         deferred.defer(send_mail, car, vendor, renter, request)
         return 200
 
-    @route_with('/api/reservations/batch_accept', methods=['POST'])
-    def api_batch_accept(self):
+    @route_with('/api/reservations/batch_process/<action>', methods=['POST'])
+    def api_batch_process(self, action):
         request_list = json.loads(self.request.body)
-        args = dict(approved=True, rejected=False)
+        if action == "approved":
+            args = dict(approved=True, rejected=False)
+        if action == "rejected":
+            args = dict(approved=False, rejected=True)
+
         map(lambda key: self.util.decode_key(key).get().update(**args), request_list)
         for key in request_list:
             request = self.util.decode_key(key).get()
