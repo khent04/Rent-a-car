@@ -41,23 +41,25 @@ class Reservations(Controller):
     def api_get(self, key):
         self.context['data'] = self.util.decode_key(key).get()
 
-    @route_with('/api/reservations/:<key>/<vendor>', methods=['PUT'])
-    def api_update(self, key, vendor):
+    @route_with('/api/reservations/:<key>', methods=['PUT'])
+    def api_update(self, key):
         params = json.loads(self.request.body)
         request = self.util.decode_key(key).get()
         request.update(**params)
-        car = self.util.decode_key(request.car.urlsafe()).get()
-        deferred.defer(send_mail, request, car, vendor)
+        car = request.car.get()
+        vendor = car.vendor.get()
+        renter = request.renter.get()
+        deferred.defer(send_mail, car, vendor, renter, request)
         return 200
 
 
 def code_generator():
     return str(uuid.uuid4())[0:8]
 
-def send_mail(request, car, vendor):
+def send_mail(car, vendor, renter, request):
     try:
-        renter = request.renter.id()
-        logging.info("Sending email to %s"%renter)
+        recipient = renter.email
+        logging.info("Sending email to %s"%recipient)
         subject = "CarE Rental Booking Status"
         template = """
         <table cellpadding="5">
@@ -78,12 +80,17 @@ def send_mail(request, car, vendor):
             </tr>
             </tbody>
         </table>
-        """ % (request.request_code, car.car_model, vendor, request.amount)
-        body = """Hi, <br><br>
+        <br>
+        Here is the contact details of the vendor:<br>
+        email: %s<br>
+        contact number: %s <br>
+        """ % (request.request_code, car.car_model, vendor.company, request.amount, vendor.email, vendor.contact_number)
+        body = """Hi %s, <br><br>
                       Your booking request was %s. <br>
                       Here are the details of transaction: <br><br>
-                      %s""" % ("approved" if request.rejected else "rejected", template)
-        mail.send(renter, subject, body)
+                      %s""" % (renter.first_name, "approved" if request.approved else "rejected", template)
+        mail.send(recipient, subject, body)
+        print body
     except Exception, e:
         logging.info("########-------->>>>>>")
         logging.info(str(e))

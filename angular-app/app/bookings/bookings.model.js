@@ -29,7 +29,7 @@
     this.opendDialog = opendDialog;
     this.closingDialog = closingDialog;
     this.reject_booking = reject_booking;
-    this.approve_booking = approve_booking;
+    this.accept_booking = accept_booking;
 
 
     function activate(){
@@ -54,8 +54,18 @@
 
     function reject_booking(key){
       var self = this;
-      var data = {"rejected": true};
-      self.loading.watch(BookingRest.update(key, store.get('profile').email, data))
+      var data = {"rejected": true, "approved": false};
+      self.loading.watch(BookingRest.update(key, data))
+      .success(function(d){
+        console.log(d);
+      });
+
+    }
+
+    function accept_booking(key){
+      var self = this;
+      var data = {"approved": true, "rejected": false};
+      self.loading.watch(BookingRest.update(key, data))
       .success(function(d){
         console.log(d);
       });

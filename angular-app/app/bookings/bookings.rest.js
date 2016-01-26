@@ -33,8 +33,8 @@
       return $http.get(base + '/:'+ key);
     };
 
-    this.update = function(key, vendor , params) {
-      return $http.put(base + '/:'+ key + '/' + vendor, params);
+    this.update = function(key, params) {
+      return $http.put(base + '/:'+ key, params);
     };
 
 
