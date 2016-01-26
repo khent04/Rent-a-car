@@ -52,6 +52,19 @@ class Reservations(Controller):
         deferred.defer(send_mail, car, vendor, renter, request)
         return 200
 
+    @route_with('/api/reservations/batch_accept', methods=['POST'])
+    def api_batch_accept(self):
+        request_list = json.loads(self.request.body)
+        args = dict(approved=True, rejected=False)
+        map(lambda key: self.util.decode_key(key).get().update(**args), request_list)
+        for key in request_list:
+            request = self.util.decode_key(key).get()
+            car = request.car.get()
+            vendor = car.vendor.get()
+            renter = request.renter.get()
+            deferred.defer(send_mail, car, vendor, renter, request)
+        return 200
+
 
 def code_generator():
     return str(uuid.uuid4())[0:8]

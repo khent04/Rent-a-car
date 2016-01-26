@@ -84,8 +84,14 @@
 <br/>
 
 <div class="dialog__actions" style="margin-right: 5%;">
-  <button class="btn btn--xl btn--blue btn--fab" lx-ripple ng-click="db.model.upload_modal()"><i class="mdi mdi-plus"></i></button>
-  <button class="btn btn--xl btn--red btn--fab" lx-ripple ng-click="db.model.remove()" ng-disabled="db.model.checker()"><i class="mdi mdi-delete"></i></button>
+    <button class="btn btn--l btn--grey btn--raised" lx-ripple ng-click="bk.model.batch_reject()"
+      lx-tooltip="Reject booking" ng-disabled="bk.model.checker()">
+      <i class="mdi mdi-close-box-outline"></i>
+    </button>
+    <button class="btn btn--l btn--blue btn--raised" lx-ripple ng-click="bk.model.batch_accept()"
+      lx-tooltip="Accept booking" ng-disabled="bk.model.checker()">
+      <i class="mdi mdi-checkbox-marked-circle-outline"></i>
+    </button>
 </div>
 
 

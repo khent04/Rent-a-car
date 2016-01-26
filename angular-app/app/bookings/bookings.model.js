@@ -30,7 +30,10 @@
     this.closingDialog = closingDialog;
     this.reject_booking = reject_booking;
     this.accept_booking = accept_booking;
-
+    this.choose = choose;
+    this.chosen = {};
+    this.checker = checker;
+    this.batch_accept = batch_accept;
 
     function activate(){
       var self = this;
@@ -72,8 +75,31 @@
 
     }
 
-    function approve_booking(){
+    function choose(car){
+      var self = this;
+      if(car in self.chosen){
+        delete self.chosen[car];
+      }else{
+          self.chosen[car] = true;
+      }
+      console.info(self.chosen);
 
+    }
+
+    function checker(){
+      var self = this;
+      if(Object.keys(self.chosen).length===0)
+        return true;
+      else
+        return false;
+    }
+
+    function batch_accept(){
+      var self = this;
+      self.loading.watch(BookingRest.batch_accept(self.chosen))
+      .success(function(d){
+        console.log(d);
+      });
     }
 
     function opendDialog(dialogID){
