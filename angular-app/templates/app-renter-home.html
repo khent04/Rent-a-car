@@ -97,11 +97,8 @@
 
 
 
-
-
 <div class="card" style="width: 60%; margin-left: 30%;" ng-hide="home.model.searchbox_show">
 
-<!-- {{home.model.search_results}} -->
 
     <div flex-item="6" class="mt++">
         <!-- <span class="fs-title display-block mb">&nbsp;&nbsp;Display Category | Car Model here</span> -->
@@ -118,14 +115,13 @@
                 <div class="list-row__content">
                     <span class="display-block">Specs</span>
                      <i class="icon icon--xs icon--grey icon--flat mdi mdi-account" ng-bind="v.seats + 'adults'"></i>
-                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-quadcopter" ng-bind="v.transmission"></i>
+                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-quadcopter" ng-if="v.transmission" ng-bind="v.transmission"></i>
                      <!-- <span ng-if="v.air_conditioned"></span> -->
                      <i class="icon icon--xs icon--grey icon--flat mdi mdi-fan" ng-if="v.air_conditioned">Airconed</i>
-                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-weight" ng-bind="v.trunk_capacity"></i>
-                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-speedometer" ng-bind="v.mileage + ' mileage'"></i>
+                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-weight" ng-if="v.trunk_capacity" ng-bind="v.trunk_capacity"></i>
+                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-speedometer" ng-if="v.mileage" ng-bind="v.mileage + ' mileage'"></i>
                      <br/>
-                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-calendar-today" ng-bind="v.age +'y/o'"></i>
-                    <!-- <span class="display-block fs-body-1 tc-black-2" ng-bind="v.location"></span> -->
+                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-calendar-today" ng-if="v.age" ng-bind="v.age +'y/o'"></i>
                 </div>
 
                  <div class="list-row__content">

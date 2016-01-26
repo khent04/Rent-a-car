@@ -34,16 +34,16 @@ class Users(Controller):
             if role == "Vendor":
                 self.context["data"] = Vendor.create(**params)
 
-    @route_with('/api/users/<email>', methods=['PUT', 'POST'])
+    @route_with('/api/users/<email>', methods=['PUT'])
     def api_update(self, email):
         user = User.get(email, key_only=False)
         # id is the email, remember we made the email unique id
         if not user:
             return 404
         params = json.loads(self.request.body)
-        if 'user_type' in params:
-            if params['user_type'] != "Renter":
-                params['credentials'] = map(lambda x: self.util.decode_key(str(x).strip()), params['credentials'])
+        if 'user_type' not in params:
+            params['credentials'] = map(lambda x: self.util.decode_key(str(x).strip()), params['credentials'])
+        else:
             del params['user_type']
         user.update(**params)
         return 200

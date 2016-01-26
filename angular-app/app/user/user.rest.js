@@ -29,10 +29,6 @@
       return $http.put(base + '/' + email, params);
     };
 
-    this.ken = function(){
-      return $http.get(base + '/ken');
-    };
-
   }
 
 })(window.angular);
