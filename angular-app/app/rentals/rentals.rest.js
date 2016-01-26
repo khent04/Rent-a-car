@@ -11,27 +11,12 @@
 
   function rentalREST($http) {
 
-    var base = '/api/reservations';
+    var base = '/api/rentals';
 
-    this.list = function() {
-      return $http.get(base);
+    this.list = function(params) {
+      return $http.get(base + '/' + params);
     };
 
-    this.reserve = function(key, params){
-      return $http.post(base + key, params);
-    };
-
-    this.pending_list = function(){
-      return $http.get(base + '/pending');
-    }
-
-    this.get = function(key) {
-      return $http.get(base + '/:'+ key);
-    };
-
-    this.update = function(key, params) {
-      return $http.put(base + '/:'+ key, params);
-    };
 
 
 

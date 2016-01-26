@@ -19,12 +19,65 @@
 
           <lx-dropdown-menu>
             <ul>
-              <li><a class="dropdown-link" ng-click="bk.model.bookings()">Booking Requests</a></li>
-              <li><a class="dropdown-link" ng-click="bk.model.account()">Account</a></li>
-              <li><a class="dropdown-link" ng-click="bk.model.download_template()">Download File template</a></li>
+              <li><a class="dropdown-link" ng-click="rent.model.to_home()">Home</a></li>
+              <li><a class="dropdown-link" ng-click="rent.model.to_account()">Account</a></li>
+              <li class="dropdown-divider"></li>
+              <li><a class="dropdown-link" ng-click="rent.model.social_logout()">Log Out</a></li>
             </ul>
           </lx-dropdown-menu>
       </lx-dropdown>
     </div>
   </div>
 </div>
+
+
+<div class="card" style="width: 60%; margin-left: 30%;">
+
+
+    <div flex-item="6" class="mt++">
+
+        <ul class="list mt++" ng-repeat="v in rent.model.rentals.items">
+        <span class="fs-title display-block mb" ng-bind="'&nbsp;&nbsp;&nbsp;'+ v.car_model"></span>
+
+        <div class="divider divider--dark"></div>
+            <li class="list-row list-row--multi-line list-row--has-separator">
+                <div class="list-row__primary" style="width:150px;">
+                    <img src="http://image.automobilemag.com/f/135520079+w660+h440+q80+re0+cr1+ar0+st0/furnace-red.png" width="150" height="80">
+                </div>
+
+                <div class="list-row__content">
+                    <span class="display-block">Pick-Up</span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="'Place: ' + v.pickup_place"></span>
+                    <span class="display-block fs-body-1 tc-black-2"
+                      ng-bind="'Date: ' + v.pickup_date.month + '/' + v.pickup_date.day + '/' + v.pickup_date.year"></span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="'Time: ' + v.pickup_time"></span>
+
+                    <span class="display-block">Drop-off</span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="'Place: ' + v.drop_location"></span>
+                    <span class="display-block fs-body-1 tc-black-2"
+                      ng-bind="'Date: ' + v.dropoff_date.month + '/' + v.dropoff_date.day + '/' + v.dropoff_date.year"></span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="'Time: ' + v.dropoff_time"></span>
+
+
+                </div>
+
+<!--                  <div class="list-row__content">
+                    <span class="display-block">Vendor</span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.vendor.id"></span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.location"></span>
+                </div> -->
+
+                 <div class="list-row__content">
+                    <span class="display-block">Pricing</span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.price"></span>
+                    <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Rent this car" ng-click="rent.model.rent(v.key.urlsafe)">
+                    <i class="mdi mdi-bookmark-check"></i>
+                    </button>
+                </div>
+
+   <!--              <div class="list-row__secondary">
+                    <i class="icon icon--xs icon--grey icon--flat mdi mdi-information"></i>
+                </div> -->
+            </li>
+        </ul>
+    </div>

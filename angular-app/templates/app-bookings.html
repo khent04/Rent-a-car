@@ -67,11 +67,11 @@
       <td>
         <div class="checkbox">
         <input type="checkbox" id="{{v.car.id}}" class="checkbox__input" ng-click="bk.model.choose(v.key.urlsafe)">
-        <label for="{{v.car.id}}" class="checkbox__label" ng-bind="v.renter.id"></label>
+        <label for="{{v.car.id}}" class="checkbox__label" ng-bind="v.renter"></label>
         </div>
       </td>
       <td ng-bind="v.seats"></td>
-      <td ng-bind="v.car.id"></td>
+      <td ng-bind="v.car"></td>
       <td ng-bind="v.pickup_place"></td>
       <td ng-bind="v.pickup_date.month + '/' + v.pickup_date.day + '/' + v.pickup_date.year"></td>
       <td ng-bind="v.pickup_time"></td>
@@ -126,11 +126,11 @@
       <div flex-item>
         <form>
           <lx-text-field label="Seats" fixed-label="true" icon="account">
-          <input type="text" ng-model="bk.model.selected_.renter.id" disabled>
+          <input type="text" ng-model="bk.model.selected_.renter" disabled>
           </lx-text-field>
 
           <lx-text-field label="Seats" fixed-label="true" icon="car">
-          <input type="text" ng-model="bk.model.selected_.car.id" disabled>
+          <input type="text" ng-model="bk.model.selected_.car" disabled>
           </lx-text-field>
 
           <lx-text-field label="Seats" fixed-label="true" icon="map-marker">

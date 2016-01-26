@@ -23,12 +23,29 @@
     this.loading = loading.new();
     this.isBusy = isBusy;
     this.activate = activate;
+    this.to_home = to_home;
+    this.to_account = to_account;
     this.opendDialog = opendDialog;
     this.closingDialog = closingDialog;
+    this.rentals;
+
 
     function activate(){
       var self = this;
+      self.loading.watch(RentalREST.list(store.get('profile').email))
+      .success(function(d){
+        self.rentals = d;
+        console.log(d);
+      });
 
+    }
+
+    function to_home(){
+      location.path('/home');
+    }
+
+    function to_account(){
+      location.path("/account");
     }
 
     function opendDialog(dialogID){
@@ -48,3 +65,5 @@
   }
 
 })(window.angular);
+
+

@@ -16,6 +16,11 @@ class Reservations(Controller):
         prefixes = ('api',)
         components = (messages.Messaging,)
         Model = Reservation
+        Message = Reservation.message()
+
+    @staticmethod
+    def messaging_transform_function(entity, message, converters=None, only=None, exclude=None):
+        return User.car_message(entity, message)
 
     @route_with('/api/reservations/:<key>', methods=['POST'])
     def api_reserve(self, key):
@@ -33,12 +38,16 @@ class Reservations(Controller):
     def api_list(self):
         lis = Reservation.list(False)
         if lis:
+            self.meta.Message = Reservation.full_message()
+            self.meta.messaging_transform_function = Reservation.transform_message
             self.context['data'] = lis
         else:
             return 200
 
     @route_with('/api/reservations/:<key>', methods=['GET'])
     def api_get(self, key):
+        self.meta.Message = Reservation.full_message()
+        self.meta.messaging_transform_function = Reservation.transform_message
         self.context['data'] = self.util.decode_key(key).get()
 
     @route_with('/api/reservations/:<key>', methods=['PUT'])
@@ -68,6 +77,15 @@ class Reservations(Controller):
             renter = request.renter.get()
             deferred.defer(send_mail, car, vendor, renter, request)
         return 200
+
+    # for renter rentals
+    @route_with('/api/rentals/<email>', methods=['GET'])
+    def api_rentals_list(self, email):
+        renter = User.get(email, key_only=True)
+        data =  Reservation.rentals(renter).fetch()
+        self.meta.Message = Reservation.full_message()
+        self.meta.messaging_transform_function = Reservation.transform_message
+        self.context['data'] = data
 
 
 def code_generator():
