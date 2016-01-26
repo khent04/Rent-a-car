@@ -53,5 +53,6 @@ class Car(BasicModel):
 
     @classmethod
     def basic_search(cls, params):
-        query = cls.query(cls.location == params['pickup_place'].lower(), cls.availability == True)
-        return query.fetch()
+        query = cls.query(cls.availability == True).fetch()
+        query = [x for x in query if params['pickup_place'].lower() in x.location or x.location in [y for y in params['pickup_place'].lower().split(" ")]]
+        return query
