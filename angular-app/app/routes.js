@@ -35,6 +35,11 @@
                 controller: 'Bookings',
                 controllerAs: 'bk',
             })
+            .when('/my_rentals', {
+                templateUrl: '/ng/templates/app-rentals.html',
+                controller: 'Rentals',
+                controllerAs: 'rent',
+            })
 
         $locationProvider.html5Mode(false);
     }

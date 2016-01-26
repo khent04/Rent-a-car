@@ -47,6 +47,7 @@
     this.dashboard = dashboard;
     this.to_account = to_account;
     this.to_home = to_home;
+    this.to_my_rentals = to_my_rentals;
 
     function dashboard(){
       location.path('/dashboard');
@@ -59,6 +60,10 @@
 
     function to_account(){
       location.path("/account");
+    }
+
+    function to_my_rentals(){
+      location.path("/my_rentals");
     }
 
     this.vendor_request = vendor_request;
