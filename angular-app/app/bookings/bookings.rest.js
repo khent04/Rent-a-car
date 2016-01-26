@@ -11,7 +11,7 @@
 
   function bookingRest($http) {
 
-    var base = '/api/home';
+    var base = '/api/reservations';
 
     this.list = function() {
       return $http.get(base);
@@ -22,8 +22,20 @@
     };
 
     this.reserve = function(key, params){
-      return $http.post('/api/reservations/' + key, params);
+      return $http.post(base + key, params);
+    };
+
+    this.pending_list = function(){
+      return $http.get(base + '/pending');
     }
+
+    this.get = function(key) {
+      return $http.get(base + '/:'+ key);
+    };
+
+    this.update = function(key, vendor , params) {
+      return $http.put(base + '/:'+ key + '/' + vendor, params);
+    };
 
 
 

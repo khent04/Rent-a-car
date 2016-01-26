@@ -23,11 +23,54 @@
     this.loading = loading.new();
     this.isBusy = isBusy;
     this.activate = activate;
-
-
+    this.pending_requests;
+    this.view = view;
+    this.selected_;
+    this.opendDialog = opendDialog;
+    this.closingDialog = closingDialog;
+    this.reject_booking = reject_booking;
+    this.approve_booking = approve_booking;
 
 
     function activate(){
+      var self = this;
+      self.loading.watch(BookingRest.pending_list())
+      .success(function(d){
+        console.log(d);
+        self.pending_requests = d;
+      });
+    }
+
+    function view(key){
+      var self = this;
+      self.loading.watch(BookingRest.get(key))
+      .success(function(d){
+        console.log(d);
+        self.selected_ = d;
+        self.opendDialog('full_details');
+      });
+
+    }
+
+    function reject_booking(key){
+      var self = this;
+      var data = {"rejected": true};
+      self.loading.watch(BookingRest.update(key, store.get('profile').email, data))
+      .success(function(d){
+        console.log(d);
+      });
+
+    }
+
+    function approve_booking(){
+
+    }
+
+    function opendDialog(dialogID){
+      LxDialogService.open(dialogID);
+    }
+
+    function closingDialog(){
 
     }
 

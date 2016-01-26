@@ -18,7 +18,8 @@ class Reservation(BasicModel):
     renter = ndb.KeyProperty(kind='User', required=True, indexed=False)
     request_code = ndb.StringProperty(required=True, indexed=False)
     # to be sent via email/sms?
-    approved = ndb.BooleanProperty(default=False, indexed=False)
+    approved = ndb.BooleanProperty(default=False, indexed=True)
+    rejected = ndb.BooleanProperty(default=False, indexed=True)
     # to be approved by vendor
     amount = ndb.FloatProperty(required=True, indexed=False)
     # compute per day price accdg to pickupdate and droppoff date
@@ -43,3 +44,7 @@ class Reservation(BasicModel):
         if key_only:
             return key if ret else None
         return ret
+
+    @classmethod
+    def list(cls, approved):
+        return cls.query(cls.approved == approved, cls.rejected == False).fetch()

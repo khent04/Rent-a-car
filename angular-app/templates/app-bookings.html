@@ -19,9 +19,9 @@
 
           <lx-dropdown-menu>
             <ul>
-              <li><a class="dropdown-link" ng-click="db.model.bookings()">Booking Requests</a></li>
-              <li><a class="dropdown-link" ng-click="db.model.account()">Account</a></li>
-              <li><a class="dropdown-link" ng-click="db.model.download_template()">Download File template</a></li>
+              <li><a class="dropdown-link" ng-click="bk.model.bookings()">Booking Requests</a></li>
+              <li><a class="dropdown-link" ng-click="bk.model.account()">Account</a></li>
+              <li><a class="dropdown-link" ng-click="bk.model.download_template()">Download File template</a></li>
             </ul>
           </lx-dropdown-menu>
       </lx-dropdown>
@@ -34,24 +34,27 @@
     <tr>
        <th>
         <i class="mdi mdi-account"></i>
-        <span>Model</span>
+        <span>Renter</span>
+      </th>
+      <th>
+        <div></div>
       </th>
       <th>
         <i class="mdi mdi-car"></i>
-        <span>Seats</span>
+        <span>Car</span>
       </th>
       <th>
-        <i class="mdi mdi-coin"></i>
-        <span>Price</span>
+        <i class="mdi mdi-map-marker"></i>
+        <span>Pick-up Location</span>
       </th>
       <th>
-        <i class="mdi mdi-quadcopter"></i>
-        <span>Transmission</span>
+        <i class="mdi mdi-calendar-today"></i>
+        <span>Pick-up Date</span>
       </th>
 
       <th>
-        <i class="mdi mdi-alert-circle"></i>
-        <span>Availability</span>
+        <i class="mdi mdi-calendar-clock"></i>
+        <span>Pick-up Time</span>
       </th>
       <th>
         <i class="mdi mdi-format-list-bulleted"></i>
@@ -59,20 +62,20 @@
       </th>
     </tr>
   </thead>
-  <tbody ng-repeat="v in db.model.cars.items">
+  <tbody ng-repeat="v in bk.model.pending_requests.items">
     <tr>
       <td>
         <div class="checkbox">
-        <input type="checkbox" id="{{v.car_model}}" class="checkbox__input" ng-click="db.model.choose(v.key.urlsafe)">
-        <label for="{{v.car_model}}" class="checkbox__label" ng-bind="v.car_model"></label>
+        <input type="checkbox" id="{{v.car.id}}" class="checkbox__input" ng-click="bk.model.choose(v.key.urlsafe)">
+        <label for="{{v.car.id}}" class="checkbox__label" ng-bind="v.renter.id"></label>
         </div>
       </td>
       <td ng-bind="v.seats"></td>
-      <td ng-bind="v.price"></td>
-      <td ng-bind="v.transmission"></td>
-      <td ng-if="!v.availability">Not Available</td>
-      <td ng-if="v.availability">Available</td>
-      <td ng-click="db.model.view(v.key.urlsafe)" style="cursor: pointer"><i class="mdi mdi-file-multiple"></i>
+      <td ng-bind="v.car.id"></td>
+      <td ng-bind="v.pickup_place"></td>
+      <td ng-bind="v.pickup_date.month + '/' + v.pickup_date.day + '/' + v.pickup_date.year"></td>
+      <td ng-bind="v.pickup_time"></td>
+      <td ng-click="bk.model.view(v.key.urlsafe)" style="cursor: pointer"><i class="mdi mdi-file-multiple"></i>
       <span>View</span>
       </td>
     </tr>
@@ -90,171 +93,20 @@
 <br/>
 
 
-<div class="loader-overlay" loading="db.model.loading">
+<div class="loader-overlay" loading="bk.model.loading">
   <div id="progress" class="prog-overlay">
   </div>
 </div>
 
 
 
-<!-- modal / dialog for view cars-->
-<lx-dialog class="dialog dialog--l" id="view" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">
+<!-- modal for full details -->
+<lx-dialog class="dialog dialog--l" id="full_details" auto-close="true" onclose="bk.model.closingDialog()" onscrollend="scrollEndDialog()">
   <div class="dialog__header">
     <div class="toolbar bgc-light-blue-500 pl++">
       <span class="toolbar__label tc-white fs-title">
-        Full details
+        Renter
       </span>
-
-
-      <div class="toolbar__right">
-          <button class="btn btn--l btn--white btn--icon" lx-ripple lx-dialog-close>
-            <i class="mdi mdi-close"></i>
-          </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="dialog__content">
-   <lx-tabs links-tc="light" links-bgc="light-blue-500" indicator="yellow-500" no-divider="true" layout="inline">
-      <lx-tab heading="Specifications">
-        <div class="p++">
-
-          <div style="border-left: white 50px solid; border-right: white 50px solid;">
-          <div class="mt++" flex-container="row" flex-gutter="23">
-          <div flex-item>
-            <form>
-              <span id="car_model" style="margin-left: 10%; font-size: 12px; color: red; visibility: hidden">Required</span>
-              <lx-text-field label="Model" fixed-label="true" icon="car">
-              <input type="text" ng-model="db.model.selected_car.car_model" class="car_model">
-              </lx-text-field>
-
-              <lx-text-field label="Seats" fixed-label="true" icon="account">
-              <input type="number" ng-model="db.model.selected_car.seats">
-              </lx-text-field>
-
-              <span id="price" style="margin-left: 10%; font-size: 12px; color: red; visibility: hidden">Required</span>
-              <lx-text-field label="Price" fixed-label="true" icon="coin">
-              <input type="text" ng-model="db.model.selected_car.price" class="price">
-              </lx-text-field>
-
-              <br/>
-              <div>&nbsp;
-              <i class="mdi mdi-quadcopter"></i>
-              <span>&nbsp;Transmission</span>
-              </div>
-              <div class="flex-container">
-                <div class="flex-item radio-button">
-                  <input type="radio" id="radio_auto" name="radio_grp1"
-                  ng-model="db.model.selected_car.transmission"
-                  value="Automatic" class="radio-button__input">
-                  <label for="radio_auto" class="radio-button__label">Automatic</label>
-                </div>
-                <div class="flex-item radio-button">
-                  <input type="radio" id="radio_manual" name="radio_grp1"
-                  ng-model="db.model.selected_car.transmission"
-                  value="Manual" class="radio-button__input">
-                  <label for="radio_manual" class="radio-button__label">Manual</label>
-                </div>
-              </div>
-
-              <br/>
-              <div>&nbsp;
-              <i class="mdi mdi-alert-circle"></i>
-              <span>&nbsp;Availability</span>
-              </div>
-              <div class="flex-container">
-                <div class="flex-item radio-button">
-                  <input type="radio" id="radio_available" name="radio_grp2"
-                  ng-model="db.model.selected_car.availability"
-                  ng-value="true" class="radio-button__input">
-                  <label for="radio_available" class="radio-button__label">Available</label>
-                </div>
-                <div class="flex-item radio-button">
-                  <input type="radio" id="radio_notavail" name="radio_grp2"
-                  ng-model="db.model.selected_car.availability"
-                  ng-value="false" class="radio-button__input">
-                  <label for="radio_notavail" class="radio-button__label">Not available</label>
-                </div>
-              </div>
-
-              <lx-text-field label="Location" fixed-label="true" icon="map-marker">
-              <input type="text" ng-model="db.model.selected_car.location">
-              </lx-text-field>
-
-              <lx-text-field label="Trunk Capacity" fixed-label="true" icon="weight">
-              <input type="text" ng-model="db.model.selected_car.trunk_capacity">
-              </lx-text-field>
-
-              <!-- <p class="p++">Air Conditioned</p> -->
-              <br/>
-              <div>&nbsp;
-              <i class="mdi mdi-fan"></i>
-              <span>&nbsp;Air Conditioned</span>
-              </div>
-              <div class="flex-container">
-                <div class="flex-item radio-button">
-                  <input type="radio" id="radio_yes" name="radio_grp3"
-                  ng-model="db.model.selected_car.air_conditioned"
-                  ng-value="true" class="radio-button__input">
-                  <label for="radio_yes" class="radio-button__label">Yes</label>
-                </div>
-                <div class="flex-item radio-button">
-                  <input type="radio" id="radio_no" name="radio_grp3"
-                  ng-model="db.model.selected_car.air_conditioned"
-                  ng-value="false" class="radio-button__input">
-                  <label for="radio_no" class="radio-button__label">No</label>
-                </div>
-              </div>
-
-              <div class="checkbox" style="margin-left:10px;" ckbox>
-              <input type="checkbox" id="checkbox1" class="checkbox__input" ng-checked="db.model.selected_car.mileage==='Unlimited'">
-              <label for="checkbox1" class="checkbox__label">Unlimited Mileage</label>
-              </div>
-
-              <lx-text-field label="Mileage" fixed-label="true" icon="speedometer" ng-hide="db.model.selected_car.mileage==='Unlimited'">
-              <input type="text" ng-model="db.model.selected_car.mileage">
-              </lx-text-field>
-
-              <lx-text-field label="Age" fixed-label="true" icon="calendar-today">
-              <input type="number" ng-model="db.model.selected_car.age">
-              </lx-text-field>
-
-              </form>
-          </div>
-          </div>
-          </div>
-        </div>
-      </lx-tab>
-
-       <lx-tab heading="Model Image">
-                <div class="p+">
-                    <p>Lorem Ipsum Content 2</p>
-
-                    <lx-text-field label="Description">
-                        <textarea ng-model="textFields.description"></textarea>
-                    </lx-text-field>
-                </div>
-            </lx-tab>
-
-    </lx-tabs>
-  </div>
-
-
-
-<br/>
-  <div class="dialog__actions">
-    <button class="btn btn--m btn--blue btn--raised" lx-ripple ng-click="db.model.update()" checker>Update <i class="mdi mdi-send"></i></button>
-  </div>
-</lx-dialog>
-
-<!-- modal for upload -->
-<lx-dialog class="dialog dialog--l" id="upload" auto-close="false" onclose="db.model.closingDialog()" onscrollend="scrollEndDialog()">
-  <div class="dialog__header">
-    <div class="toolbar bgc-light-blue-500 pl++">
-      <span class="toolbar__label tc-white fs-title">
-        Car Uploader
-      </span>
-
       <div class="toolbar__right">
           <button class="btn btn--l btn--white btn--icon" lx-ripple lx-dialog-close ng-click="db.model.diag_close()">
             <i class="mdi mdi-close"></i>
@@ -263,22 +115,72 @@
     </div>
   </div>
 
-  <div class="dialog__content">
-    <div class="container">
-  <div class="content">
-    <div class="box">
-      <input type="file" name="file-5[]" id="file-5" class="inputfile inputfile-4" accept=".csv" quired>
-        <label for="file-5"><figure><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg></figure>
-        <span ng-bind="db.model.csv_filename"></span>
-        </label>
-      <div>
-      <button class="btn btn--m btn--blue btn--raised" lx-ripple ng-click="db.model.upload()" ng-disabled="db.model.disable">Upload <i class="mdi mdi-cloud-upload"></i></button>
+  <div style="border-left: white 50px solid; border-right: white 50px solid;">
+    <div class="mt++" flex-container="row" flex-gutter="23">
+      <div flex-item>
+        <form>
+          <lx-text-field label="Seats" fixed-label="true" icon="account">
+          <input type="text" ng-model="bk.model.selected_.renter.id" disabled>
+          </lx-text-field>
+
+          <lx-text-field label="Seats" fixed-label="true" icon="car">
+          <input type="text" ng-model="bk.model.selected_.car.id" disabled>
+          </lx-text-field>
+
+          <lx-text-field label="Seats" fixed-label="true" icon="map-marker">
+          <input type="text" ng-model="bk.model.selected_.pickup_place" disabled>
+          </lx-text-field>
+
+          <div>&nbsp;
+            <i class="icon icon--s icon--grey icon--flat mdi mdi-calendar-today"></i>
+            <span style="margin-left:3%"
+              ng-bind="bk.model.selected_.pickup_date.month + '/' + bk.model.selected_.pickup_date.day + '/' + bk.model.selected_.pickup_date.year">
+              </span>
+          </div>
+
+          <lx-text-field label="Seats" fixed-label="true" icon="calendar-clock">
+          <input type="text" ng-model="bk.model.selected_.pickup_time" disabled>
+          </lx-text-field>
+
+          <lx-text-field label="Seats" fixed-label="true" icon="map-marker-circle">
+          <input type="text" ng-model="bk.model.selected_.drop_location" disabled>
+          </lx-text-field>
+
+          <div>&nbsp;
+            <i class="icon icon--s icon--grey icon--flat mdi mdi-calendar-check"></i>
+            <span style="margin-left:3%"
+              ng-bind="bk.model.selected_.dropoff_date.month + '/' + bk.model.selected_.dropoff_date.day + '/' + bk.model.selected_.dropoff_date.year">
+              </span>
+          </div>
+
+          <lx-text-field label="Drop-off Tinme" fixed-label="true" icon="calendar-clock">
+          <input type="text" ng-model="bk.model.selected_.dropoff_time" disabled>
+          </lx-text-field>
+
+          <lx-text-field label="Total Amount" fixed-label="true" icon="coin">
+          <input type="text" ng-model="bk.model.selected_.amount" disabled>
+          </lx-text-field>
+
+          <lx-text-field label="Request Code" fixed-label="true" icon="qrcode">
+          <input type="text" ng-model="bk.model.selected_.request_code" disabled>
+          </lx-text-field>
+
+        </form>
+
+
       </div>
     </div>
   </div>
-</div>
-  </div>
+  <br/>
 
+  <div class="dialog__actions">
+    <button class="btn btn--l btn--grey btn--raised" lx-ripple ng-click="bk.model.reject_booking(bk.model.selected_.key.urlsafe)" lx-tooltip="Reject booking">
+      <i class="mdi mdi-close-box-outline"></i>
+    </button>
+    <button class="btn btn--l btn--blue btn--raised" lx-ripple ng-click="bk.model.approve_booking()" lx-tooltip="Accept booking">
+      <i class="mdi mdi-checkbox-marked-circle-outline"></i>
+    </button>
+
+    </div>
 
 </lx-dialog>
-

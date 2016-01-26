@@ -12,7 +12,6 @@ class UserSvc:
 
     @staticmethod
     def get_current_user(key_only=False):
-        print "============="
         # print User.get("kenneth.estrella@cloudsherpas.com")
         # user = users.get_current_user()
         print users.get_current_user()
