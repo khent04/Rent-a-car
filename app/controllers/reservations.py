@@ -91,6 +91,12 @@ class Reservations(Controller):
         else:
             return 200
 
+    @route_with('/api/rentals/:<key>', methods=['DELETE'])
+    def api_cancel(self, key):
+        data = self.util.decode_key(key).get()
+        data.update(**{"cancelled": True})
+        return 200
+
     @route_with('/api/rentals/:<key>/<rating>/<vendor>', methods=['PUT'])
     def api_rating(self, key, rating, vendor):
         booking = self.util.decode_key(key).get()

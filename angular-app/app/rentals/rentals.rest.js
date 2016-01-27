@@ -20,7 +20,11 @@
     this.rate = function(key, rating, vendor) {
       // /api/rentals/:<key>/<rating>
       return $http.put(base + '/:' + key + '/' + rating + '/' + vendor);
-    }
+    };
+
+    this.cancel_booking = function(key) {
+      return $http.delete(base + '/:' + key);
+    };
 
 
 

@@ -132,7 +132,7 @@ class Reservation(BasicModel):
             pickup_date=DateConverter.to_message(None, None, None, entity.pickup_date),
             pickup_time=entity.pickup_time,
             pickup_place=entity.pickup_place,
-            dropoff_date=DateConverter.to_message(None, None, None, entity.pickup_date),
+            dropoff_date=DateConverter.to_message(None, None, None, entity.dropoff_date),
             dropoff_time=entity.dropoff_time,
             drop_location=entity.drop_location,
             request_code=entity.request_code,

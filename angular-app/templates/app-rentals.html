@@ -58,43 +58,38 @@
                       ng-bind="'Date: ' + v.dropoff_date.month + '/' + v.dropoff_date.day + '/' + v.dropoff_date.year"></span>
                     <span class="display-block fs-body-1 tc-black-2" ng-bind="'Time: ' + v.dropoff_time"></span>
 
-
                 </div>
 
-<!--                  <div class="list-row__content">
-                    <span class="display-block">Vendor</span>
-                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.vendor.id"></span>
-                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.location"></span>
-                </div> -->
                  <div class="list-row__content">
                     <span class="display-block">Vendor</span>
                     <span class="display-block fs-body-1 tc-black-2" ng-bind="'Company:' + v.company"></span>
                     <span class="display-block fs-body-1 tc-black-2" ng-bind="'Amount: P' + v.amount"></span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-if="v.cancelled">You cancelled this booking</span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-if="!v.approved">
+                      <span ng-if="v.rejected">Status: Rejected</span>
+                      <span ng-if="!v.rejected">Status: Pending</span>
+                    </span>
                     <span class="display-block fs-body-1 tc-black-2" ng-show="v.approved">
+                      <span class="display-block fs-body-1 tc-black-2">Status: Approved</span>
                       <star-rating ng-model="v.rating" ng-click="rent.model.rateFunction(v.key.urlsafe, v.rating, v.vendor)"></star-rating>
                     </span>
-                    <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Rent this car" ng-click="rent.model.rent(v.key.urlsafe)">
-                    <i class="mdi mdi-bookmark-check"></i>
+                    <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Cancel Booking" ng-click="rent.model.cancel_booking(v)">
+                    <i class="mdi mdi-close-circle"></i>
                     </button>
                 </div>
-
-   <!--              <div class="list-row__secondary">
-                    <i class="icon icon--xs icon--grey icon--flat mdi mdi-information"></i>
-                </div> -->
             </li>
         </ul>
     </div>
 
 
-
-        <style>
-      /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
-      .star-rating {
+<style>
+/* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+  .star-rating {
   margin: 0;
   padding: 0;
   display: inline-block;
-}
-.star-rating .star {
+  }
+  .star-rating .star {
   padding: 1px;
   color: #ddd;
   font-size: 20px;
@@ -102,23 +97,15 @@
   list-style-type: none;
   display: inline-block;
   cursor: pointer;
-}
-.star-rating .star.filled {
+  }
+  .star-rating .star.filled {
   color: #fd0;
-}
-.star-rating.readonly .star.filled {
+  }
+  .star-rating.readonly .star.filled {
   color: #666;
-}
+  }
 
-    </style>
-
-<!--
-<div class="container">
-  <star-rating ng-model="rent.model.rating" ng-click="rent.model.rateFunction(rent.model.rating)"></star-rating>
-  <div ng-bind="'Rating: '+ rent.model.rating"></div>
-</div>
- -->
-
+</style>
 
 
 <div class="loader-overlay" loading="rent.model.loading">

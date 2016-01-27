@@ -29,6 +29,7 @@
     this.closingDialog = closingDialog;
     this.rentals;
     this.rateFunction = rateFunction;
+    this.cancel_booking = cancel_booking;
 
 
     function activate(){
@@ -71,6 +72,23 @@
         self.activate();
         }, 500);
       })
+    }
+
+    function cancel_booking(booking){
+      var self = this;
+      var now = moment(new Date()); //todays date
+      var pickup_date = moment(booking.pickup_date,'M/D/YYYY'); // another date
+      var duration = moment.duration(pickup_date.diff(now));
+      var days = duration.asDays() + 3; //its just a work around to solve the problem if the current date is atleast a day before the pick up date
+      console.log(Math.round(days));
+      if(Math.round(days)<0){
+        alert("Cancelation atleast a day before!");
+      }else{
+        self.loading.watch(RentalREST.cancel_booking(booking.key.urlsafe))
+        .success(function(d){
+          self.activate();
+        });
+      }
     }
 
 

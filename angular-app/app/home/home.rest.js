@@ -27,7 +27,7 @@
 
     this.reserve = function(key, params){
       return $http.post('/api/reservations/:' + key, params);
-    }
+    };
 
 
   }
