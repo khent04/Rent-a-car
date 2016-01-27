@@ -33,12 +33,6 @@
     <table class="data-table">
         <thead>
             <tr>
-<!--                 <th>
-                    <div class="checkbox" ng-click="rq.model.select_all()">
-                    <input type="checkbox" id="checkbox1" class="checkbox__input">
-                    <label for="checkbox1" class="checkbox__label">Vendor</label>
-                    </div>
-                </th> -->
                 <th>Vendor</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -94,7 +88,6 @@
     </div>
 
     <lx heading="Lorem Ipsum 3">
-      <!-- <p class="p++">All Fields are required!</p> -->
     </lx>
 
     <lx-select ng-model="rq.model.selected" placeholder="Submitted Files" choices="rq.model.dropdowns" fixed-label="true" icon="account"
@@ -110,3 +103,9 @@
     <img id="show_here">
 <br/>
 </lx-dialog>
+
+
+<div class="loader-overlay" loading="rq.model.loading">
+  <div id="progress" class="prog-overlay">
+  </div>
+</div>

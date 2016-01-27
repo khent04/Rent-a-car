@@ -27,10 +27,14 @@ class Cars(Controller):
     @route_with('/api/vendor_cars/<vendor>', methods=['GET'])
     def api_vendor_cars(self, vendor):
         vendor = User.get(vendor, key_only=True)
+        self.meta.Message = Car.full_message()
+        self.meta.messaging_transform_function = Car.transform_message
         self.context['data'] = Car.list_by_vendor(vendor)
 
     @route_with('/api/cars/:<key>', methods=['GET'])
     def api_view(self, key):
+        self.meta.Message = Car.full_message()
+        self.meta.messaging_transform_function = Car.transform_message
         self.context['data'] = self.util.decode_key(key).get()
 
     @route_with('/api/cars/:<key>', methods=['PUT'])
@@ -71,6 +75,19 @@ class Cars(Controller):
             self.context['data'] = data
         else:
             return 200
+
+    @route_with('/api/search/cars/top', methods=['POST'])
+    def api_top(self):
+        params = json.loads(self.request.body)
+        self.meta.Message = Car.full_message()
+        self.meta.messaging_transform_function = Car.transform_message
+        data = Car.show_top_rated(params)
+        if data:
+            self.context['data'] = data
+        else:
+            return 200
+
+
 
     @route_with('/api/cars/upload/<vendor>', methods=['POST'])
     def api_upload(self, vendor):

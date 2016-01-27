@@ -138,9 +138,17 @@
 
     function filter_top_rated(){
       var self = this;
-      angular.forEach(self.search_results.items, function(val, key){
-        console.log(val);
+      self.searchbox_show = true;
+      self.loading.watch(HomeREST.show_top_rated(self.query))
+      .success(function(d){
+        LxProgressService.circular.show('primary', '#progress');
+          self.search_results = d;
+          angular.forEach(self.search_results.items, function(val, key){
+            val['total_amount'] = self.compute_date_diff(self.query.dropoff_date, self.query.pickup_date) * val['price'];
+          });
+          self.searchbox_show = false;
       });
+
     }
 
     function activate(){

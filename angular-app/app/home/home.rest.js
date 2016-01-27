@@ -21,6 +21,10 @@
       return $http.post('/api/search/cars', params);
     };
 
+    this.show_top_rated = function(params){
+      return $http.post('/api/search/cars/top', params);
+    };
+
     this.reserve = function(key, params){
       return $http.post('/api/reservations/:' + key, params);
     }

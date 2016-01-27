@@ -4,6 +4,7 @@
     angular
         .module('app')
         .directive('switcher', switcher)
+        .directive('toprated', toprated)
 
     function switcher(){
         return {
@@ -19,6 +20,23 @@
 
                 scope.$apply();
 
+            });
+        }
+    }
+
+    function toprated(){
+        return {
+            link: link,
+        };
+
+        function link(scope, element, attrs){
+            element.change(function(event){
+                if(event.target.checked)
+                    scope.home.model.filter_top_rated();
+                else
+                    scope.home.model.search();
+
+                scope.$apply();
             });
         }
     }

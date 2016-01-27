@@ -31,8 +31,6 @@
 </div>
 
 
-
-
 <center ng-show="home.model.searchbox_show">
   <div class="card" style="width: 50%;">
     <div class="p+">
@@ -52,7 +50,6 @@
               <input type="text" ng-model="home.model.query.drop_location" class="car_model">
               </lx-text-field>
 
-
               <div class="mt+">
                 <lx-date-picker model="home.model.query.pickup_date" label="Pick-Up Date" locale="en" fixed-label="true" icon="calendar"></lx-date-picker>
 
@@ -66,7 +63,6 @@
                 </lx-select-choices>
                 </lx-select>
 
-
                 <lx-date-picker model="home.model.query.dropoff_date" label="Drop-Off Date" locale="en" fixed-label="true" icon="calendar"></lx-date-picker>
 
                 <lx-select ng-model="home.model.query.dropoff_time" placeholder="Drop-Off Time" choices="home.model.times" style="border-left: white 70px solid;">
@@ -79,10 +75,7 @@
                 </lx-select-choices>
                 </lx-select>
 
-
               </div>
-
-
             </p>
         </div>
     </div>
@@ -96,20 +89,19 @@
 </center>
 
 
-<!-- <div class="tc-white-1" flex-container="row" ng-hide="home.model.searchbox_show">
+<div class="tc-white-1" flex-container="row" ng-hide="home.model.searchbox_show">
     <div flex-item="2" flex-item-order="1">
       <div class="p+ bgc-white-500">
         <div class="checkbox">
-        <input type="checkbox" id="top_rated" class="checkbox__input" ng-click="home.model.filter_top_rated()">
+        <input type="checkbox" id="top_rated" class="checkbox__input" toprated>
         <label for="top_rated" class="checkbox__label">Show from top rated companies</label>
         </div>
       </div>
-      <div class="p+ bgc-blue-500">[flex-item="2"]</div>
-      <div class="p+ bgc-blue-500">[flex-item="2"]</div>
+      <div class="p+ bgc-blue-500" style="visibility:hidden;">[flex-item="2"]</div>
+      <div class="p+ bgc-blue-500" style="visibility:hidden;">[flex-item="2"]</div>
 
     </div>
 </div>
- -->
 
 
 
@@ -132,7 +124,6 @@
                     <span class="display-block">Specs</span>
                      <i class="icon icon--xs icon--grey icon--flat mdi mdi-account" ng-bind="v.seats + 'adults'"></i>
                      <i class="icon icon--xs icon--grey icon--flat mdi mdi-quadcopter" ng-if="v.transmission" ng-bind="v.transmission"></i>
-                     <!-- <span ng-if="v.air_conditioned"></span> -->
                      <i class="icon icon--xs icon--grey icon--flat mdi mdi-fan" ng-if="v.air_conditioned">Airconed</i>
                      <i class="icon icon--xs icon--grey icon--flat mdi mdi-weight" ng-if="v.trunk_capacity" ng-bind="v.trunk_capacity"></i>
                      <i class="icon icon--xs icon--grey icon--flat mdi mdi-speedometer" ng-if="v.mileage" ng-bind="v.mileage + ' mileage'"></i>
@@ -143,7 +134,9 @@
                  <div class="list-row__content">
                     <span class="display-block">Vendor</span>
                     <span class="display-block fs-body-1 tc-black-1" ng-bind="v.company"></span>
-                    <span class="display-block fs-body-1 tc-black-1" ng-bind="v.location"></span>
+                    <span class="display-block fs-body-1 tc-black-1" ng-if="v.credibility" ng-bind="'Rating: '+ v.credibility + '%'"></span>
+                    <span class="display-block fs-body-1 tc-black-1" ng-if="!v.credibility">Rating: Newbie</span>
+                    <span class="display-block fs-body-1 tc-black-1" ng-bind="'Location: '+ v.location"></span>
                 </div>
 
                  <div class="list-row__content">
@@ -155,9 +148,6 @@
                     </button>
                 </div>
 
-   <!--              <div class="list-row__secondary">
-                    <i class="icon icon--xs icon--grey icon--flat mdi mdi-information"></i>
-                </div> -->
             </li>
         </ul>
     </div>
@@ -165,3 +155,9 @@
 
 <br/>
 <br/>
+
+
+<div class="loader-overlay" loading="home.model.loading">
+  <div id="progress" class="prog-overlay">
+  </div>
+</div>

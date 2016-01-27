@@ -69,6 +69,14 @@ class Car(BasicModel):
         query = [x for x in query if params['pickup_place'].lower() in x.location or x.location in [y for y in params['pickup_place'].lower().split(" ")]]
         return query
 
+    @classmethod
+    def show_top_rated(cls, params):
+        query = cls.query(cls.availability == True).fetch()
+        query = [x for x in query if params['pickup_place'].lower() in x.location or x.location in [y for y in params['pickup_place'].lower().split(" ")]]
+        query = [x for x in query if x.vendor.get().credibility > 60]
+        return query
+
+
 
     @classmethod
     def message_props(cls, only=None, exclude=None, converters=None):
@@ -108,8 +116,8 @@ class Car(BasicModel):
     @classmethod
     def full_message(cls):
         field_dict, count = cls.message_props(converters=key_converter)
-        field_dict['company'] = messages.StringField(count + 1, required=True)
-        field_dict['credibility'] = messages.IntegerField(count + 2, required=True)
+        field_dict['company'] = messages.StringField(count + 1, required=False)
+        field_dict['credibility'] = messages.IntegerField(count + 2, required=False)
         return type('user_full_message', (messages.Message,), field_dict)
 
     @staticmethod
