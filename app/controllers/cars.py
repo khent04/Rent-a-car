@@ -13,6 +13,12 @@ class Cars(Controller):
         prefixes = ('api',)
         components = (messages.Messaging,)
         Model = Car
+        Message = Car.message()
+
+
+    @staticmethod
+    def messaging_transform_function(entity, message, converters=None, only=None, exclude=None):
+        return User.car_message(entity, message)
 
     @route_with('/api/cars/list', methods=['GET'])
     def api_lis(self):
@@ -58,8 +64,8 @@ class Cars(Controller):
     @route_with('/api/search/cars', methods=['POST'])
     def api_search(self):
         params = json.loads(self.request.body)
-        print "=======>>>>>"
-        print params
+        self.meta.Message = Car.full_message()
+        self.meta.messaging_transform_function = Car.transform_message
         data = Car.basic_search(params)
         if data:
             self.context['data'] = data

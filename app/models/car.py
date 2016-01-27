@@ -1,6 +1,18 @@
 from app.behaviors.unique import format_key_name
-from ferris import BasicModel, ndb
+from ferris import BasicModel, ndb, messages
 from ferris.behaviors import searchable
+from protopigeon.converters import Converter, KeyConverter, DateConverter, converters as default_converters
+
+class ReferenceToValueConverter(Converter):
+    @staticmethod
+    def to_message(Mode, property, field, value):
+        return str(value.get())
+
+    @staticmethod
+    def to_field(Model, property, count):
+        return messages.StringField(count, repeated=property._repeated)
+
+key_converter = {'KeyProperty': ReferenceToValueConverter}
 
 
 class Car(BasicModel):
@@ -56,3 +68,68 @@ class Car(BasicModel):
         query = cls.query(cls.availability == True).fetch()
         query = [x for x in query if params['pickup_place'].lower() in x.location or x.location in [y for y in params['pickup_place'].lower().split(" ")]]
         return query
+
+
+    @classmethod
+    def message_props(cls, only=None, exclude=None, converters=None):
+        props = cls._properties
+        sorted_props = sorted(props.iteritems(), key=lambda prop: prop[1]._creation_counter)
+        field_names = [x[0] for x in sorted_props if x[0]]
+        if exclude:
+            field_names = [x for x in field_names if x not in exclude]
+        if only:
+            field_names = [x for x in field_names if x in only]
+        converters = dict(default_converters.items() + converters.items()) if converters else default_converters
+        key_holder = type('', (), {})()
+        key_holder.name = 'key',
+        key_holder._repeated = False
+        field_dict = {
+            'key': converters['Key'].to_field(cls, key_holder, 1)
+        }
+        last_count = 0
+        for count, name in enumerate(field_names, start=2):
+            last_count = count
+            prop = props[name]
+            converter = converters.get(prop.__class__.__name__, None)
+            if converter:
+                field_dict[name] = converter.to_field(cls, prop, count)
+        return field_dict, last_count
+
+    @classmethod
+    def message(cls):
+        field_dict, count = cls.message_props(converters=key_converter)
+        return type('car', (messages.Message,), field_dict)
+
+    @staticmethod
+    def car_message(entity, message):
+        ret = messages.to_message(entity, message)
+        return ret
+
+    @classmethod
+    def full_message(cls):
+        field_dict, count = cls.message_props(converters=key_converter)
+        field_dict['company'] = messages.StringField(count + 1, required=True)
+        field_dict['credibility'] = messages.IntegerField(count + 2, required=True)
+        return type('user_full_message', (messages.Message,), field_dict)
+
+    @staticmethod
+    def transform_message(entity, message):
+        return message(
+            key=KeyConverter.to_message(None, None, None, entity.key),
+            car_model=entity.car_model,
+            location=entity.location,
+            seats=entity.seats,
+            trunk_capacity=entity.trunk_capacity,
+            air_conditioned=entity.air_conditioned,
+            mileage=entity.mileage,
+            age=entity.age,
+            transmission=entity.transmission,
+            category=entity.category,
+            availability=entity.availability,
+            price=entity.price,
+            vendor=entity.vendor.get().email,
+            company=entity.vendor.get().company,
+            credibility=entity.vendor.get().credibility
+        )
+
+
