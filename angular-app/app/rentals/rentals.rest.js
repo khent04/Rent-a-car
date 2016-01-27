@@ -17,9 +17,9 @@
       return $http.get(base + '/' + params);
     };
 
-    this.rate = function(key, rating) {
+    this.rate = function(key, rating, vendor) {
       // /api/rentals/:<key>/<rating>
-      return $http.put(base + '/:' + key + '/' + rating);
+      return $http.put(base + '/:' + key + '/' + rating + '/' + vendor);
     }
 
 

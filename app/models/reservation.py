@@ -65,6 +65,18 @@ class Reservation(BasicModel):
     def rentals(cls, renter):
         return cls.query(cls.renter == renter)
 
+    @classmethod
+    def compute_credibility(cls, vendor):
+        data = cls.query(cls.approved == True, cls.rejected == False)
+        tmp = []
+        rates = []
+        if data:
+            data = data.fetch()
+            tmp = [x.rating * 20 for x in data if x.car.get().vendor == vendor]
+
+        return sum(tmp)/len(tmp)
+
+
 
     @classmethod
     def message_props(cls, only=None, exclude=None, converters=None):
@@ -114,7 +126,6 @@ class Reservation(BasicModel):
 
     @staticmethod
     def transform_message(entity, message):
-        print ">>>>>>", entity.key
         return message(
             key=KeyConverter.to_message(None, None, None, entity.key),
             car=entity.car.get().car_model,

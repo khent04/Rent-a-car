@@ -112,7 +112,10 @@
       };
       self.loading.watch(HomeREST.reserve(key, data))
       .success(function(d){
-        console.log(d);
+        setTimeout(function(){
+          location.path('/my_rentals');
+          LxNotificationService.success('Booking request sent to vendor. Please check you email for updates.');
+        }, 1000)
       });
     }
 

@@ -91,12 +91,15 @@ class Reservations(Controller):
         else:
             return 200
 
-    @route_with('/api/rentals/:<key>/<rating>', methods=['PUT'])
-    def api_rating(self, key, rating):
+    @route_with('/api/rentals/:<key>/<rating>/<vendor>', methods=['PUT'])
+    def api_rating(self, key, rating, vendor):
         booking = self.util.decode_key(key).get()
         booking.update(**{"rating": int(rating)})
+        vendor_ = User.get(vendor)
+        vendor = User.get(vendor, key_only=True)
+        credibility = Reservation.compute_credibility(vendor)
+        vendor_.update(**{"credibility": credibility})
         return 200
-
 
 
 def code_generator():

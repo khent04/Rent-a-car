@@ -71,7 +71,7 @@
                     <span class="display-block fs-body-1 tc-black-2" ng-bind="'Company:' + v.company"></span>
                     <span class="display-block fs-body-1 tc-black-2" ng-bind="'Amount: P' + v.amount"></span>
                     <span class="display-block fs-body-1 tc-black-2" ng-show="v.approved">
-                      <star-rating ng-model="v.rating" ng-click="rent.model.rateFunction(v.key.urlsafe, v.rating)"></star-rating>
+                      <star-rating ng-model="v.rating" ng-click="rent.model.rateFunction(v.key.urlsafe, v.rating, v.vendor)"></star-rating>
                     </span>
                     <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Rent this car" ng-click="rent.model.rent(v.key.urlsafe)">
                     <i class="mdi mdi-bookmark-check"></i>

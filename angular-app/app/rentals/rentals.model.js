@@ -62,10 +62,10 @@
 
     }
 
-    function rateFunction(key, rating) {
+    function rateFunction(key, rating, vendor) {
       // console.log('Rating selected: ' + rating);
       var self = this;
-      self.loading.watch(RentalREST.rate(key, rating))
+      self.loading.watch(RentalREST.rate(key, rating, vendor))
       .success(function(d){
         setTimeout(function(){
         self.activate();
