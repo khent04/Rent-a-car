@@ -67,7 +67,10 @@
                     <span class="display-block fs-body-1 tc-black-2" ng-if="v.cancelled">You cancelled this booking</span>
                     <span class="display-block fs-body-1 tc-black-2" ng-if="!v.approved">
                       <span ng-if="v.rejected">Status: Rejected</span>
-                      <span ng-if="!v.rejected">Status: Pending</span>
+                      <span ng-if="!v.rejected">
+                        <span ng-if="v.expired">Status: Expired</span>
+                        <span ng-if="!v.expired">Status: Pending</span>
+                      </span>
                     </span>
                     <span class="display-block fs-body-1 tc-black-2" ng-show="v.approved">
                       <span class="display-block fs-body-1 tc-black-2">Status: Approved</span>

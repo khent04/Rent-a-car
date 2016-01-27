@@ -44,6 +44,13 @@ class Reservations(Controller):
         else:
             return 200
 
+    @route_with('/api/reservations/expired/:<key>', methods=['PUT'])
+    def api_expired(self, key):
+        params = json.loads(self.request.body)
+        data = self.util.decode_key(key).get()
+        data.update(**params)
+        return 200
+
     @route_with('/api/reservations/:<key>', methods=['GET'])
     def api_get(self, key):
         self.meta.Message = Reservation.full_message()

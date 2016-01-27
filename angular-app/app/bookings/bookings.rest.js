@@ -41,6 +41,11 @@
       return $http.post(base + '/batch_process/' + action, params);
     };
 
+    this.expired = function(params, key){
+      // /api/reservations/expired/:<key>
+      return $http.put(base + '/expired/:' + key, params);
+    };
+
 
 
   }
