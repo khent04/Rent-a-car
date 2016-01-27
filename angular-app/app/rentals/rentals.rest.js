@@ -17,6 +17,11 @@
       return $http.get(base + '/' + params);
     };
 
+    this.rate = function(key, rating) {
+      // /api/rentals/:<key>/<rating>
+      return $http.put(base + '/:' + key + '/' + rating);
+    }
+
 
 
 

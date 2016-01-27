@@ -35,6 +35,7 @@ class Reservation(BasicModel):
     amount = ndb.FloatProperty(required=True, indexed=False)
     # compute per day price accdg to pickupdate and droppoff date
     cancelled = ndb.BooleanProperty(default=False, indexed=False)
+    rating = ndb.IntegerProperty(default=1, indexed=True)
 
     @classmethod
     def create(cls, **params):
@@ -107,6 +108,8 @@ class Reservation(BasicModel):
         field_dict['renter'] = messages.StringField(count + 2, required=True)
         field_dict['vendor'] = messages.StringField(count + 3, required=True)
         field_dict['company'] = messages.StringField(count + 4, required=True)
+        field_dict['company'] = messages.StringField(count + 4, required=True)
+        field_dict['rating'] = messages.IntegerField(count + 5, required=True)
         return type('user_full_message', (messages.Message,), field_dict)
 
     @staticmethod
@@ -128,6 +131,7 @@ class Reservation(BasicModel):
             cancelled=entity.cancelled,
             renter=entity.renter.get().email,
             vendor=entity.car.get().vendor.get().email,
-            company=entity.car.get().vendor.get().company
+            company=entity.car.get().vendor.get().company,
+            rating=entity.rating
         )
 

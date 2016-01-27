@@ -28,6 +28,7 @@
     this.opendDialog = opendDialog;
     this.closingDialog = closingDialog;
     this.rentals;
+    this.rateFunction = rateFunction;
 
 
     function activate(){
@@ -60,6 +61,18 @@
       return !!this.loading._futures.length;
 
     }
+
+    function rateFunction(key, rating) {
+      // console.log('Rating selected: ' + rating);
+      var self = this;
+      self.loading.watch(RentalREST.rate(key, rating))
+      .success(function(d){
+        setTimeout(function(){
+        self.activate();
+        }, 500);
+      })
+    }
+
 
 
   }

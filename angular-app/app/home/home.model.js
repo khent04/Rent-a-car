@@ -32,6 +32,7 @@
     this.search_results;
     this.rent = rent;
     this.go_search = go_search;
+    this.compute_date_diff = compute_date_diff;
     this.times = [
       "12:00AM", "12:30AM", "1:00AM","1:30AM","2:00AM","2:30AM","3:00AM","3:30AM","4:00AM","4:30AM","5:00AM","5:30AM","6:00AM",
       "6:30AM","7:00AM","7:30AM","8:00AM","8:30AM","9:00AM","9:30AM","10:00AM","10:30AM","11:00AM","11:30AM","12:00PM",
@@ -73,9 +74,12 @@
       if(_fieldsCompleted){
         self.loading.watch(HomeREST.search(self.query))
         .success(function(d){
-          console.log(d);
           self.search_results = d;
+          angular.forEach(self.search_results.items, function(val, key){
+            val['total_amount'] = self.compute_date_diff(self.query.dropoff_date, self.query.pickup_date) * val['price'];
+          });
           self.searchbox_show = false;
+          console.log(self.search_results);
         })
       }
 
@@ -99,6 +103,17 @@
       .success(function(d){
         console.log(d);
       });
+    }
+
+    function compute_date_diff(dropoff_date, pickup_date){
+      var day_diff;
+      dropoff_date.valueOf();
+      pickup_date.valueOf();
+
+      day_diff = (dropoff_date - pickup_date) / 100 /86400;
+      day_diff = Math.round(day_diff - 0.5)/10;
+      return day_diff;
+
     }
 
     function activate(){

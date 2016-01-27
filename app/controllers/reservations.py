@@ -78,6 +78,7 @@ class Reservations(Controller):
             deferred.defer(send_mail, car, vendor, renter, request)
         return 200
 
+
     # for renter rentals
     @route_with('/api/rentals/<email>', methods=['GET'])
     def api_rentals_list(self, email):
@@ -86,6 +87,13 @@ class Reservations(Controller):
         self.meta.Message = Reservation.full_message()
         self.meta.messaging_transform_function = Reservation.transform_message
         self.context['data'] = data
+
+    @route_with('/api/rentals/:<key>/<rating>', methods=['PUT'])
+    def api_rating(self, key, rating):
+        booking = self.util.decode_key(key).get()
+        booking.update(**{"rating": int(rating)})
+        return 200
+
 
 
 def code_generator():
