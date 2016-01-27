@@ -30,7 +30,7 @@ class Reservations(Controller):
         params['pickup_date'] = datetime.datetime.strptime(params['pickup_date'].split('T')[0], '%Y-%m-%d')
         params['dropoff_date'] = datetime.datetime.strptime(params['dropoff_date'].split('T')[0], '%Y-%m-%d')
         params['request_code'] = code_generator()
-        params['amount'] = 12.12
+        params['amount'] = int(params['amount'])
         Reservation.create(**params)
         return 200
 
@@ -84,9 +84,12 @@ class Reservations(Controller):
     def api_rentals_list(self, email):
         renter = User.get(email, key_only=True)
         data =  Reservation.rentals(renter).fetch()
-        self.meta.Message = Reservation.full_message()
-        self.meta.messaging_transform_function = Reservation.transform_message
-        self.context['data'] = data
+        if data:
+            self.meta.Message = Reservation.full_message()
+            self.meta.messaging_transform_function = Reservation.transform_message
+            self.context['data'] = data
+        else:
+            return 200
 
     @route_with('/api/rentals/:<key>/<rating>', methods=['PUT'])
     def api_rating(self, key, rating):

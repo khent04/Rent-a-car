@@ -121,19 +121,20 @@
                      <i class="icon icon--xs icon--grey icon--flat mdi mdi-weight" ng-if="v.trunk_capacity" ng-bind="v.trunk_capacity"></i>
                      <i class="icon icon--xs icon--grey icon--flat mdi mdi-speedometer" ng-if="v.mileage" ng-bind="v.mileage + ' mileage'"></i>
                      <br/>
-                     <i class="icon icon--xs icon--grey icon--flat mdi mdi-calendar-today" ng-if="v.age" ng-bind="v.age +'y/o'"></i>
+                     <i class="icon icon--xsp icon--grey icon--flat mdi mdi-calendar-today" ng-if="v.age" ng-bind="v.age +'y/o'"></i>
                 </div>
 
                  <div class="list-row__content">
                     <span class="display-block">Vendor</span>
-                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.vendor.id"></span>
-                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.location"></span>
+                    <span class="display-block fs-body-1 tc-black-1" ng-bind="v.vendor.id"></span>
+                    <span class="display-block fs-body-1 tc-black-1" ng-bind="v.location"></span>
                 </div>
 
                  <div class="list-row__content">
                     <span class="display-block">Pricing</span>
-                    <span class="display-block fs-body-1 tc-black-2" ng-bind="v.price"></span>
-                    <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Rent this car" ng-click="home.model.rent(v.key.urlsafe)">
+                    <span class="display-block fs-body-1 tc-black-1" ng-bind="'Per day: P'+ v.price"></span>
+                    <span class="display-block fs-body-1 tc-black-1" ng-bind="'Total: P'+ v.total_amount"></span>
+                    <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Rent this car" ng-click="home.model.rent(v.key.urlsafe, v.total_amount)">
                     <i class="mdi mdi-bookmark-check"></i>
                     </button>
                 </div>

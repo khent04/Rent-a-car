@@ -62,6 +62,17 @@
         _fieldsCompleted = false;
       else if(self.query.dropoff_time===undefined||self.query.dropoff_time==="")
         _fieldsCompleted = false;
+      else if(self.query.dropoff_date.valueOf() < self.query.pickup_date.valueOf()){
+        _fieldsCompleted = false;
+        alert("Drop-off date must not be earlier than Pick-up date!");
+      }else if(self.query.dropoff_date.valueOf() < new Date().valueOf()){
+        _fieldsCompleted = false;
+        alert("Drop-off date must not be earlier than today and must not be today!");
+      }else if(self.query.pickup_date.valueOf() < new Date().valueOf()){
+        _fieldsCompleted = false;
+        alert("Pick-up date must not be earlier than today and must not be today!");
+      }
+
       else
         _fieldsCompleted = true;
 
@@ -85,7 +96,7 @@
 
     }
 
-    function rent(key){
+    function rent(key, total_amount){
       var self = this;
       if(self.query.drop_location===undefined||self.query.drop_location==="")
         self.query.drop_location = self.query.pickup_place;
@@ -97,7 +108,7 @@
         pickup_time: self.query.pickup_time,
         dropoff_date: self.query.dropoff_date,
         dropoff_time: self.query.dropoff_time,
-        // amount: self.query.price
+        amount: total_amount
       };
       self.loading.watch(HomeREST.reserve(key, data))
       .success(function(d){
@@ -112,6 +123,11 @@
 
       day_diff = (dropoff_date - pickup_date) / 100 /86400;
       day_diff = Math.round(day_diff - 0.5)/10;
+      if (day_diff < 1)
+        day_diff = 1;
+
+
+      console.warn(day_diff);
       return day_diff;
 
     }
