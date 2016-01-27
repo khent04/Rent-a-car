@@ -41,6 +41,11 @@
     this.upload_modal = upload_modal;
     this.diag_close = diag_close;
     this.bookings = bookings;
+    this.errs = errs;
+
+    function errs(err){
+      LxNotificationService.error(err);
+    }
 
     function diag_close(){
       var self = this;

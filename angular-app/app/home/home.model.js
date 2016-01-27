@@ -65,13 +65,13 @@
         _fieldsCompleted = false;
       else if(self.query.dropoff_date.valueOf() < self.query.pickup_date.valueOf()){
         _fieldsCompleted = false;
-        alert("Drop-off date must not be earlier than Pick-up date!");
+        LxNotificationService.error("Drop-off date must not be earlier than Pick-up date!");
       }else if(self.query.dropoff_date.valueOf() < new Date().valueOf()){
         _fieldsCompleted = false;
-        alert("Drop-off date must not be earlier than today and must not be today!");
+        LxNotificationService.error("Drop-off date must not be earlier than today and must not be today!");
       }else if(self.query.pickup_date.valueOf() < new Date().valueOf()){
         _fieldsCompleted = false;
-        alert("Pick-up date must not be earlier than today and must not be today!");
+        LxNotificationService.error("Pick-up date must not be earlier than today and must not be today!");
       }
 
       else

@@ -14,9 +14,12 @@
     'CertificatesREST',
     'LxDialogService',
     'LxNotificationService',
+    'LxProgressService',
   ];
 
-  function requestModel(location, loading, passive_messenger, pubsub, RequestsREST, CertificatesREST, LxDialogService, LxNotificationService) {
+  function requestModel(location, loading, passive_messenger, pubsub, RequestsREST, CertificatesREST, LxDialogService, LxNotificationService, LxProgressService) {
+
+    LxProgressService.circular.show('primary', '#progress');
 
     this.loading = loading.new();
     this.isBusy = isBusy;
@@ -99,7 +102,8 @@
       .success(function(response){
         setTimeout(function(){
           LxNotificationService.success('Vendor request approved!');
-          location.path("/xbjsd");
+          self.chosen = {};
+          self.requestListing();
         }, 500);
       })
 

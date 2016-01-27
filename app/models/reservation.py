@@ -34,7 +34,7 @@ class Reservation(BasicModel):
     # to be approved by vendor
     amount = ndb.FloatProperty(required=True, indexed=False)
     # compute per day price accdg to pickupdate and droppoff date
-    cancelled = ndb.BooleanProperty(default=False, indexed=False)
+    cancelled = ndb.BooleanProperty(default=False, indexed=True)
     expired = ndb.BooleanProperty(default=False, indexed=True)
     rating = ndb.IntegerProperty(default=1, indexed=True)
 
@@ -60,7 +60,7 @@ class Reservation(BasicModel):
 
     @classmethod
     def list(cls, approved):
-        return cls.query(cls.approved == approved, cls.rejected == False, cls.expired == False).fetch()
+        return cls.query(cls.approved == approved, cls.rejected == False, cls.expired == False, cls.cancelled == False).fetch()
 
     @classmethod
     def rentals(cls, renter):

@@ -72,27 +72,27 @@
 
     function accept_booking(booking){
       var self = this;
-       var self = this;
-      var now = moment(new Date("January 28 2016")); //todays date
+      var self = this;
+      var now = moment(new Date()); //todays date
       var pickup_date = moment(booking.pickup_date,'M/D/YYYY'); // another date
       var duration = moment.duration(pickup_date.diff(now));
-      var days = duration.asDays();
+      var days = duration.asDays() + 1;
       console.log(Math.round(days));
       if(Math.round(days)<0){
         var params = {'expired': true};
         self.loading.watch(BookingRest.expired(params, booking.key.urlsafe))
         .success(function(d){
-          self.activate();
-          self.chosen = {};
-          alert("You cannot accept this booking anymore!");
-          LxDialogService.close('full_details');
+          setTimeout(function(){
+            self.activate();
+            self.chosen = {};
+            LxNotificationService.error("You cannot accept this booking anymore!");
+            LxDialogService.close('full_details');
+            }, 1000);
         });
-
-
 
       }else{
         var data = {"approved": true, "rejected": false};
-        self.loading.watch(BookingRest.update(key, data))
+        self.loading.watch(BookingRest.update(booking.key.urlsafe, data))
         .success(function(d){
           setTimeout(function(){
             self.activate();
@@ -103,8 +103,6 @@
         });
 
       }
-
-
 
     }
 
