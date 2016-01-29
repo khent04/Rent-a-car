@@ -63,6 +63,7 @@
                  <div class="list-row__content">
                     <span class="display-block">Vendor</span>
                     <span class="display-block fs-body-1 tc-black-2" ng-bind="'Company:' + v.company"></span>
+                    <span class="display-block fs-body-1 tc-black-2" ng-bind="'Transaction Code:' + v.request_code"></span>
                     <span class="display-block fs-body-1 tc-black-2" ng-bind="'Amount: P' + v.amount"></span>
                     <span class="display-block fs-body-1 tc-black-2" ng-if="v.cancelled">You cancelled this booking</span>
                     <span class="display-block fs-body-1 tc-black-2" ng-if="!v.approved">
@@ -76,10 +77,10 @@
                     <span ng-if="v.transaction_done">
                       Transaction: Done
                     </span>
-                      <span class="display-block fs-body-1 tc-black-2">Status: Approved</span>
+                      <span class="display-block fs-body-1 tc-black-2" ng-if="!v.transaction_done">Status: Approved</span>
                       <star-rating ng-model="v.rating" ng-if="v.transaction_done" ng-click="rent.model.rateFunction(v.key.urlsafe, v.rating, v.vendor)"></star-rating>
                     </span>
-                    <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Cancel Booking" ng-click="rent.model.cancel_booking(v)">
+                    <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Cancel Booking" ng-if="!v.transaction_done" ng-click="rent.model.cancel_booking(v)">
                     <i class="mdi mdi-close-circle"></i>
                     </button>
                 </div>
