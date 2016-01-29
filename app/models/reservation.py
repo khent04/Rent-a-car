@@ -2,6 +2,7 @@ from app.behaviors.unique import format_key_name
 from ferris import BasicModel, ndb, messages
 from ferris.behaviors import searchable
 from protopigeon.converters import Converter, KeyConverter, DateConverter, converters as default_converters
+import datetime
 
 class ReferenceToValueConverter(Converter):
     @staticmethod
@@ -49,16 +50,6 @@ class Reservation(BasicModel):
         self.put()
 
     @classmethod
-    def get(cls, key_name, key_only=False):
-        if not key_name:
-            return None
-        key = ndb.Key(cls, format_key_name(key_name))
-        ret = key.get()
-        if key_only:
-            return key if ret else None
-        return ret
-
-    @classmethod
     def list(cls, approved):
         return cls.query(cls.approved == approved, cls.rejected == False, cls.expired == False, cls.cancelled == False).fetch()
 
@@ -69,15 +60,12 @@ class Reservation(BasicModel):
     @classmethod
     def compute_credibility(cls, vendor):
         data = cls.query(cls.approved == True, cls.rejected == False)
-        tmp = []
-        rates = []
+        tmp_rates = []
         if data:
             data = data.fetch()
-            tmp = [x.rating * 20 for x in data if x.car.get().vendor == vendor]
+            tmp_rates = [x.rating * 20 for x in data if x.car.get().vendor == vendor]
 
-        return sum(tmp)/len(tmp)
-
-
+        return sum(tmp_rates)/len(tmp_rates)
 
     @classmethod
     def message_props(cls, only=None, exclude=None, converters=None):
@@ -123,6 +111,8 @@ class Reservation(BasicModel):
         field_dict['company'] = messages.StringField(count + 4, required=True)
         field_dict['company'] = messages.StringField(count + 4, required=True)
         field_dict['rating'] = messages.IntegerField(count + 5, required=True)
+        field_dict['transaction_done'] = messages.BooleanField(count + 6, required=True)
+
         return type('user_full_message', (messages.Message,), field_dict)
 
     @staticmethod
@@ -145,6 +135,7 @@ class Reservation(BasicModel):
             vendor=entity.car.get().vendor.get().email,
             company=entity.car.get().vendor.get().company,
             rating=entity.rating,
-            expired=entity.expired
+            expired=entity.expired,
+            transaction_done=entity.pickup_date < datetime.date.today() # rating can only be shown for successful transaction, and that trnasaction is done
         )
 

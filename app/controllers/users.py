@@ -11,6 +11,7 @@ import StringIO
 import xlsxwriter
 import json
 
+
 class Users(Controller):
     class Meta:
         prefixes = ('api',)
@@ -62,12 +63,15 @@ class Users(Controller):
     def api_list(self):
         self.context['data'] = User.query()
 
+    @route_with('/user/forbidden')
+    def forbidden(self):
+        return 403
+
     @route
     def xlsx(self):
         output = StringIO.StringIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         worksheet = workbook.add_worksheet()
-        # Write some test data.
         worksheet.write('A1', 'Seats')
         worksheet.write('B1', 'Model')
         worksheet.write('C1', 'Price')
@@ -87,7 +91,6 @@ class Users(Controller):
         data = output.getvalue()
         self.response.write(data)
         return self.response
-
 
     @route_with('/api/vendors', methods=['GET'])
     def api_vendor_request(self):

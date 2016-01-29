@@ -20,7 +20,7 @@ class Reservations(Controller):
 
     @staticmethod
     def messaging_transform_function(entity, message, converters=None, only=None, exclude=None):
-        return User.car_message(entity, message)
+        return Reservation.car_message(entity, message)
 
     @route_with('/api/reservations/:<key>', methods=['POST'])
     def api_reserve(self, key):
@@ -85,7 +85,6 @@ class Reservations(Controller):
             deferred.defer(send_mail, car, vendor, renter, request)
         return 200
 
-
     # for renter rentals
     @route_with('/api/rentals/<email>', methods=['GET'])
     def api_rentals_list(self, email):
@@ -98,10 +97,13 @@ class Reservations(Controller):
         else:
             return 200
 
-    @route_with('/api/rentals/:<key>', methods=['DELETE'])
-    def api_cancel(self, key):
-        data = self.util.decode_key(key).get()
+    @route_with('/api/rentals/cancel', methods=['PUT'])
+    def api_cancel(self):
+        params = json.loads(self.request.body)
+        data = self.util.decode_key(params['key']['urlsafe']).get()
         data.update(**{"cancelled": True})
+        body = "%s cancelled reservation.\n Transaction Code: %s\n Car: %s" %(params['renter'], params['request_code'],params['car'])
+        mail.send(params['vendor'], "Reservation Cancelled", body)
         return 200
 
     @route_with('/api/rentals/:<key>/<rating>/<vendor>', methods=['PUT'])
@@ -146,6 +148,9 @@ def send_mail(car, vendor, renter, request):
         Here is the contact details of the vendor:<br>
         email: %s<br>
         contact number: %s <br>
+        Things to bring:<br>
+        nbsp;nbsp; 2 valid Government Issued ID or Unified Multipurpose ID<br>
+        nbsp;nbsp; Drivers License of you or your driver if it is not you.
         """ % (request.request_code, car.car_model, vendor.company, request.amount, vendor.email, vendor.contact_number)
         body = """Hi %s, <br><br>
                       Your booking request was %s. <br>

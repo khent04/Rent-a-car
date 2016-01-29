@@ -18,7 +18,7 @@ class Cars(Controller):
 
     @staticmethod
     def messaging_transform_function(entity, message, converters=None, only=None, exclude=None):
-        return User.car_message(entity, message)
+        return Car.car_message(entity, message)
 
     @route_with('/api/cars/list', methods=['GET'])
     def api_lis(self):
@@ -87,13 +87,11 @@ class Cars(Controller):
         else:
             return 200
 
-
-
     @route_with('/api/cars/upload/<vendor>', methods=['POST'])
     def api_upload(self, vendor):
         data = json.loads(self.request.body)
         for item in data:
-            deferred.defer(async_upload_user, item, vendor)
+            deferred.defer(car_upload, item, vendor)
         return 200
 
     @route_with('/api/delete/cars', methods=['PUT'])
@@ -105,7 +103,7 @@ class Cars(Controller):
         return 200
 
 
-def async_upload_user(item, vendor):
+def car_upload(item, vendor):
     if vendor:
         try:
             params = dict()

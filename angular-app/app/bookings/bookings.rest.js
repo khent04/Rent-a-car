@@ -42,7 +42,6 @@
     };
 
     this.expired = function(params, key){
-      // /api/reservations/expired/:<key>
       return $http.put(base + '/expired/:' + key, params);
     };
 

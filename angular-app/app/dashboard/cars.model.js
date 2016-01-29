@@ -148,10 +148,6 @@
           mileage: self.selected_car.mileage,
           age: self.selected_car.age,
         };
-        // angular.forEach(data, function(val, key){
-        //   if(val===undefined||val==="")
-        //     data[key] = null;
-        // });
 
         self.loading.watch(CarRest.update(self.selected_car.key.urlsafe, data))
         .success(function(d){
@@ -214,8 +210,14 @@
 
     function activate(){
       var self = this;
-      self.list_cars();
-      LxNotificationService.info('Loaded');
+      if(store.get('profile')===null){
+        window.location = "/user/forbidden";
+      }
+      else{
+        self.list_cars();
+        LxNotificationService.info('Loaded');
+        // to have: service to detect if users is allowed this resource
+      }
 
     }
 

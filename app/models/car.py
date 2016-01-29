@@ -50,16 +50,6 @@ class Car(BasicModel):
         self.put()
 
     @classmethod
-    def get(cls, key_name, key_only=False):
-        if not key_name:
-            return None
-        key = ndb.Key(cls, format_key_name(key_name))
-        ret = key.get()
-        if key_only:
-            return key if ret else None
-        return ret
-
-    @classmethod
     def list_by_vendor(cls, vendor):
         return cls.query(cls.vendor == vendor)
 
@@ -75,8 +65,6 @@ class Car(BasicModel):
         query = [x for x in query if params['pickup_place'].lower() in x.location or x.location in [y for y in params['pickup_place'].lower().split(" ")]]
         query = [x for x in query if x.vendor.get().credibility > 60]
         return query
-
-
 
     @classmethod
     def message_props(cls, only=None, exclude=None, converters=None):

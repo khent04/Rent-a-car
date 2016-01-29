@@ -72,9 +72,12 @@
                         <span ng-if="!v.expired">Status: Pending</span>
                       </span>
                     </span>
-                    <span class="display-block fs-body-1 tc-black-2" ng-show="v.approved">
+                    <span class="display-block fs-body-1 tc-black-2" ng-show="v.approved && !v.cancelled">
+                    <span ng-if="v.transaction_done">
+                      Transaction: Done
+                    </span>
                       <span class="display-block fs-body-1 tc-black-2">Status: Approved</span>
-                      <star-rating ng-model="v.rating" ng-click="rent.model.rateFunction(v.key.urlsafe, v.rating, v.vendor)"></star-rating>
+                      <star-rating ng-model="v.rating" ng-if="v.transaction_done" ng-click="rent.model.rateFunction(v.key.urlsafe, v.rating, v.vendor)"></star-rating>
                     </span>
                     <button class="btn btn--l btn--blue btn--fab" lx-ripple lx-tooltip="Cancel Booking" ng-click="rent.model.cancel_booking(v)">
                     <i class="mdi mdi-close-circle"></i>

@@ -30,17 +30,21 @@
 
           <lx-dropdown-menu>
             <ul>
-            <li><a class="dropdown-link"></a></li>
-              <li><a class="dropdown-link" ng-click="user.model.social_login()" ng-hide="user.model.auth.profile.name">Log In</a></li>
+            <!-- <li><a class="dropdown-link"></a></li> -->
+              <li><a class="dropdown-link" ng-click="user.model.social_login()" ng-hide="user.model.auth.profile.name">Log In as a Renter</a></li>
               <li><a class="dropdown-link" ng-click="user.model.social_logout()" ng-show="user.model.auth.profile.name">Log Out</a></li>
-              <li><a class="dropdown-link" ng-click="user.model.vendor_login()">Vendor Acount</a></li>
-              <li><a class="dropdown-link">Something else here</a></li>
+              <li><a class="dropdown-link" ng-click="user.model.vendor_login()">Log In as a Vendor</a></li>
+<!--               <li><a class="dropdown-link">Something else here</a></li>
               <li class="dropdown-divider"></li>
               <li><a class="dropdown-link dropdown-link--is-header">Header</a></li>
-              <li><a class="dropdown-link">Separated link</a></li>
+              <li><a class="dropdown-link">Separated link</a></li> -->
             </ul>
           </lx-dropdown-menu>
       </lx-dropdown>
     </div>
   </div>
 </div>
+
+<center>
+<div id="hiw-login-container"></div>
+</center>

@@ -158,14 +158,15 @@
     function social_login(Role) {
       var self = this;
 
-      auth.signin({}, function (profile, token) {
-        store.set('profile', profile);
-        store.set('token', token);
-        console.log(self.auth.profile);
-        var data = {'email': self.auth.profile.email,
+      auth.signin({rememberLastLogin: false, integratedWindowsLogin: false, sso: false, closable: false, container: 'hiw-login-container'},
+        function (profile, token) {
+          store.set('profile', profile);
+          store.set('token', token);
+          console.log(self.auth.profile);
+          var data = {'email': self.auth.profile.email,
                     'first_name': self.auth.profile.given_name,
                     'last_name': self.auth.profile.family_name,
-        };
+          };
 
         self.loading.watch(UsersREST.create(data, Role))
         .success(function(d){
@@ -201,9 +202,6 @@
         if(jwtHelper.isTokenExpired(token)){
           location.path('/login');
         }else{
-          // console.log(store.get('profile'));
-          // self.account_data = store.get('profile');
-          // ----- get data from data store
           self.loading.watch(UsersREST.get(store.get('profile').email))
           .success(function(d){
             console.info(d);
@@ -217,7 +215,6 @@
 
     function vendor_request(){
       var self = this;
-      // alert();
       console.log(self.account_data);
       var data = {
         'first_name': self.account_data.first_name,
@@ -268,11 +265,11 @@
         postal_code: self.account_data.postal_code,
         user_type: self.account_data.user_type
       };
-                self.loading.watch(UsersREST.update(self.account_data.email, data))
+        self.loading.watch(UsersREST.update(self.account_data.email, data))
           .success(function(d){
           console.log(d);
           LxNotificationService.success('Information Saved');
-          });
+        });
     }
 
     function opendDialog(dialogId) {

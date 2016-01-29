@@ -64,7 +64,6 @@
     }
 
     function rateFunction(key, rating, vendor) {
-      // console.log('Rating selected: ' + rating);
       var self = this;
       self.loading.watch(RentalREST.rate(key, rating, vendor))
       .success(function(d){
@@ -84,7 +83,7 @@
       if(Math.round(days)<0){
         LxNotificationService.error("Cancelation atleast a day before!");
       }else{
-        self.loading.watch(RentalREST.cancel_booking(booking.key.urlsafe))
+        self.loading.watch(RentalREST.cancel_booking(booking))
         .success(function(d){
           self.activate();
         });

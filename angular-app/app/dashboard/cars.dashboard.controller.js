@@ -17,7 +17,6 @@
     user.isBusy = isBusy;
     user.model = CarModel;
 
-
     function activate() {
       CarModel.activate();
     }

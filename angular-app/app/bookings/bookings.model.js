@@ -34,6 +34,17 @@
     this.chosen = {};
     this.checker = checker;
     this.batch_process = batch_process;
+    this.account = account;
+    this.dashboard = dashboard;
+
+    function dashboard(){
+      location.path('/dashboard');
+    }
+
+    function account(){
+      location.path('/account');
+
+    }
 
     function activate(){
       var self = this;
